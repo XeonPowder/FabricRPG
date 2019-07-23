@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.2.3-SNAPSHOT'
+	id 'fabric-loom' version '0.2.5-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -12,7 +12,16 @@ group = project.maven_group
 
 minecraft {
 }
-
+repositories {
+	maven {
+			name = "Cotton"
+			url = "http://server.bbkr.space:8081/artifactory/libs-release"
+		}
+	maven {
+		name = "Reflections"
+		url = "https://mvnrepository.com/artifact/org.reflections/reflections"
+	}
+}
 dependencies {
 	//to change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -21,9 +30,12 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
+	
+	// CottonMC LibGui
+	modImplementation "io.github.cottonmc:LibGui:${project.libgui_version}"
+	implementation "org.reflections:reflections:${project.reflections_version}"
 }
 
 processResources {

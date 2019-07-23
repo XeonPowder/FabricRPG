@@ -1,29 +1,36 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
-  "version": "${version}",
+  "id": "fabric_rpg",
+  "version": "1.0.0",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Fabric RPG Mod",
+  "description": "This mod brings RPG elements to Minecraft via the Fabric API!",
   "authors": [
-    "Me!"
+    "XeonPowder"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://xeonpowder.github.io",
+    "sources": "https://github.com/XeonPowder/fabricRPG"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/fabric_rpg/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "io.github.xeonpowder.fabric.rpg.FabricRPG"
     ]
   },
-  "mixins": [
-    "modid.mixins.json"
+  "mixins": [{
+      "config": "fabric_rpg.client.mixins.json",
+      "environment": "client"
+    },
+    {
+      "config": "fabric_rpg.server.mixins.json",
+      "environment": "server"
+    }
+
   ],
 
   "depends": {

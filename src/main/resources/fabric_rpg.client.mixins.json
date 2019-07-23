@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "io.github.xeonpowder.fabric.rpg.client.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+
+  ],
+  "client": ["FabricRPGClientPacketConsumerMixin",
+    "FabricRPGClientEntityPassiveSheepEntityMixin",
+    "FabricRPGClientSheepShearMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
