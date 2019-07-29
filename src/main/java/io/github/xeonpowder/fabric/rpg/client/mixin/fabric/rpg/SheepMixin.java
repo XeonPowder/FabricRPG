@@ -26,16 +26,9 @@ public class SheepMixin {
 
             return ActionResult.FAIL;
         });
-        SheepEvents.DeathByPlayerCallback.EVENT.register((player, sheep) -> {
-            sheep.setSheared(true);
+        // SheepEvents.OnDeathCallback.EVENT.register((damageSource) -> {
 
-            // create diamond item entity at sheep position
-            ItemStack stack = new ItemStack(Items.DIAMOND);
-            ItemEntity itemEntity = new ItemEntity(player.world, sheep.x, sheep.y, sheep.z, stack);
-            player.world.spawnEntity(itemEntity);
-
-            return ActionResult.FAIL;
-        });
+        // });
         SheepEvents.DeathByEnvironmentCallback.EVENT.register((player, sheep) -> {
             sheep.setSheared(true);
 

@@ -1,20 +1,15 @@
-package io.github.xeonpowder.fabric.rpg.items;
+package io.github.xeonpowder.fabric.rpg.item;
 
+import java.util.List;
+
+import io.github.xeonpowder.fabric.rpg.FabricRPG;
+import io.github.xeonpowder.fabric.rpg.itemStack.FabricRPGItemStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-
-import java.util.List;
-import java.util.Locale;
-
-import io.github.TUSK__3.panI18n.FormattingEngine;
-import io.github.xeonpowder.fabric.rpg.FabricRPG;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
@@ -24,6 +19,7 @@ import net.minecraft.util.ActionResult;
 
 public class FabricRPGItem extends Item {
     private String itemName = "";
+    private TooltipContext tooltipContext;
 
     public FabricRPGItem(String itemName) {
         super(new Item.Settings().group(ItemGroup.MISC));
@@ -41,10 +37,20 @@ public class FabricRPGItem extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack itemStack_1, World world_1, List<Text> tooltipTextList,
-            TooltipContext tooltipContext_1) {
-        // List<String> wrappedLocalizedTextAsStringList =
-        // StringExtras.wrapForTooltips(localizedText);
-        FabricRPGItemTooltip.createTooltip(this.getItemName(), tooltipTextList, 70);
+    public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltipTextList,
+            TooltipContext tooltipContext) {
+        this.tooltipContext = tooltipContext;
+        if (itemStack != null) {
+            appendFabricRPGTooltip(new FabricRPGItemStack(itemStack), tooltipTextList);
+        }
+
+    }
+
+    public void appendFabricRPGTooltip(FabricRPGItemStack itemStack, List<Text> tooltipTextList) {
+        if (itemStack != null && itemStack.getStats() != null) {
+            FabricRPGItemTooltip.createTooltipWithStats(this.getItemName(), tooltipTextList, 70,
+                    itemStack.getStats().getStatsMap());
+        }
+
     }
 }

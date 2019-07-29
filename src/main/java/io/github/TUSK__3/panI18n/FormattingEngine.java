@@ -21,6 +21,10 @@ public final class FormattingEngine {
      * Valid color format code used by Minecraft.
      */
     private static final String COLOR_CODE_STRING = "0123456789abcdef";
+
+    private static final String[] COLOR_CODE_LIST = new String[] { "BLACK", "DARK_BLUE", "DARK_GREEN", "DARK_AQUA",
+            "DARK_RED", "DARK_PURPLE", "GOLD", "GRAY", "DARK_GREY", "BLUE", "GREEN", "AQUA", "RED", "LIGHT_PURPLE",
+            "YELLOW", "WHITE" };
     /**
      * Valid special format code used by Minecraft, excluding {@code §r} which
      * resets format.
@@ -31,6 +35,14 @@ public final class FormattingEngine {
             final IntUnaryOperator charWidthGetter, final Locale currentLocale, final COLOR_CODE defaultColor) {
         return wrapStringToWidth(str, wrapWidth, charWidthGetter, currentLocale,
                 COLOR_CODE_STRING.charAt(defaultColor.ordinal()));
+    }
+
+    private static String replaceColorCodeEnumInString(String str) {
+        for (String color_code : COLOR_CODE_LIST) {
+            str = str.replace("{" + color_code + "}",
+                    new String("" + COLOR_CODE_STRING.charAt(COLOR_CODE.valueOf(color_code).ordinal())));
+        }
+        return str;
     }
 
     /**
@@ -54,7 +66,8 @@ public final class FormattingEngine {
     public static List<String> wrapStringToWidth(final String str, final int wrapWidth,
             final IntUnaryOperator charWidthGetter, final Locale currentLocale, final char defaultColor) {
         BreakIterator lineBreakEngine = BreakIterator.getLineInstance(currentLocale);
-        lineBreakEngine.setText(str);
+        String strColorCodeEnumReplaced = replaceColorCodeEnumInString(str);
+        lineBreakEngine.setText(strColorCodeEnumReplaced);
         ArrayList<String> lines = new ArrayList<>(8);
         String cachedFormat = "";
         char color = defaultColor, format = 'r'; // 0 is format code for black-colored-text; r is format code to reset
@@ -64,11 +77,17 @@ public final class FormattingEngine {
                        // param of substring call
         int width = 0; // Width tracker
         boolean boldMode = false; // Bold font occupies extra width of one unit. Set up a tracker to track it
-        for (int index = 0; index < str.length(); index++) {
-            char c = str.charAt(index);
+        int rememberIndex = -1;
 
+        for (int index = 0; index < strColorCodeEnumReplaced.length(); index++) {
+            if (rememberIndex > index) {
+                continue;
+            } else {
+                rememberIndex = -1;
+            }
+            char c = strColorCodeEnumReplaced.charAt(index);
             if (c == '\n') { // Unconditionally cut string when there is new line
-                lines.add(cachedFormat + str.substring(start, index));
+                lines.add(cachedFormat + strColorCodeEnumReplaced.substring(start, index));
                 // Set start to appropriate position before next String::substring call
                 start = index + 1;
                 width = 0; // Clear width counter
@@ -80,10 +99,9 @@ public final class FormattingEngine {
                 }
                 continue;
             } else if (c == '\u00A7') { // a.k.a. '§'. Used by Minecraft to denote special format, don't count it
-
                 index++;
-                char f = Character.toLowerCase(str.charAt(index));
-                if (f == 'r' || f == 'R') {
+                Character f = strColorCodeEnumReplaced.charAt(index);
+                if (f == 'r') {
                     color = defaultColor;
                     format = 'r';
                 } else if (FORMATTING_CODE_STRING.indexOf(f) != -1) {
@@ -117,15 +135,16 @@ public final class FormattingEngine {
                 if (end <= start) {
                     // If the closest valid line break is before the starting point,
                     // we just take the line as it is, in order to avoid infinite loop.
-                    result = cachedFormat + str.substring(start, index);
+                    result = cachedFormat + strColorCodeEnumReplaced.substring(start, index);
                     start = index;
                 } else {
                     // If the closest valid line break is after the starting point,
                     // we will insert line break there.
-                    result = cachedFormat + str.substring(start, end);
+                    result = cachedFormat + strColorCodeEnumReplaced.substring(start, end);
                     start = end; // substring call excludes the char at position of `end', we need to track it
                     index = start;
                 }
+                // System.out.println(result);
                 lines.add(result);
                 index--; // Shift 1 left, so that we don't forget to count any character's width.
                 width = 0; // Reset width tracker
@@ -139,9 +158,9 @@ public final class FormattingEngine {
         }
 
         // Add the last piece, if exists
-        String lastPiece = str.substring(start);
+        String lastPiece = strColorCodeEnumReplaced.substring(start);
         if (!lastPiece.isEmpty()) {
-            lines.add(cachedFormat + str.substring(start));
+            lines.add(cachedFormat + strColorCodeEnumReplaced.substring(start));
         }
 
         lines.trimToSize(); // Consider omit this call?

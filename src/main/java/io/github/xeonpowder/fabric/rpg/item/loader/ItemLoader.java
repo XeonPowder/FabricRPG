@@ -1,11 +1,11 @@
-package io.github.xeonpowder.fabric.rpg.loader;
+package io.github.xeonpowder.fabric.rpg.item.loader;
 
 import java.util.ArrayList;
 import java.util.Set;
 
 import org.reflections.Reflections;
 
-import io.github.xeonpowder.fabric.rpg.items.FabricRPGItem;
+import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
 
 public class ItemLoader {
     private ArrayList<FabricRPGItem> items = new ArrayList<>();

@@ -5,9 +5,13 @@
   "mixins": [
 
   ],
-  "client": ["FabricRPGClientPacketConsumerMixin",
-    "FabricRPGClientEntityPassiveSheepEntityMixin",
-    "FabricRPGClientSheepShearMixin"
+  "client": [
+    "entity.passive.SheepEntityMixin",
+    "entity.mob.ZombieEntityMixin",
+    "entity.LivingEntityMixin",
+    "fabric.rpg.SheepMixin",
+    "packet.PacketConsumerMixin",
+    "item.ItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1
