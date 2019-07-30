@@ -19,9 +19,9 @@ public class FabricRPGItemStackStats {
     public void setupStatsMap() {
         FabricRPGStatTypes.fabricRPGStatTypesToClassMap.forEach((string, extendedStatClass) -> {
             try {
-                this.statsMap.put(string, extendedStatClass.getConstructor().newInstance());
-            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                FabricRPGItemStackStatInterface newStatClassInstance = extendedStatClass.getConstructor().newInstance();
+                this.statsMap.put(string, newStatClassInstance);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });

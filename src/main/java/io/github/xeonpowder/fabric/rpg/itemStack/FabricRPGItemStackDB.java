@@ -16,6 +16,7 @@ public class FabricRPGItemStackDB {
 
     public void putItemStack(FabricRPGItemStack fabricRPGItemStack, ItemStack itemStack) {
         fabricRPGItemStackMap.put(fabricRPGItemStack, itemStack);
+        fabricRPGItemStack.setVanillaStack(itemStack);
     }
 
     public FabricRPGItemStack getFabricRPGItemStack(ItemStack itemStack) {
@@ -25,31 +26,23 @@ public class FabricRPGItemStackDB {
                 fromHashMap = fabricRPGItemStack;
             }
         }
-        if (fromHashMap != null) {
-            return fromHashMap;
-        } else {
-            FabricRPGItemStack newItemStack = new FabricRPGItemStack(this.item);
-            putItemStack(newItemStack, itemStack);
-            return newItemStack;
-        }
+        return fromHashMap;
     }
 
     public ItemStack getItemStack(FabricRPGItemStack fabricRPGItemStack) {
         ItemStack fromHashMap = fabricRPGItemStackMap.get(fabricRPGItemStack);
-        if (fromHashMap != null) {
-            return fromHashMap;
-        } else {
-            ItemStack newItemStack = new ItemStack(item);
-            putItemStack(fabricRPGItemStack, newItemStack);
-            return newItemStack;
-        }
+        return fromHashMap;
     }
 
     public void attachFabricRPG(ItemStack itemStack) {
-        getFabricRPGItemStack(itemStack);
+        FabricRPGItemStack fromHashMap = getFabricRPGItemStack(itemStack);
+        if (fromHashMap == null) {
+            putItemStack(new FabricRPGItemStack(itemStack.getItem()), itemStack);
+        }
     }
 
     public void dropFabricItemStack(FabricRPGItemStack fabricRPGItemStack) {
+        System.out.println("drop item stack: " + fabricRPGItemStack);
         fabricRPGItemStackMap.remove(fabricRPGItemStack);
     }
 }

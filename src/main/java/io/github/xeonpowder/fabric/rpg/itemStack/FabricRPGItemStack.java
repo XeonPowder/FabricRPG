@@ -21,7 +21,6 @@ public class FabricRPGItemStack {
 
     public FabricRPGItemStack(FabricRPGItem item) {
         this.rpgItem = item;
-        this.vanillaStack = FabricRPG.ItemStackDB.get(rpgItem).getItemStack(this);
         this.stats = new FabricRPGItemStackStats(null);
     }
 
@@ -30,16 +29,25 @@ public class FabricRPGItemStack {
 
         if (customItem instanceof FabricRPGItem) {
             this.rpgItem = ((FabricRPGItem) customItem);
-            this.vanillaStack = FabricRPG.ItemStackDB.get(this.rpgItem).getItemStack(this);
         } else {
             this.isNotFabricRPG = true;
             this.customItem = customItem;
-            this.vanillaStack = FabricRPG.ItemStackDB.get(customItem).getItemStack(this);
         }
     }
 
     public FabricRPGItemStack(ItemStack itemStack) {
-        FabricRPG.ItemStackDB.get(itemStack.getItem()).getFabricRPGItemStack(itemStack);
+        if (itemStack.getItem() instanceof FabricRPGItem) {
+            this.rpgItem = ((FabricRPGItem) itemStack.getItem());
+        } else {
+            this.isNotFabricRPG = true;
+            this.customItem = itemStack.getItem();
+        }
+        FabricRPG.ItemStackDB.get(itemStack.getItem()).attachFabricRPG(itemStack);
+        this.stats = new FabricRPGItemStackStats(null);
+    }
+
+    public void setVanillaStack(ItemStack itemStack) {
+        this.vanillaStack = itemStack;
     }
 
     public FabricRPGItemStackStats getStats() {
@@ -55,8 +63,8 @@ public class FabricRPGItemStack {
 
     public List<Text> getTranslatedStatsText() {
         if (this.customItem != null) {
-            return FabricRPGItemTooltip.createTooltipWithStatsForNonFabricRPGItem(new ArrayList<Text>(), 70,
-                    this.stats.getStatsMap(), this.customItem);
+            return FabricRPGItemTooltip.createStatsTooltipForNonFabricRPGItem(new ArrayList<Text>(), 70,
+                    this.stats.getStatsMap());
         } else {
             return FabricRPGItemTooltip.createTooltipWithStatsForFabricRPGItem(rpgItem.getItemName(),
                     new ArrayList<Text>(), 70, this.stats.getStatsMap());

@@ -1,6 +1,7 @@
 package io.github.xeonpowder.fabric.rpg.client.mixin.itemStack;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.spongepowered.asm.mixin.Mixin;
 
@@ -14,60 +15,72 @@ import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItemTooltip;
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItemTooltipCallback;
 import io.github.xeonpowder.fabric.rpg.itemStack.FabricRPGItemStack;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 
 @Mixin(ItemStack.class)
 public class ItemStackMixin {
+
     @Inject(at = @At(value = "RETURN"), method = "<init>*")
     public void setupItemStackMixin(CallbackInfo ci) {
-        FabricRPG.ItemStackDB.get((Item) ((ItemStack) (Object) this).getItem())
-                .attachFabricRPG(((ItemStack) (Object) this));
+
+        // if (FabricRPG.asClientOrServer("").equals(FabricRPG.CLIENT_TAG)) {
+        // if (((Item) ((ItemStack) (Object) this).getItem()) instanceof FabricRPGItem)
+        // {
+        // if (FabricRPG.ItemStackDB.get(((FabricRPGItem) ((ItemStack) (Object)
+        // this).getItem())) != null) {
+
+        // if (FabricRPG.ItemStackDB.get(((FabricRPGItem) ((ItemStack) (Object)
+        // this).getItem()))
+        // .getFabricRPGItemStack(((ItemStack) (Object) this)) == null) {
+        // FabricRPG.ItemStackDB.get(((FabricRPGItem) ((ItemStack) (Object)
+        // this).getItem()))
+        // .attachFabricRPG(((ItemStack) (Object) this));
+        // System.out.println(FabricRPG.asClientOrServer("registered ItemStack for item
+        // "
+        // + (new TranslatableText(
+        // ((FabricRPGItem) ((ItemStack) (Object) this).getItem()).getTranslationKey()))
+        // .asString()
+        // + " in FabricRPG.ItemStackDB: " + ((ItemStack) (Object) this).hashCode()));
+        // }
+        // }
+
+        // } else {
+        // if (FabricRPG.ItemStackDB.get(((Item) ((ItemStack) (Object) this).getItem()))
+        // != null) {
+        // if (FabricRPG.ItemStackDB.get(((Item) ((ItemStack) (Object) this).getItem()))
+        // .getFabricRPGItemStack(((ItemStack) (Object) this)) == null) {
+        // FabricRPG.ItemStackDB.get(((Item) ((ItemStack) (Object) this).getItem()))
+        // .attachFabricRPG(((ItemStack) (Object) this));
+        // System.out.println(FabricRPG.asClientOrServer("registered ItemStack for item
+        // "
+        // + (new TranslatableText(
+        // ((Item) ((ItemStack) (Object)
+        // this).getItem()).getTranslationKey())).asString()
+        // + " in FabricRPG.ItemStackDB: " + ((ItemStack) (Object) this).hashCode()));
+        // }
+        // }
+
+        // }
+        // }
+
     }
 
-    // public void appendTooltip(ItemStack itemStack, World world, List<Text>
-    // tooltipTextList,
-    // TooltipContext tooltipContext) {
-    // if (itemStack != null) {
-    // FabricRPGItemStack rpgItemStack;
-    // boolean isRPGItem = false;
-    // if (itemStack.getItem() instanceof FabricRPGItem) {
-    // rpgItemStack = FabricRPG.ItemStackDB.get((FabricRPGItem) itemStack.getItem())
-    // .getFabricRPGItemStack(itemStack);
-    // isRPGItem = true;
-    // } else {
-    // rpgItemStack =
-    // FabricRPG.ItemStackDB.get(itemStack.getItem()).getFabricRPGItemStack(itemStack);
-    // }
-
-    // if (rpgItemStack.getStats().getStatsMap().get("blood").getStatValue() != 0.0)
-    // {
-    // System.out.println("rpgItemStack hashCode: " + rpgItemStack.hashCode());
-    // System.out.println("itemStack hashCode: " + itemStack.hashCode());
-    // }
-    // if (isRPGItem) {
-    // FabricRPGItemTooltip.createTooltipWithStatsForFabricRPGItem(
-    // ((FabricRPGItem) itemStack.getItem()).getItemName(), tooltipTextList, 70,
-    // rpgItemStack.getStats().getStatsMap());
-    // } else {
-
-    // FabricRPGItemTooltip.createTooltipWithStatsForNonFabricRPGItem(tooltipTextList,
-    // 70,
-    // rpgItemStack.getStats().getStatsMap(), itemStack.getItem());
-    // }
-    // }
-    // }
-
     @Inject(at = @At(value = "RETURN"), method = "getTooltip")
-    public void appendFabricRPGTooltip(PlayerEntity playerEntity, TooltipContext tooltipContext,
-            CallbackInfoReturnable<List<Text>> info, List<Text> lines) {
-        System.out.println("getTooltipMixin called!");
-        FabricRPGItemTooltipCallback.EVENT.invoker().getTooltip((ItemStack) (Object) this, tooltipContext, lines);
+    public void getTooltip(PlayerEntity playerEntity, TooltipContext tooltipContext,
+            CallbackInfoReturnable<List<Text>> info) {
+        if (playerEntity != null) {
+            FabricRPGItemTooltipCallback.EVENT.invoker().getTooltip((ItemStack) (Object) this, playerEntity,
+                    tooltipContext, info.getReturnValue());
+        }
 
     }
 }

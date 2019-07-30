@@ -19,6 +19,7 @@ package io.github.xeonpowder.fabric.rpg.item;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
@@ -28,9 +29,9 @@ public interface FabricRPGItemTooltipCallback {
 
     /** Fired after the game has appended all base tooltip lines to the list */
     Event<FabricRPGItemTooltipCallback> EVENT = EventFactory.createArrayBacked(FabricRPGItemTooltipCallback.class,
-            (listeners) -> (stack, tooltipContext, lines) -> {
+            (listeners) -> (stack, playerEntity, tooltipContext, lines) -> {
                 for (FabricRPGItemTooltipCallback callback : listeners) {
-                    callback.getTooltip(stack, tooltipContext, lines);
+                    callback.getTooltip(stack, playerEntity, tooltipContext, lines);
                 }
             });
 
@@ -41,6 +42,6 @@ public interface FabricRPGItemTooltipCallback {
      * @param lines the list containing the lines of text displayed on the stack's
      *              tooltip
      */
-    void getTooltip(ItemStack stack, TooltipContext tooltipContext, List<Text> lines);
+    void getTooltip(ItemStack stack, PlayerEntity playerEntity, TooltipContext tooltipContext, List<Text> lines);
 
 }

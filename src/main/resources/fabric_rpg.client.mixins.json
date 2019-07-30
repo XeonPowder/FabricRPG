@@ -12,6 +12,7 @@
     "fabric.rpg.MixinCallbackRegistration",
     "packet.PacketConsumerMixin",
     "item.ItemMixin",
+    "itemStack.ItemStackMixin",
     "entity.player.PlayerEntityMixin"
   ],
   "injectors": {

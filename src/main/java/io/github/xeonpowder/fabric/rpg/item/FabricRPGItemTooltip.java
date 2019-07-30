@@ -29,7 +29,6 @@ public class FabricRPGItemTooltip {
 
     public static List<String> wrapAndTranslateKeyToStringList(String key, MinecraftClient client) {
         TranslatableText keyTranslatedText = new TranslatableText(key);
-        System.out.println(keyTranslatedText.asString());
         return FormattingEngine.wrapStringToWidth(keyTranslatedText.asString(), // string
                 70, // wrapWidth
                 (c) -> (int) client.textRenderer.getCharWidth((char) c), // character width function
@@ -67,6 +66,12 @@ public class FabricRPGItemTooltip {
                                                                                                     // client
                         FormattingEngine.COLOR_CODE.WHITE)));
         return wrappedAndTranslatedStatsStringList;
+    }
+
+    public static List<Text> createStatsTooltipForNonFabricRPGItem(List<Text> tooltipTextList, int wrapWidth,
+            HashMap<String, FabricRPGItemStackStatInterface> stats) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        return wrapAndTranslateStatsToTextList(client, stats, tooltipTextList);
     }
 
     public static List<Text> createTooltipWithStatsForNonFabricRPGItem(List<Text> tooltipTextList, int wrapWidth,
