@@ -2,6 +2,7 @@ package io.github.xeonpowder.fabric.rpg;
 
 import java.util.HashMap;
 
+import io.github.xeonpowder.fabric.rpg.entity.FabricRPGLivingEntityDB;
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
 import io.github.xeonpowder.fabric.rpg.item.loader.ItemLoader;
 import io.github.xeonpowder.fabric.rpg.itemStack.FabricRPGItemStackDB;
@@ -15,19 +16,17 @@ public class FabricRPG implements ModInitializer {
 	public static final String MODID = "fabric_rpg";
 	// public static final SoulRune SOUL_RUNE = new SoulRune(new
 	// Item.Settings().group(ItemGroup.MISC));
-	public static HashMap<Item, FabricRPGItemStackDB> ItemStackDB = new HashMap<Item, FabricRPGItemStackDB>();
+	public static HashMap<Item, FabricRPGItemStackDB> ItemStackDB = new HashMap<>();
+	public static HashMap<String, FabricRPGLivingEntityDB> LivingEntityDB = new HashMap<>();
 
 	@Override
 	public void onInitialize() {
 		// Register Items
-		new ItemLoader("io.github.xeonpowder.fabric.rpg.item.items").getItems().forEach(item -> {
-			ItemStackDB.put(item, new FabricRPGItemStackDB(item));
-		});
-		System.out.println("Loaded Items");
+		new ItemLoader("io.github.xeonpowder.fabric.rpg.item.items");
+		System.out.println("Loaded Fabric RPG Items");
 		// Register Stat Types
 		new StatLoader("io.github.xeonpowder.fabric.rpg.stat.stats");
-		System.out.println("Loaded Stats");
-		// Font Renderer
+		System.out.println("Loaded Fabric RPG Stats");
 
 		// regsiterItems(FabricRPGItems);
 		// Registry.register(Registry.ITEM, new Identifier("fabric_rpg", "soul_rune"),

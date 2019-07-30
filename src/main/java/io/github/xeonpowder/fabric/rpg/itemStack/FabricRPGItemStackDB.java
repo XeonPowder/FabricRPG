@@ -21,7 +21,7 @@ public class FabricRPGItemStackDB {
     public FabricRPGItemStack getFabricRPGItemStack(ItemStack itemStack) {
         FabricRPGItemStack fromHashMap = null;
         for (FabricRPGItemStack fabricRPGItemStack : fabricRPGItemStackMap.keySet()) {
-            if (fabricRPGItemStackMap.get(fabricRPGItemStack) == itemStack) {
+            if (fabricRPGItemStackMap.get(fabricRPGItemStack).equals(itemStack)) {
                 fromHashMap = fabricRPGItemStack;
             }
         }
@@ -47,5 +47,9 @@ public class FabricRPGItemStackDB {
 
     public void attachFabricRPG(ItemStack itemStack) {
         getFabricRPGItemStack(itemStack);
+    }
+
+    public void dropFabricItemStack(FabricRPGItemStack fabricRPGItemStack) {
+        fabricRPGItemStackMap.remove(fabricRPGItemStack);
     }
 }

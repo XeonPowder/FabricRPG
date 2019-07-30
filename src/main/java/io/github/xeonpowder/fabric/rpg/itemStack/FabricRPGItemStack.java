@@ -27,9 +27,15 @@ public class FabricRPGItemStack {
 
     public FabricRPGItemStack(Item customItem) {
         this.stats = new FabricRPGItemStackStats(null);
-        this.isNotFabricRPG = true;
-        this.customItem = customItem;
-        this.vanillaStack = FabricRPG.ItemStackDB.get(customItem).getItemStack(this);
+
+        if (customItem instanceof FabricRPGItem) {
+            this.rpgItem = ((FabricRPGItem) customItem);
+            this.vanillaStack = FabricRPG.ItemStackDB.get(this.rpgItem).getItemStack(this);
+        } else {
+            this.isNotFabricRPG = true;
+            this.customItem = customItem;
+            this.vanillaStack = FabricRPG.ItemStackDB.get(customItem).getItemStack(this);
+        }
     }
 
     public FabricRPGItemStack(ItemStack itemStack) {
@@ -40,15 +46,20 @@ public class FabricRPGItemStack {
         return this.stats;
     }
 
+    public Item getItem() {
+        if (this.rpgItem != null) {
+            return this.rpgItem;
+        }
+        return this.customItem;
+    }
+
     public List<Text> getTranslatedStatsText() {
-        if (this.vanillaStack != ItemStack.EMPTY || this.isNotFabricRPG) {
-            return FabricRPGItemTooltip.createTooltipWithStats(new ArrayList<Text>(), 70, this.stats.getStatsMap());
+        if (this.customItem != null) {
+            return FabricRPGItemTooltip.createTooltipWithStatsForNonFabricRPGItem(new ArrayList<Text>(), 70,
+                    this.stats.getStatsMap(), this.customItem);
         } else {
-            return FabricRPGItemTooltip.createTooltipWithStats(new ArrayList<Text>(), 70, this.stats.getStatsMap());
-            // this.rpgItem.appendFabricRPGTooltip(this,
-            // MinecraftClient.getInstance().world.getWorld(), new ArrayList<Text>(), )
-            // return FabricRPGItemTooltip.createTooltipWithStats(, 70,
-            // this.stats.getStatsMap());
+            return FabricRPGItemTooltip.createTooltipWithStatsForFabricRPGItem(rpgItem.getItemName(),
+                    new ArrayList<Text>(), 70, this.stats.getStatsMap());
         }
     }
 

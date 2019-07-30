@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.itemStack.FabricRPGItemStack;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.TypedActionResult;
@@ -19,12 +20,12 @@ import net.minecraft.util.ActionResult;
 
 public class FabricRPGItem extends Item {
     private String itemName = "";
-    private TooltipContext tooltipContext;
 
     public FabricRPGItem(String itemName) {
         super(new Item.Settings().group(ItemGroup.MISC));
         this.itemName = itemName;
         Registry.register(Registry.ITEM, new Identifier(FabricRPG.MODID, getItemName()), this);
+
     }
 
     @Override
@@ -34,23 +35,5 @@ public class FabricRPGItem extends Item {
 
     public String getItemName() {
         return this.itemName;
-    }
-
-    @Override
-    public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltipTextList,
-            TooltipContext tooltipContext) {
-        this.tooltipContext = tooltipContext;
-        if (itemStack != null) {
-            appendFabricRPGTooltip(new FabricRPGItemStack(itemStack), tooltipTextList);
-        }
-
-    }
-
-    public void appendFabricRPGTooltip(FabricRPGItemStack itemStack, List<Text> tooltipTextList) {
-        if (itemStack != null && itemStack.getStats() != null) {
-            FabricRPGItemTooltip.createTooltipWithStats(this.getItemName(), tooltipTextList, 70,
-                    itemStack.getStats().getStatsMap());
-        }
-
     }
 }

@@ -9,9 +9,10 @@
     "entity.passive.SheepEntityMixin",
     "entity.mob.ZombieEntityMixin",
     "entity.LivingEntityMixin",
-    "fabric.rpg.SheepMixin",
+    "fabric.rpg.MixinCallbackRegistration",
     "packet.PacketConsumerMixin",
-    "item.ItemMixin"
+    "item.ItemMixin",
+    "entity.player.PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

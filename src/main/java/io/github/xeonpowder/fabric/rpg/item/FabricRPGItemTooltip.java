@@ -28,7 +28,9 @@ public class FabricRPGItemTooltip {
     }
 
     public static List<String> wrapAndTranslateKeyToStringList(String key, MinecraftClient client) {
-        return FormattingEngine.wrapStringToWidth(new TranslatableText(key).asString(), // string
+        TranslatableText keyTranslatedText = new TranslatableText(key);
+        System.out.println(keyTranslatedText.asString());
+        return FormattingEngine.wrapStringToWidth(keyTranslatedText.asString(), // string
                 70, // wrapWidth
                 (c) -> (int) client.textRenderer.getCharWidth((char) c), // character width function
                 Locale.forLanguageTag(client.getLanguageManager().getLanguage().getCode()), // locale of
@@ -69,23 +71,15 @@ public class FabricRPGItemTooltip {
 
     public static List<Text> createTooltipWithStatsForNonFabricRPGItem(List<Text> tooltipTextList, int wrapWidth,
             HashMap<String, FabricRPGItemStackStatInterface> stats, Item item) {
-        return wrapAndTranslateStatsToTextList(MinecraftClient.getInstance(), stats, tooltipTextList);
+        MinecraftClient client = MinecraftClient.getInstance();
+        return wrapAndTranslateStatsToTextList(client, stats,
+                wrapAndTranslateKeyToTextList(item.getTranslationKey(), client, tooltipTextList));
     }
 
-    public static List<Text> createTooltipWithStats(List<Text> tooltipTextList, int wrapWidth,
-            HashMap<String, FabricRPGItemStackStatInterface> stats) {
-        return wrapAndTranslateStatsToTextList(MinecraftClient.getInstance(), stats, tooltipTextList);
-    }
-
-    public static List<Text> createTooltipWithStats(String itemName, List<Text> tooltipTextList, int wrapWidth,
-            HashMap<String, FabricRPGItemStackStatInterface> stats) {
+    public static List<Text> createTooltipWithStatsForFabricRPGItem(String itemName, List<Text> tooltipTextList,
+            int wrapWidth, HashMap<String, FabricRPGItemStackStatInterface> stats) {
         MinecraftClient client = MinecraftClient.getInstance();
         return wrapAndTranslateStatsToTextList(client, stats,
                 wrapAndTranslateKeyToTextList("item.fabric_rpg." + itemName + ".tooltip", client, tooltipTextList));
-    }
-
-    public static List<Text> createTooltip(String itemName, List<Text> tooltipTextList, int wrapWidth) {
-        return wrapAndTranslateKeyToTextList("item.fabric_rpg." + itemName + ".tooltip", MinecraftClient.getInstance(),
-                tooltipTextList);
     }
 }
