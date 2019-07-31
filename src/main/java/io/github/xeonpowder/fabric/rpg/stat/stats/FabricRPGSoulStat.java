@@ -3,16 +3,16 @@ package io.github.xeonpowder.fabric.rpg.stat.stats;
 import io.github.xeonpowder.fabric.rpg.stat.FabricRPGItemStackStatInterface;
 import net.minecraft.text.TranslatableText;
 
-public class FabricRPGBloodStat implements FabricRPGItemStackStatInterface {
+public class FabricRPGSoulStat implements FabricRPGItemStackStatInterface {
 
     private float value;
-    public String statName = "blood";
+    public String statName = "soul";
 
-    public FabricRPGBloodStat() {
+    public FabricRPGSoulStat() {
         this.value = 0;
     }
 
-    public FabricRPGBloodStat(FabricRPGBloodStat stat) {
+    public FabricRPGSoulStat(FabricRPGSoulStat stat) {
         this.value = stat.value;
     }
 
@@ -36,17 +36,13 @@ public class FabricRPGBloodStat implements FabricRPGItemStackStatInterface {
         return this.statName;
     }
 
-    public FabricRPGBloodStat copy() {
-        return new FabricRPGBloodStat(this);
+    public FabricRPGSoulStat copy() {
+        return new FabricRPGSoulStat(this);
     }
 
-    @Override
     public Float calculateNewValue(float value) {
-        float currentBloodValue = value;
-        // add 1+ 10% of current blood level
-        float newBloodValue = (currentBloodValue++) + (currentBloodValue * (float) (0.1));
-
-        return newBloodValue;
+        value++;
+        return value;
     }
 
 }

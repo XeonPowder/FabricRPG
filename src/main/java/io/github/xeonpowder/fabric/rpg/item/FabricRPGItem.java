@@ -3,7 +3,6 @@ package io.github.xeonpowder.fabric.rpg.item;
 import java.util.List;
 
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
-import io.github.xeonpowder.fabric.rpg.itemStack.FabricRPGItemStack;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;

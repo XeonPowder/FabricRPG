@@ -15,9 +15,8 @@ public class StatLoader {
         for (Class<? extends FabricRPGItemStackStatInterface> fabricRPGItemStackStat : fabricRPGItemStackStats) {
 
             try {
-                FabricRPGStatTypes.fabricRPGStatTypesToClassMap.put(
-                        fabricRPGItemStackStat.getConstructor().newInstance().getStatName(),
-                        fabricRPGItemStackStat.getConstructor().newInstance().getClass());
+                FabricRPGItemStackStatInterface newInstance = fabricRPGItemStackStat.getConstructor().newInstance();
+                FabricRPGStatTypes.fabricRPGStatTypesToClassMap.put(newInstance.getStatName(), newInstance.getClass());
             } catch (Exception e) {
                 e.printStackTrace();
             }

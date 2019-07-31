@@ -5,7 +5,6 @@ import java.util.HashMap;
 import io.github.xeonpowder.fabric.rpg.entity.FabricRPGLivingEntityDB;
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
 import io.github.xeonpowder.fabric.rpg.item.loader.ItemLoader;
-import io.github.xeonpowder.fabric.rpg.itemStack.FabricRPGItemStackDB;
 import io.github.xeonpowder.fabric.rpg.stat.loader.StatLoader;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
@@ -17,8 +16,6 @@ public class FabricRPG implements ModInitializer {
 	public static final String MODID = "fabric_rpg";
 	// public static final SoulRune SOUL_RUNE = new SoulRune(new
 	// Item.Settings().group(ItemGroup.MISC));
-	public static HashMap<Item, FabricRPGItemStackDB> ItemStackDB = new HashMap<>();
-	public static HashMap<String, FabricRPGLivingEntityDB> LivingEntityDB = new HashMap<>();
 	public static final String CLIENT_TAG = "[Client] ";
 	public static final String SERVER_TAG = "[Server] ";
 	// public static final MinecraftClient CLIENT_INSTANCE =

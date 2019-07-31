@@ -12,8 +12,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItemTooltip;
-import io.github.xeonpowder.fabric.rpg.itemStack.FabricRPGItemStack;
-import io.github.xeonpowder.fabric.rpg.itemStack.FabricRPGItemStackDB;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -27,8 +25,5 @@ public class ItemMixin {
 
     @Inject(at = @At(value = "RETURN"), method = "<init>*")
     public void addToFabricRPGItemDB(CallbackInfo ci) {
-        if (FabricRPG.ItemStackDB.get((Item) (Object) this) == null) {
-            FabricRPG.ItemStackDB.put(((Item) (Object) this), new FabricRPGItemStackDB(((Item) (Object) this)));
-        }
     }
 }

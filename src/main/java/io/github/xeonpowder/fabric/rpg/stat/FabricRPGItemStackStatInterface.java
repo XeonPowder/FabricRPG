@@ -13,4 +13,7 @@ public interface FabricRPGItemStackStatInterface {
     public String getStatName();
 
     public void setStatValue(float value);
+
+    public Float calculateNewValue(float value);
+
 }

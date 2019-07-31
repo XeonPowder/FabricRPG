@@ -1,5 +1,6 @@
 package io.github.xeonpowder.fabric.rpg.client.mixin.fabric.rpg;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,13 +11,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.client.entity.passive.events.SheepEvents;
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
+import io.github.xeonpowder.fabric.rpg.item.FabricRPGItemTooltip;
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItemTooltipCallback;
-import io.github.xeonpowder.fabric.rpg.itemStack.FabricRPGItemStack;
-import io.github.xeonpowder.fabric.rpg.itemStack.FabricRPGItemStackDB;
+import io.github.xeonpowder.fabric.rpg.stat.FabricRPGItemStackStats;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 
@@ -29,59 +31,16 @@ public class MixinCallbackRegistration {
             if (stack != null && tooltipContext != null && components != null) {
                 if (player.world.isAreaLoaded(player.getBlockPos(), player.getBlockPos())) {
                     boolean isFabricRPGItem = (stack.getItem() instanceof FabricRPGItem);
+                    CompoundTag stackTag = stack.hasTag() ? stack.getTag() : new CompoundTag();
                     if (isFabricRPGItem) {
-                        FabricRPGItemStackDB fabricRPGItems = FabricRPG.ItemStackDB
-                                .get(((FabricRPGItem) stack.getItem()));
-                        if (fabricRPGItems != null) {
-                            if (fabricRPGItems.getFabricRPGItemStack(stack) != null) {
-                                FabricRPGItemStack fabricRPGItemStack = fabricRPGItems.getFabricRPGItemStack(stack);
-                                List<Text> fabricRPGItemStackTranslatedStatsAndTooltipText = fabricRPGItemStack
-                                        .getTranslatedStatsText();
-                                if (fabricRPGItemStackTranslatedStatsAndTooltipText != null) {
-                                    components.addAll(fabricRPGItemStackTranslatedStatsAndTooltipText);
-                                } else {
-                                    System.err.println(FabricRPG.asClientOrServer(
-                                            "fabricRPGItemStackTranslatedStatsAndTooltipText is null -- MixinCallbackRegistration.java --"));
-                                }
-
-                            } else {
-                                System.err.println(FabricRPG.asClientOrServer(
-                                        "fabricRPGItemStack is null -- MixinCallbackRegistration.java --"));
-                                fabricRPGItems.attachFabricRPG(stack);
-                            }
-
-                        } else {
-                            System.err.println(FabricRPG
-                                    .asClientOrServer("fabricRPGItems is null -- MixinCallbackRegistration.java --"));
-                            FabricRPG.ItemStackDB.put(((FabricRPGItem) stack.getItem()),
-                                    new FabricRPGItemStackDB(((FabricRPGItem) stack.getItem())));
-                        }
+                        components.addAll(FabricRPGItemTooltip.createTooltipWithStatsForFabricRPGItem(
+                                ((FabricRPGItem) stack.getItem()).getItemName(), new ArrayList<Text>(), 70,
+                                FabricRPGItemStackStats.createStatsMapFromCompoundTag(stackTag)));
 
                     } else {
-                        FabricRPGItemStackDB fabricRPGItems = FabricRPG.ItemStackDB.get(stack.getItem());
-                        if (fabricRPGItems != null) {
-                            if (fabricRPGItems.getFabricRPGItemStack(stack) != null) {
-                                FabricRPGItemStack fabricRPGItemStack = fabricRPGItems.getFabricRPGItemStack(stack);
-                                List<Text> fabricRPGItemStackTranslatedStatsText = fabricRPGItemStack
-                                        .getTranslatedStatsText();
-                                if (fabricRPGItemStackTranslatedStatsText != null) {
-                                    components.addAll(fabricRPGItemStackTranslatedStatsText);
-                                } else {
-                                    System.err.println(FabricRPG.asClientOrServer(
-                                            "fabricRPGItemStackTranslatedStatsText is null -- MixinCallbackRegistration.java"));
-                                }
-
-                            } else {
-                                System.err.println(FabricRPG.asClientOrServer(
-                                        "fabricRPGItemStack is null -- MixinCallbackRegistration.java"));
-                                fabricRPGItems.attachFabricRPG(stack);
-                            }
-
-                        } else {
-                            System.err.println(FabricRPG
-                                    .asClientOrServer("fabricRPGItems is null -- MixinCallbackRegistration.java"));
-                            FabricRPG.ItemStackDB.put((stack.getItem()), new FabricRPGItemStackDB((stack.getItem())));
-                        }
+                        components.addAll(
+                                FabricRPGItemTooltip.createStatsTooltipForNonFabricRPGItem(new ArrayList<Text>(), 70,
+                                        FabricRPGItemStackStats.createStatsMapFromCompoundTag(stackTag)));
                     }
                 }
 
@@ -99,19 +58,5 @@ public class MixinCallbackRegistration {
 
             return ActionResult.FAIL;
         });
-        // SheepEvents.OnDeathCallback.EVENT.register((damageSource) -> {
-
-        // });
-        // SheepEvents.DeathByEnvironmentCallback.EVENT.register((player, sheep) -> {
-        // sheep.setSheared(true);
-
-        // // create diamond item entity at sheep position
-        // ItemStack stack = new ItemStack(Items.DIAMOND);
-        // ItemEntity itemEntity = new ItemEntity(player.world, sheep.x, sheep.y,
-        // sheep.z, stack);
-        // player.world.spawnEntity(itemEntity);
-
-        // return ActionResult.FAIL;
-        // });
     }
 }

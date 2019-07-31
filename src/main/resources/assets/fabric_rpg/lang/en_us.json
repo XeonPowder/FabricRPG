@@ -1,5 +1,6 @@
 {
     "item.fabric_rpg.soul_rune": "§1Soul§r §2Rune§r",
     "item.fabric_rpg.soul_rune.tooltip": "You stare at the Soul Rune only to realize you are looking at yourself.\n\n",
-    "custom_stat.fabric_rpg.blood.tooltip": "§3Blood§r§{GOLD}:§r %.2f"
+    "custom_stat.fabric_rpg.blood.tooltip": "§3Blood§r§{GOLD}:§r %.2f",
+    "custom_stat.fabric_rpg.soul.tooltip": "§3Soul§r§{GOLD}:§r %.2f"
 }
