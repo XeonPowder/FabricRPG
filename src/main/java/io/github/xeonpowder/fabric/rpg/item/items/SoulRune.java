@@ -11,4 +11,9 @@ public class SoulRune extends FabricRPGItem {
         this.registerItem();
     }
 
+    @Override
+    protected List<String> allowedStats() {
+        List<String> allowedStats = new ArrayList<String>();
+        return allowedStats;
+    }
 }

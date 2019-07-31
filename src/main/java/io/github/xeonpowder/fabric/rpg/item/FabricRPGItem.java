@@ -1,5 +1,8 @@
 package io.github.xeonpowder.fabric.rpg.item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.github.TUSK__3.panI18n.FormattingEngine;
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 
@@ -61,6 +64,11 @@ public class FabricRPGItem extends Item {
             return super.getName(itemStack);
         }
 
+    }
+
+    protected List<String> allowedStats() {
+        List<String> allowedStats = new ArrayList<String>();
+        return allowedStats;
     }
 
     public String getItemName() {
