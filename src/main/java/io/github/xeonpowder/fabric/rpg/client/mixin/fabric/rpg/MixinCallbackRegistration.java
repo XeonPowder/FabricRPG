@@ -1,24 +1,25 @@
 package io.github.xeonpowder.fabric.rpg.client.mixin.fabric.rpg;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import io.github.TUSK__3.panI18n.FormattingEngine;
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.client.entity.passive.events.SheepEvents;
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItemTooltip;
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItemTooltipCallback;
 import io.github.xeonpowder.fabric.rpg.stat.FabricRPGItemStackStats;
-import net.minecraft.client.item.TooltipContext;
+
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 
@@ -31,16 +32,21 @@ public class MixinCallbackRegistration {
             if (stack != null && tooltipContext != null && components != null) {
                 if (player.world.isAreaLoaded(player.getBlockPos(), player.getBlockPos())) {
                     boolean isFabricRPGItem = (stack.getItem() instanceof FabricRPGItem);
+                    // components.forEach(text -> {
+                    // text = new
+                    // LiteralText(FormattingEngine.replaceColorCodeEnumInString(text.asString()));
+                    // });
                     CompoundTag stackTag = stack.hasTag() ? stack.getTag() : new CompoundTag();
                     if (isFabricRPGItem) {
                         components.addAll(FabricRPGItemTooltip.createTooltipWithStatsForFabricRPGItem(
-                                ((FabricRPGItem) stack.getItem()).getItemName(), new ArrayList<Text>(), 70,
+                                ((FabricRPGItem) stack.getItem()).getItemName(), new ArrayList<Text>(),
+                                FabricRPGItemTooltip.WRAP_WIDTH,
                                 FabricRPGItemStackStats.createStatsMapFromCompoundTag(stackTag)));
 
                     } else {
-                        components.addAll(
-                                FabricRPGItemTooltip.createStatsTooltipForNonFabricRPGItem(new ArrayList<Text>(), 70,
-                                        FabricRPGItemStackStats.createStatsMapFromCompoundTag(stackTag)));
+                        components.addAll(FabricRPGItemTooltip.createStatsTooltipForNonFabricRPGItem(
+                                new ArrayList<Text>(), FabricRPGItemTooltip.WRAP_WIDTH,
+                                FabricRPGItemStackStats.createStatsMapFromCompoundTag(stackTag)));
                     }
                 }
 

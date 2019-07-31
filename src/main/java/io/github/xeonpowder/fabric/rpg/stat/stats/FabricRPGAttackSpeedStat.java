@@ -3,16 +3,16 @@ package io.github.xeonpowder.fabric.rpg.stat.stats;
 import io.github.xeonpowder.fabric.rpg.stat.FabricRPGItemStackStatInterface;
 import net.minecraft.text.TranslatableText;
 
-public class FabricRPGBloodStat implements FabricRPGItemStackStatInterface {
+public class FabricRPGAttackSpeedStat implements FabricRPGItemStackStatInterface {
 
     private float value;
-    public String statName = "blood";
+    public String statName = "attack_speed";
 
-    public FabricRPGBloodStat() {
+    public FabricRPGAttackSpeedStat() {
         this.value = 0;
     }
 
-    public FabricRPGBloodStat(FabricRPGBloodStat stat) {
+    public FabricRPGAttackSpeedStat(FabricRPGAttackSpeedStat stat) {
         this.value = stat.value;
     }
 
@@ -36,22 +36,17 @@ public class FabricRPGBloodStat implements FabricRPGItemStackStatInterface {
         return this.statName;
     }
 
-    public FabricRPGBloodStat copy() {
-        return new FabricRPGBloodStat(this);
+    public FabricRPGAttackSpeedStat copy() {
+        return new FabricRPGAttackSpeedStat(this);
     }
 
-    @Override
     public Float calculateNewValueForOnLivingEntityDeath(float value) {
-        float currentBloodValue = (float) (value + 1);
-        // add 1+ 10% of current blood level
-        float newBloodValue = (float) (currentBloodValue + (currentBloodValue * .1));
-
-        return newBloodValue;
+        return value;
     }
 
     @Override
     public float calculateNewValueForOnPlayerAttack(float oldValue) {
-        float newValue = (float) (oldValue + 0.1);
+        float newValue = ((float) oldValue);
         return newValue;
     }
 

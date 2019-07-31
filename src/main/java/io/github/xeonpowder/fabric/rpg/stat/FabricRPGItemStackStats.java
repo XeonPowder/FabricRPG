@@ -3,7 +3,6 @@ package io.github.xeonpowder.fabric.rpg.stat;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-
 import net.minecraft.nbt.CompoundTag;
 
 public class FabricRPGItemStackStats {
@@ -21,7 +20,8 @@ public class FabricRPGItemStackStats {
     public void setupStatsMap() {
         FabricRPGStatTypes.fabricRPGStatTypesToClassMap.forEach((string, extendedStatClass) -> {
             try {
-                FabricRPGItemStackStatInterface newStatClassInstance = extendedStatClass.newInstance();
+                FabricRPGItemStackStatInterface newStatClassInstance = extendedStatClass.getDeclaredConstructor()
+                        .newInstance();
                 this.statsMap.put(string, newStatClassInstance);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -61,7 +61,6 @@ public class FabricRPGItemStackStats {
                             .getConstructor().newInstance();
                 } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                         | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 if (newStatClassInstance != null) {
@@ -74,28 +73,57 @@ public class FabricRPGItemStackStats {
         return statsMap;
     }
 
-    public static CompoundTag calculateNewValues(CompoundTag playerItemStackCompoundTag) {
-        playerItemStackCompoundTag.getKeys().forEach(key -> {
-            if (key.contains("fabric_rpg.stat")) {
-                Float oldValue = playerItemStackCompoundTag.getFloat(key);
-                Float newValue = oldValue;
+    public static CompoundTag calculateNewValueForOnPlayerAttack(CompoundTag playerItemStackCompoundTag) {
+        CompoundTag newCompoundTag = new CompoundTag().copyFrom(playerItemStackCompoundTag);
+        newCompoundTag.getKeys().forEach(string -> {
+            System.out.println(string);
+            if (string.contains("fabric_rpg.stat")) {
+                String key = string.substring(string.lastIndexOf(".") + 1);
+                Float oldValue = newCompoundTag.getFloat(string);
+                Float newValue = Float.valueOf(oldValue);
                 FabricRPGItemStackStatInterface statInstance = null;
                 try {
                     statInstance = FabricRPGStatTypes.fabricRPGStatTypesToClassMap.get(key).getConstructor()
                             .newInstance();
                 } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                         | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 if (statInstance != null) {
-                    newValue = ((float) (statInstance.calculateNewValue(oldValue)));
-                    playerItemStackCompoundTag.putFloat(key, newValue);
+                    newValue = statInstance.calculateNewValueForOnPlayerAttack(oldValue);
+                    newCompoundTag.putFloat(string, newValue);
+                    System.out.printf("attack---old: %.2f new: %.2f\n", oldValue, newValue);
+
                 }
             }
 
         });
-        return playerItemStackCompoundTag;
+        return newCompoundTag;
+    }
+
+    public static CompoundTag calculateNewValueForOnLivingEntityDeath(CompoundTag playerItemStackCompoundTag) {
+        CompoundTag newCompoundTag = new CompoundTag().copyFrom(playerItemStackCompoundTag);
+        newCompoundTag.getKeys().forEach(string -> {
+            if (string.contains("fabric_rpg.stat")) {
+                String key = string.substring(string.lastIndexOf(".") + 1);
+                Float oldValue = newCompoundTag.getFloat(string);
+                Float newValue = Float.valueOf(oldValue);
+                FabricRPGItemStackStatInterface statInstance = null;
+                try {
+                    statInstance = FabricRPGStatTypes.fabricRPGStatTypesToClassMap.get(key).getConstructor()
+                            .newInstance();
+                } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                        | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                    e.printStackTrace();
+                }
+                if (statInstance != null) {
+                    newValue = statInstance.calculateNewValueForOnLivingEntityDeath(oldValue);
+                    newCompoundTag.putFloat(string, newValue);
+                    System.out.printf("death---old: %.2f new: %.2f\n", oldValue, newValue);
+                }
+            }
+        });
+        return newCompoundTag;
     }
 
 }

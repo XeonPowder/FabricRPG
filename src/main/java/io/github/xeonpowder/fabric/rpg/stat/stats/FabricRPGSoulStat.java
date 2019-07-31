@@ -40,9 +40,15 @@ public class FabricRPGSoulStat implements FabricRPGItemStackStatInterface {
         return new FabricRPGSoulStat(this);
     }
 
-    public Float calculateNewValue(float value) {
+    public Float calculateNewValueForOnLivingEntityDeath(float value) {
         value++;
         return value;
+    }
+
+    @Override
+    public float calculateNewValueForOnPlayerAttack(float oldValue) {
+        float newValue = ((float) oldValue);
+        return newValue;
     }
 
 }

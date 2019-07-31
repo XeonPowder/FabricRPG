@@ -8,28 +8,77 @@ import java.util.function.IntUnaryOperator;
 
 public final class FormattingEngine {
 
-    public static enum COLOR_CODE {
-        BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE, GOLD, GRAY, DARK_GREY, BLUE, GREEN, AQUA, RED,
-        LIGHT_PURPLE, YELLOW, WHITE,
-    }
-
-    public static enum FORMATTING_CODE {
-        OBFUSCATED, BOLD, STRIKETHROUGH, UNDERLINE, ITALIC, RESET
-    }
-
     /**
      * Valid color format code used by Minecraft.
+     * 
+     * §0 §{BLACK}
+     * 
+     * §1 §{DARK_BLUE}
+     * 
+     * §2 §{DARK_GREEN}
+     * 
+     * §3 §{DARK_AQUA}
+     * 
+     * §4 §{DARK_RED}
+     * 
+     * §5 §{DARK_PURPLE}
+     * 
+     * §6 §{GOLD}
+     * 
+     * §7 §{GRAY}
+     * 
+     * §8 §{DARK_GREY}
+     * 
+     * §9 §{BLUE}
+     * 
+     * §a §{GREEN}
+     * 
+     * §b §{AQUA}
+     * 
+     * §c §{RED}
+     * 
+     * §d §{LIGHT_PURPLE}
+     * 
+     * §e §{YELLOW}
+     * 
+     * §f §{WHITE}
+     * 
+     * 
      */
     private static final String COLOR_CODE_STRING = "0123456789abcdef";
 
     private static final String[] COLOR_CODE_LIST = new String[] { "BLACK", "DARK_BLUE", "DARK_GREEN", "DARK_AQUA",
             "DARK_RED", "DARK_PURPLE", "GOLD", "GRAY", "DARK_GREY", "BLUE", "GREEN", "AQUA", "RED", "LIGHT_PURPLE",
             "YELLOW", "WHITE" };
+
+    public static enum COLOR_CODE {
+        BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE, GOLD, GRAY, DARK_GREY, BLUE, GREEN, AQUA, RED,
+        LIGHT_PURPLE, YELLOW, WHITE,
+    }
+
     /**
-     * Valid special format code used by Minecraft, excluding {@code §r} which
-     * resets format.
+     * Valid special format code used by Minecraft
+     * 
+     * §k §{OBFUSCATED}
+     * 
+     * §l §{BOLD}
+     * 
+     * §m §{STRIKETHROUGH}
+     * 
+     * §n §{UNDERLINE}
+     * 
+     * §o §{ITALIC}
+     * 
+     * §r §{RESET}
      */
-    private static final String FORMATTING_CODE_STRING = "klmno";
+    private static final String FORMATTING_CODE_STRING = "klmnor";
+
+    private static final String[] FORMATTING_CODE_LIST = new String[] { "OBFUSCATED", "BOLD", "STRIKETHROUGH",
+            "UNDERLINE", "ITALIC", "RESET" };
+
+    public static enum FORMATTING_CODE {
+        OBFUSCATED, BOLD, STRIKETHROUGH, UNDERLINE, ITALIC, RESET
+    }
 
     public static List<String> wrapStringToWidth(final String str, final int wrapWidth,
             final IntUnaryOperator charWidthGetter, final Locale currentLocale, final COLOR_CODE defaultColor) {
@@ -37,10 +86,14 @@ public final class FormattingEngine {
                 COLOR_CODE_STRING.charAt(defaultColor.ordinal()));
     }
 
-    private static String replaceColorCodeEnumInString(String str) {
+    public static String replaceColorCodeEnumInString(String str) {
         for (String color_code : COLOR_CODE_LIST) {
             str = str.replace("{" + color_code + "}",
                     new String("" + COLOR_CODE_STRING.charAt(COLOR_CODE.valueOf(color_code).ordinal())));
+        }
+        for (String formatting_code : FORMATTING_CODE_LIST) {
+            str = str.replace("{" + formatting_code + "}",
+                    new String("" + FORMATTING_CODE_STRING.charAt(FORMATTING_CODE.valueOf(formatting_code).ordinal())));
         }
         return str;
     }

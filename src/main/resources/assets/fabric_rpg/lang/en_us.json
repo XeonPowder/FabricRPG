@@ -1,6 +1,18 @@
 {
-    "item.fabric_rpg.soul_rune": "§1Soul§r §2Rune§r",
-    "item.fabric_rpg.soul_rune.tooltip": "You stare at the Soul Rune only to realize you are looking at yourself.\n\n",
-    "custom_stat.fabric_rpg.blood.tooltip": "§3Blood§r§{GOLD}:§r %.2f",
-    "custom_stat.fabric_rpg.soul.tooltip": "§3Soul§r§{GOLD}:§r %.2f"
+    "item.fabric_rpg.soul_rune": "§{GOLD}Soul Rune§{RESET}",
+    "item.fabric_rpg.soul_rune.tooltip": "§{GRAY}You stare at the Soul Rune only to realize you are looking at yourself.§{RESET}\n\n",
+
+    "item.fabric_rpg.soul_stone": "§{LIGHT_PURPLE}Soul Stone§{RESET}",
+    "item.fabric_rpg.soul_stone.tooltip": "§{GRAY}You hear echos of voices emanating from inside.§{RESET}\n\n",
+
+    "item.fabric_rpg.blood_tear": "§{DARK_RED}Blood Tear§{RESET}",
+    "item.fabric_rpg.blood_tear.tooltip": "§{GRAY}§{RESET}\n\n",
+
+    "item.fabric_rpg.plasma": "§{YELLOW}Plasma§{RESET}",
+    "item.fabric_rpg.plasma.tooltip": "§{GRAY}§{RESET}\n\n",
+
+    "custom_stat.fabric_rpg.blood.tooltip": "§{DARK_RED}Blood§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
+    "custom_stat.fabric_rpg.soul.tooltip": "§{DARK_PURPLE}Souls Collected§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
+    "custom_stat.fabric_rpg.life_steal.tooltip": "§{GREEN}Life Steal:§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
+    "custom_stat.fabric_rpg.attack_speed.tooltip": "§{DARK_AQUA}Attack Speed:§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}"
 }

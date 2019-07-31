@@ -1,14 +1,9 @@
 package io.github.xeonpowder.fabric.rpg;
 
-import java.util.HashMap;
-
-import io.github.xeonpowder.fabric.rpg.entity.FabricRPGLivingEntityDB;
-import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
 import io.github.xeonpowder.fabric.rpg.item.loader.ItemLoader;
 import io.github.xeonpowder.fabric.rpg.stat.loader.StatLoader;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.Item;
 
 // import java.util.ArrayList;
 

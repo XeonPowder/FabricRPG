@@ -1,29 +1,43 @@
 package io.github.xeonpowder.fabric.rpg.client.mixin.item;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import io.github.TUSK__3.panI18n.FormattingEngine;
+
 import org.spongepowered.asm.mixin.injection.At;
 
-import io.github.xeonpowder.fabric.rpg.FabricRPG;
-import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
-import io.github.xeonpowder.fabric.rpg.item.FabricRPGItemTooltip;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.Entity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.item.Item;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.world.World;
 
 @Mixin(Item.class)
 public class ItemMixin {
+    // @Inject(at = @At(value = "RETURN"), method = "getName()V;", cancellable =
+    // true)
+    // public Text formattingEngineItemGetNameMixin(CallbackInfoReturnable<Text>
+    // cir) {
+    // System.out.println(cir.getReturnValue().asString());
+    // Text returnValue = new LiteralText(
+    // FormattingEngine.replaceColorCodeEnumInString(cir.getReturnValue().asString()));
+    // cir.setReturnValue(returnValue);
+    // return returnValue;
+    // }
 
-    @Inject(at = @At(value = "RETURN"), method = "<init>*")
-    public void addToFabricRPGItemDB(CallbackInfo ci) {
-    }
+    // @Inject(at = @At(value = "RETURN"), method =
+    // "Lnet/minecraft/item/Item;getName(Lnet/minecraft/item/ItemStack;)Lnet/minecrft/text/Text;",
+    // cancellable = true)
+    // public Text formattingEngineItemGetNameFromItemStackMixin(ItemStack
+    // itemstack_1, CallbackInfoReturnable<Text> cir) {
+    // System.out.println(cir.getReturnValue().asString());
+    // Text returnValue = new LiteralText(
+    // FormattingEngine.replaceColorCodeEnumInString(cir.getReturnValue().asString()));
+    // cir.setReturnValue(returnValue);
+    // return returnValue;
+    // }
 }

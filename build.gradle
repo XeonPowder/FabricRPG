@@ -13,10 +13,21 @@ group = project.maven_group
 minecraft {
 }
 repositories {
-	maven {
-			name = "Cotton"
-			url = "http://server.bbkr.space:8081/artifactory/libs-release"
-		}
+	// CANVAS
+	// maven {
+    // 	name = "grondag"
+    // 	url = "https://grondag-repo.appspot.com"
+    // 	credentials {
+    //         username "guest"
+    //         password ""
+	// 	}
+    // }
+
+	// CottonMC
+	// maven {
+	// 		name = "Cotton"
+	// 		url = "http://server.bbkr.space:8081/artifactory/libs-release"
+	// 	}
 	maven {
 		name = "Reflections"
 		url = "https://mvnrepository.com/artifact/org.reflections/reflections"
@@ -33,8 +44,10 @@ dependencies {
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 	
+
+
 	// CottonMC LibGui
-	modImplementation "io.github.cottonmc:LibGui:${project.libgui_version}"
+	// modImplementation "io.github.cottonmc:LibGui:${project.libgui_version}"
 	implementation "org.reflections:reflections:${project.reflections_version}"
 }
 

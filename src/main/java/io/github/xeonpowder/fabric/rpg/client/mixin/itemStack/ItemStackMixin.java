@@ -1,8 +1,6 @@
 package io.github.xeonpowder.fabric.rpg.client.mixin.itemStack;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import org.spongepowered.asm.mixin.Mixin;
 

@@ -14,6 +14,8 @@ public interface FabricRPGItemStackStatInterface {
 
     public void setStatValue(float value);
 
-    public Float calculateNewValue(float value);
+    public Float calculateNewValueForOnLivingEntityDeath(float value);
+
+    public float calculateNewValueForOnPlayerAttack(float oldValue);
 
 }
