@@ -1,13 +1,18 @@
 package io.github.xeonpowder.fabric.rpg;
 
+import io.github.xeonpowder.fabric.rpg.command.FabricRPGBaseCommand;
+import io.github.xeonpowder.fabric.rpg.command.manager.CommandManager;
 import io.github.xeonpowder.fabric.rpg.item.loader.ItemLoader;
 import io.github.xeonpowder.fabric.rpg.stat.loader.StatLoader;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.registry.CommandRegistry;
 import net.minecraft.client.MinecraftClient;
 
 // import java.util.ArrayList;
 
 public class FabricRPG implements ModInitializer {
+	public static final String COMMAND_NAME = "frpg";
+	public static final String COMMAND_SHORTNAME = "f";
 	public static final String MODID = "fabric_rpg";
 	// public static final SoulRune SOUL_RUNE = new SoulRune(new
 	// Item.Settings().group(ItemGroup.MISC));
@@ -16,9 +21,11 @@ public class FabricRPG implements ModInitializer {
 	// public static final MinecraftClient CLIENT_INSTANCE =
 	// MinecraftClient.getInstance();
 	// public static final boolean isClient = CLIENT_INSTANCE.world.isClient;
+	public static CommandManager COMMAND_MANAGER = new CommandManager();
 
 	@Override
 	public void onInitialize() {
+		CommandRegistry.INSTANCE.register(false, dispatcher -> FabricRPGBaseCommand.register(dispatcher));
 
 		System.out.println(asClientOrServer("Fabric-RPG initializing!"));
 		// Register Items

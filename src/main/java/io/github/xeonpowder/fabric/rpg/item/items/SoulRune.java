@@ -1,5 +1,8 @@
 package io.github.xeonpowder.fabric.rpg.item.items;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.base.CaseFormat;
 
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
