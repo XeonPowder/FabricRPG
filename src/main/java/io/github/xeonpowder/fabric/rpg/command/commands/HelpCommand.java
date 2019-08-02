@@ -13,6 +13,8 @@ public class HelpCommand extends EmptyCommand<HelpRegister> {
 
     @Override
     public String getCommandName() {
+        System.out.println("got command name " + CaseFormat.UPPER_CAMEL
+                .to(CaseFormat.LOWER_UNDERSCORE, this.getClass().getSimpleName()).split("_")[0]);
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this.getClass().getSimpleName()).split("_")[0];
     }
 

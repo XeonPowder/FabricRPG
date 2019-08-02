@@ -1,6 +1,7 @@
 package io.github.xeonpowder.fabric.rpg.command.loader;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -22,35 +23,23 @@ public class CommandLoader<T extends EmptyRegister, S extends EmptyCommand<T>> {
 
     public CommandLoader(Class<T> registererClass, Class<S> commandClass,
             io.github.xeonpowder.fabric.rpg.command.manager.CommandManager cm) {
+        System.out.println("command loader...");
         try {
             this.registerInstance = registererClass.getDeclaredConstructor().newInstance();
             this.commandInstance = commandClass.getDeclaredConstructor(registererClass).newInstance(registerInstance);
-
             this.commandName = this.getInstance().getCommandName();
-            System.out.println(cm);
-            System.out.println(cm.getCommandMap());
-            cm.getCommandMap().put(this.commandName, (dispatcher, command,
-                    commandNodes) -> bind(this.registerInstance::regsiterMain, dispatcher, command, commandNodes));
+            cm.getCommandMap().put(this.commandName, (dispatcher, command) -> {
+                System.out.println(this.commandName + " was registered!");
+                Arrays.asList(FabricRPG.COMMAND_NAMES).forEach(frpgCommandName -> {
+                    LiteralCommandNode node = this.registerInstance.regsiterMain(dispatcher, frpgCommandName);
+                    dispatcher.register(CommandManager.literal(frpgCommandName)
+                            .then(CommandManager.literal(command).redirect(node)));
+                });
+            });
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
                 | NoSuchMethodException | SecurityException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-            commandInstance = null;
         }
-    }
-
-    private Supplier<Boolean> bind(Function<CommandDispatcher<ServerCommandSource>, LiteralCommandNode> fn,
-            CommandDispatcher<ServerCommandSource> dispatcher, String command,
-            HashMap<String, LiteralCommandNode> commandNodes) {
-        return () -> {
-            LiteralCommandNode node = fn.apply(dispatcher);
-            commandNodes.put(command, node);
-            dispatcher.register(CommandManager.literal(FabricRPG.COMMAND_NAME).then(CommandManager.literal(command))
-                    .redirect(node));
-            dispatcher.register(CommandManager.literal(FabricRPG.COMMAND_SHORTNAME)
-                    .then(CommandManager.literal(command)).redirect(node));
-            return true;
-        };
     }
 
     public S getInstance() {

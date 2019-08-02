@@ -8,5 +8,7 @@ import net.minecraft.server.command.ServerCommandSource;
 public interface EmptyRegister {
     public String getRegisterName();
 
-    public LiteralCommandNode regsiterMain(CommandDispatcher<ServerCommandSource> dispatcher);
+    public String getTranslationKey();
+
+    public LiteralCommandNode regsiterMain(CommandDispatcher<ServerCommandSource> dispatcher, String commandName);
 }

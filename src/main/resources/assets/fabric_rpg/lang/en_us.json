@@ -14,5 +14,14 @@
   "custom_stat.fabric_rpg.blood.tooltip": "§{DARK_RED}Blood§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
   "custom_stat.fabric_rpg.soul.tooltip": "§{DARK_PURPLE}Souls Collected§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
   "custom_stat.fabric_rpg.life_steal.tooltip": "§{GREEN}Life Steal§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
-  "custom_stat.fabric_rpg.attack_speed.tooltip": "§{DARK_AQUA}Attack Speed§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}"
+  "custom_stat.fabric_rpg.attack_speed.tooltip": "§{DARK_AQUA}Attack Speed§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
+
+  "command.fabric_rpg.main": "Welcome to Fabric RPG!",
+  "command.fabric_rpg.help": "Fabric RPG Help",
+  "command.fabric_rpg.class": "Fabric RPG Help",
+  "command.fabric_rpg.class.list": "Fabric RPG Help",
+  "command.fabric_rpg.stats": "Fabric RPG Help",
+  "command.fabric_rpg.stats.list": "Fabric RPG Help",
+  "command.fabric_rpg.talents": "Fabric RPG Help",
+  "command.fabric_rpg.talents.class": "Fabric RPG Help"
 }
