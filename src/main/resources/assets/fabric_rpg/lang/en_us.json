@@ -1,15 +1,42 @@
 {
   "item.fabric_rpg.soul_rune": "§{GOLD}Soul Rune§{RESET}",
-  "item.fabric_rpg.soul_rune.tooltip": "§{GRAY}You stare at the Soul Rune only to realize you are looking at yourself.§{RESET}\n\n",
+  "item.fabric_rpg.soul_rune.tooltip": "§{GRAY}You stare at the Soul Rune only to realize you are looking at yourself.§{RESET}",
 
   "item.fabric_rpg.soul_stone": "§{LIGHT_PURPLE}Soul Stone§{RESET}",
-  "item.fabric_rpg.soul_stone.tooltip": "§{GRAY}You hear echos of voices emanating from inside.§{RESET}\n\n",
+  "item.fabric_rpg.soul_stone.tooltip": "§{GRAY}You hear echos of voices emanating from inside.§{RESET}",
 
-  "item.fabric_rpg.blood_tear": "§{DARK_RED}Blood Tear§{RESET}",
-  "item.fabric_rpg.blood_tear.tooltip": "§{GRAY}§{RESET}\n\n",
+  "item.fabric_rpg.blood": "§{DARK_RED}Blood§{RESET}",
+  "item.fabric_rpg.blood.tooltip": "§{GRAY}Used for crafting.§{RESET}",
+
+  "item.fabric_rpg.blood_potion": "§{DARK_RED}Blood Potion§{RESET}",
+  "item.fabric_rpg.blood_potion.tooltip": "§{GRAY}Increases Bleed Resistance§{RESET}",
+
+  "item.fabric_rpg.dna": "§{LIGHT_PURPLE}DNA§{RESET}",
+  "item.fabric_rpg.dna.tooltip": "§{GRAY}Used for crafting.§{RESET}",
+
+  "item.fabric_rpg.dna_potion": "§{LIGHT_PURPLE}DNA Potion§{RESET}",
+  "item.fabric_rpg.dna_potion.tooltip": "§{GRAY}Gain random attributes.§{RESET}",
 
   "item.fabric_rpg.plasma": "§{YELLOW}Plasma§{RESET}",
-  "item.fabric_rpg.plasma.tooltip": "§{GRAY}§{RESET}\n\n",
+  "item.fabric_rpg.plasma.tooltip": "§{GRAY}Used for crafting.§{RESET}",
+
+  "item.fabric_rpg.plasma_potion": "§{YELLOW}Plasma Potion§{RESET}",
+  "item.fabric_rpg.plasma_potion.tooltip": "§{GRAY}Tastes like ass, looks like piss.§{RESET}",
+
+  "item.fabric_rpg.lightning": "§{YELLOW}Lightning§{RESET}",
+  "item.fabric_rpg.lightning.tooltip": "§{GRAY}Used for crafting.§{RESET}",
+
+  "item.fabric_rpg.lightning_sword": "§{YELLOW}Lightning Sword§{RESET}",
+  "item.fabric_rpg.lightning_sword.tooltip": "§{GRAY}Your whole body feels numb whilst holding.§{RESET}",
+
+  "item.fabric_rpg.lightning_potion": "§{YELLOW}Lightning Potion§{RESET}",
+  "item.fabric_rpg.lightning_potion.tooltip": "§{GRAY}My name is Barry Allen§{RESET}",
+
+  "block.fabric_rpg.portal_plant_block": "§{LIGHT_PURPLE}Portal Flower§{RESET}",
+  "block.fabric_rpg.portal_plant_block.tooltip": "§{GRAY}Used for crafting.§{RESET}",
+
+  "item.fabric_rpg.portal_potion": "§{LIGHT_PURPLE}Portal Potion§{RESET}",
+  "item.fabric_rpg.portal_potion.tooltip": "§{GRAY}Teleport to a random location.§{RESET}",
 
   "custom_stat.fabric_rpg.blood.tooltip": "§{DARK_RED}Blood§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
   "custom_stat.fabric_rpg.soul.tooltip": "§{DARK_PURPLE}Souls Collected§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",

@@ -8,6 +8,7 @@ import java.util.Locale;
 import io.github.TUSK__3.panI18n.FormattingEngine;
 import io.github.xeonpowder.fabric.rpg.stat.FabricRPGItemStackStatInterface;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -57,6 +58,7 @@ public class FabricRPGItemTooltip {
         public static List<String> wrapAndTranslateStatsToStringList(MinecraftClient client,
                         HashMap<String, FabricRPGItemStackStatInterface> stats) {
                 List<String> wrappedAndTranslatedStatsStringList = new ArrayList<String>();
+                wrappedAndTranslatedStatsStringList.add(""); // seperate from last chunk of text.
                 stats.forEach((string,
                                 value) -> wrappedAndTranslatedStatsStringList.addAll(FormattingEngine.wrapStringToWidth(
                                                 new TranslatableText("custom_stat.fabric_rpg." + string + ".tooltip",
@@ -88,10 +90,11 @@ public class FabricRPGItemTooltip {
                                 wrapAndTranslateKeyToTextList(item.getTranslationKey(), client, tooltipTextList));
         }
 
-        public static List<Text> createTooltipWithStatsForFabricRPGItem(String itemName, List<Text> tooltipTextList,
-                        int wrapWidth, HashMap<String, FabricRPGItemStackStatInterface> stats) {
+        public static List<Text> createTooltipWithStatsForFabricRPGItem(String itemType, String itemName,
+                        List<Text> tooltipTextList, int wrapWidth,
+                        HashMap<String, FabricRPGItemStackStatInterface> stats) {
                 MinecraftClient client = MinecraftClient.getInstance();
                 return wrapAndTranslateStatsToTextList(client, stats, wrapAndTranslateKeyToTextList(
-                                "item.fabric_rpg." + itemName + ".tooltip", client, tooltipTextList));
+                                itemType + ".fabric_rpg." + itemName + ".tooltip", client, tooltipTextList));
         }
 }

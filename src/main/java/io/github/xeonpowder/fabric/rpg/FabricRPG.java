@@ -1,5 +1,6 @@
 package io.github.xeonpowder.fabric.rpg;
 
+import io.github.xeonpowder.fabric.rpg.block.loader.PlantBlockLoader;
 import io.github.xeonpowder.fabric.rpg.command.FabricRPGBaseCommand;
 import io.github.xeonpowder.fabric.rpg.command.manager.CommandManager;
 import io.github.xeonpowder.fabric.rpg.item.loader.ItemLoader;
@@ -9,7 +10,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.registry.CommandRegistry;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.hud.ChatHud;
 
 // import java.util.ArrayList;
 
@@ -29,6 +29,11 @@ public class FabricRPG implements ModInitializer {
 		new ItemLoader("io.github.xeonpowder.fabric.rpg.item.items");
 
 		System.out.println(asClientOrServer("Loaded Fabric RPG Items"));
+
+		// Register Plant Blocks
+		new PlantBlockLoader("io.github.xeonpowder.fabric.rpg.block.blocks.plant");
+
+		System.out.println(asClientOrServer("Loaded Fabric RPG Plant Blocks"));
 
 		// Register Stat Types
 		new StatLoader("io.github.xeonpowder.fabric.rpg.stat.stats");

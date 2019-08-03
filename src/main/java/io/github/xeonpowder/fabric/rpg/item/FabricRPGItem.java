@@ -3,6 +3,8 @@ package io.github.xeonpowder.fabric.rpg.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.CaseFormat;
+
 import io.github.TUSK__3.panI18n.FormattingEngine;
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 
@@ -30,7 +32,7 @@ public class FabricRPGItem extends Item {
     }
 
     protected void registerItem() {
-        Registry.register(Registry.ITEM, new Identifier(FabricRPG.MODID, getItemName()), this);
+        Registry.register(Registry.ITEM, new Identifier(FabricRPG.MODID, this.getTranslationKey()), this);
     }
 
     protected void setItemName(String itemName) {
@@ -52,14 +54,14 @@ public class FabricRPGItem extends Item {
     @Override
     public Text getName() {
         return new LiteralText(FormattingEngine.replaceColorCodeEnumInString(
-                new TranslatableText("item." + FabricRPG.MODID + "." + this.getItemName()).asString()));
+                new TranslatableText("item." + FabricRPG.MODID + "." + this.getTranslationKey()).asString()));
     }
 
     @Override
     public Text getName(ItemStack itemStack) {
         if (itemStack.getItem() instanceof FabricRPGItem) {
             return new LiteralText(FormattingEngine.replaceColorCodeEnumInString(
-                    new TranslatableText("item." + FabricRPG.MODID + "." + this.getItemName()).asString()));
+                    new TranslatableText("item." + FabricRPG.MODID + "." + this.getTranslationKey()).asString()));
         } else {
             return super.getName(itemStack);
         }
@@ -71,7 +73,8 @@ public class FabricRPGItem extends Item {
         return allowedStats;
     }
 
-    public String getItemName() {
+    @Override
+    public String getTranslationKey() {
         return this.itemName;
     }
 }

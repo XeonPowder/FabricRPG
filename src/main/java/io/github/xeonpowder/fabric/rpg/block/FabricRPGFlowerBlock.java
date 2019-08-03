@@ -1,0 +1,61 @@
+package io.github.xeonpowder.fabric.rpg.block;
+
+import com.google.common.base.CaseFormat;
+
+import io.github.TUSK__3.panI18n.FormattingEngine;
+import io.github.xeonpowder.fabric.rpg.FabricRPG;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderLayer;
+import net.minecraft.block.FlowerBlock;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+
+public class FabricRPGFlowerBlock extends FlowerBlock {
+
+    private boolean isTransparent;
+
+    public FabricRPGFlowerBlock(StatusEffect statusEffect, int int_1, Block.Settings blockSettings,
+            boolean isTransparent) {
+        super(statusEffect, int_1, blockSettings);
+        this.isTransparent = isTransparent;
+    }
+
+    public void registerBlock() {
+        Registry.register(Registry.BLOCK, new Identifier(FabricRPG.MODID, this.getFabricRPGTranslationKey()), this);
+        Registry.register(Registry.ITEM, new Identifier(FabricRPG.MODID, this.getFabricRPGTranslationKey()),
+                new FabricRPGBlockItem<FabricRPGFlowerBlock>(this, new Item.Settings().group(ItemGroup.MISC)));
+    }
+
+    protected boolean canPlantOnTop(net.minecraft.block.BlockState blockState_1,
+            net.minecraft.world.BlockView blockView_1, net.minecraft.util.math.BlockPos blockPos_1) {
+        return false;
+    }
+
+    public void randomDisplayTick(net.minecraft.block.BlockState blockState_1, net.minecraft.world.World world_1,
+            net.minecraft.util.math.BlockPos blockPos_1, java.util.Random random_1) {
+    }
+
+    public void onEntityCollision(net.minecraft.block.BlockState blockState_1, net.minecraft.world.World world_1,
+            net.minecraft.util.math.BlockPos blockPos_1, net.minecraft.entity.Entity entity_1) {
+    }
+
+    @Environment(EnvType.CLIENT)
+    public BlockRenderLayer getRenderLayer() {
+
+        return this.isTransparent ? BlockRenderLayer.TRANSLUCENT : BlockRenderLayer.SOLID;
+    }
+
+    public String getFabricRPGTranslationKey() {
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this.getClass().getSimpleName());
+    }
+
+}
