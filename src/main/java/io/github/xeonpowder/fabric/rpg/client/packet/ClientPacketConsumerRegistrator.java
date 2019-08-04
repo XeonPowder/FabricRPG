@@ -8,12 +8,11 @@ import org.reflections.Reflections;
 /**
  * PacketRegistrator
  */
-public class PacketConsumerRegistrator {
+public class ClientPacketConsumerRegistrator {
 
-    public PacketConsumerRegistrator() {
-        Reflections reflections = new Reflections("io.github.xeonpowder.fabric.rpg.client.packet.consumer");
+    public ClientPacketConsumerRegistrator(String packageName) {
+        Reflections reflections = new Reflections(packageName);
         Set<Class<? extends ClientPacketConsumer>> clientPacketConsumers = reflections.getSubTypesOf(ClientPacketConsumer.class);
-        System.out.println(clientPacketConsumers.toString());
         clientPacketConsumers.forEach(clientPacketConsumer -> {
             try {
                 clientPacketConsumer.getDeclaredConstructor().newInstance();

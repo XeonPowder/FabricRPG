@@ -4,14 +4,13 @@ import com.google.common.base.CaseFormat;
 
 import io.github.TUSK__3.panI18n.FormattingEngine;
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
-import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 /**
@@ -28,7 +27,7 @@ public class FabricRPGBlockItem<T extends Block> extends BlockItem {
     public T getBlock() {
         return this.block;
     }
-
+    
     @Override
     public String getTranslationKey() {
         return this.getBlock().getTranslationKey().substring(this.getBlock().getTranslationKey().lastIndexOf(".")+1);

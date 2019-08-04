@@ -15,10 +15,8 @@ public class ClientPacketConsumer implements PacketConsumer {
         
     }
     public void registerConsumer() {
-        ClientSidePacketRegistry.INSTANCE.register(this.id, (ctx, buffer) -> {
-            this.accept(ctx, buffer);
-        });
-        
+        System.out.println(this.id.toString());
+        ClientSidePacketRegistry.INSTANCE.register(this.id, this);
     }
 
     @Override

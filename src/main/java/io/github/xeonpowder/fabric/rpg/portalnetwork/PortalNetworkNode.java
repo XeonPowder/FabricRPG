@@ -15,7 +15,7 @@ public class PortalNetworkNode {
         this.nodePos = pos;
         this.translationKey = translationKey;
     }
-    public PortalNetworkNode(int x, int y, int z, String translationKey) {
+    public PortalNetworkNode(double x, double y, double z, String translationKey) {
         this.translationKey = translationKey;
         this.nodePos = new Position(){
         

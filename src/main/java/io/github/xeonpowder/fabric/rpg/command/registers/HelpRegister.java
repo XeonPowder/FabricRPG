@@ -3,7 +3,6 @@ package io.github.xeonpowder.fabric.rpg.command.registers;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 
-import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.command.EmptyRegister;
 import io.github.xeonpowder.fabric.rpg.command.functions.SendMessageToPlayer;
 import net.minecraft.server.command.CommandManager;
@@ -12,7 +11,7 @@ import net.minecraft.server.command.ServerCommandSource;
 public class HelpRegister implements EmptyRegister {
 
     @Override
-    public LiteralCommandNode regsiterMain(CommandDispatcher<ServerCommandSource> dispatcher, String commandName) {
+    public LiteralCommandNode<ServerCommandSource> regsiterMain(CommandDispatcher<ServerCommandSource> dispatcher, String commandName) {
         System.out.println("help register registerMain");
         return dispatcher.register(CommandManager.literal(commandName)
                 .then(CommandManager.literal(this.getRegisterName()).executes(ctx -> SendMessageToPlayer

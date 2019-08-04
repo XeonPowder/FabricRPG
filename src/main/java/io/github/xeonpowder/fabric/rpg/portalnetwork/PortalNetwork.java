@@ -15,6 +15,9 @@ public class PortalNetwork<PlayerEntity> {
 
 	public List<PortalNetworkNode> getNodeHistoryList() {
 		return this.portalNetworkNodes;
-	}
+    }
+    public PlayerEntity getPlayer() {
+        return this.player;
+    }
     
 }

@@ -13,10 +13,8 @@ public class ServerPacketConsumerRegistrator {
     public ServerPacketConsumerRegistrator(String packageName) {
         Reflections reflections = new Reflections(packageName);
         Set<Class<? extends ServerPacketConsumer>> serverPacketConsumers = reflections.getSubTypesOf(ServerPacketConsumer.class);
-        System.out.println(serverPacketConsumers.toString());
         serverPacketConsumers.forEach(serverPacketConsumer -> {
             try {
-                System.out.println(serverPacketConsumer.getSimpleName());
                 serverPacketConsumer.getDeclaredConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException | NoSuchMethodException | SecurityException e) {

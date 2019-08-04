@@ -1,21 +1,8 @@
 package io.github.xeonpowder.fabric.rpg.client.mixin.entity.player;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import io.github.xeonpowder.fabric.rpg.stat.FabricRPGItemStackStatInterface;
-import io.github.xeonpowder.fabric.rpg.stat.FabricRPGStatTypes;
-
-import org.spongepowered.asm.mixin.injection.At;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin {
@@ -40,7 +27,6 @@ public class PlayerEntityMixin {
     // } catch (InstantiationException | IllegalAccessException |
     // IllegalArgumentException
     // | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-    // // TODO Auto-generated catch block
     // e.printStackTrace();
     // }
     // if (statInstance != null) {

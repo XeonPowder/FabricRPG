@@ -1,16 +1,14 @@
 package io.github.xeonpowder.fabric.rpg.command;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.tree.LiteralCommandNode;
 
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.command.functions.SendMessageToPlayer;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public class FabricRPGBaseCommand {
     public static final List<String> Commands = Arrays.asList(new String[] { "help" });

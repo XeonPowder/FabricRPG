@@ -6,16 +6,11 @@ import java.util.List;
 import com.google.common.base.CaseFormat;
 
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
-import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.MiningToolItem;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolItem;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
 
 /**

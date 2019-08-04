@@ -2,19 +2,7 @@ package io.github.xeonpowder.fabric.rpg.client.mixin.item;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import io.github.TUSK__3.panI18n.FormattingEngine;
-
-import org.spongepowered.asm.mixin.injection.At;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
 
 @Mixin(Item.class)
 public class ItemMixin {

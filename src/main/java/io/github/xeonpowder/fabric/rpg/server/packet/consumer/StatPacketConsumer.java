@@ -7,7 +7,7 @@ import net.minecraft.util.PacketByteBuf;
 public class StatPacketConsumer extends ServerPacketConsumer {
 
     public StatPacketConsumer() {
-        super("fabric_rpg_stat_packet");
+        super("stat");
         this.registerConsumer();
     }
 

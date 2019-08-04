@@ -4,6 +4,7 @@ import io.github.xeonpowder.fabric.rpg.block.loader.PlantBlockLoader;
 import io.github.xeonpowder.fabric.rpg.command.FabricRPGBaseCommand;
 import io.github.xeonpowder.fabric.rpg.command.manager.CommandManager;
 import io.github.xeonpowder.fabric.rpg.item.loader.ItemLoader;
+import io.github.xeonpowder.fabric.rpg.server.packet.ServerPacketConsumerRegistrator;
 import io.github.xeonpowder.fabric.rpg.stat.loader.StatLoader;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -41,6 +42,8 @@ public class FabricRPG implements ModInitializer {
 		// Register Stat Types
 		new StatLoader("io.github.xeonpowder.fabric.rpg.stat.stats");
 		System.out.println("Loaded Fabric RPG Stats");
+		
+		new ServerPacketConsumerRegistrator("io.github.xeonpowder.fabric.rpg.server.packet.consumer");
 		System.out.println("Fabric-RPG initialized!");
 	}
 }

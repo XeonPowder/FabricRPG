@@ -10,5 +10,5 @@ public interface EmptyRegister {
 
     public String getTranslationKey();
 
-    public LiteralCommandNode regsiterMain(CommandDispatcher<ServerCommandSource> dispatcher, String commandName);
+    public LiteralCommandNode<ServerCommandSource> regsiterMain(CommandDispatcher<ServerCommandSource> dispatcher, String commandName);
 }

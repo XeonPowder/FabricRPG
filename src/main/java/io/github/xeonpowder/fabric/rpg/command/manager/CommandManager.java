@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.function.BiConsumer;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.tree.LiteralCommandNode;
-
-import org.apache.logging.log4j.util.TriConsumer;
 
 import io.github.xeonpowder.fabric.rpg.command.commands.HelpCommand;
 import io.github.xeonpowder.fabric.rpg.command.loader.CommandLoader;
