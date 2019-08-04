@@ -37,6 +37,8 @@
 
   "item.fabric_rpg.portal_potion": "§{LIGHT_PURPLE}Portal Potion§{RESET}",
   "item.fabric_rpg.portal_potion.tooltip": "§{GRAY}Teleport to a random location.§{RESET}",
+  
+  "gui.fabric_rpg.portal_network": "§{LIGHT_PURPLE}Portal Network§{RESET}",
 
   "custom_stat.fabric_rpg.blood.tooltip": "§{DARK_RED}Blood§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
   "custom_stat.fabric_rpg.soul.tooltip": "§{DARK_PURPLE}Souls Collected§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",

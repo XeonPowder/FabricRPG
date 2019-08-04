@@ -10,6 +10,7 @@ import io.github.xeonpowder.fabric.rpg.stat.FabricRPGItemStackStatInterface;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -97,4 +98,27 @@ public class FabricRPGItemTooltip {
                 return wrapAndTranslateStatsToTextList(client, stats, wrapAndTranslateKeyToTextList(
                                 itemType + ".fabric_rpg." + itemName + ".tooltip", client, tooltipTextList));
         }
+
+
+        public static List<Text> addDurabilityOfItemStackToTooltip(List<Text> tooltipTextList, ItemStack itemStack) {
+                int durability = itemStack.getMaxDamage() - itemStack.getDamage();
+                int maxDurability = itemStack.getMaxDamage();
+                double percentage =  (((double)durability)/((double)maxDurability));
+                System.out.println(percentage);
+                String durabitlityColor = "GREEN";
+                if (percentage <= .75 && percentage > .50) {
+                        durabitlityColor = "DARK_GREEN";
+                } else if (percentage > .25 && percentage <= .50) {
+                        durabitlityColor = "YELLOW";
+                } else if (percentage < .25){
+                        durabitlityColor = "RED";
+                }
+                String durabitlityFormatted = "§{"+durabitlityColor+"}"+durability + "§{RESET}§{WHITE}/§{"+durabitlityColor+"}" + maxDurability + "§{RESET}";
+                tooltipTextList.add(new LiteralText(FormattingEngine.replaceColorCodeEnumInString(durabitlityFormatted)));
+                return tooltipTextList;
+        }
+
+
+
+
 }

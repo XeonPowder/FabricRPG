@@ -20,6 +20,12 @@
   "entrypoints": {
     "main": [
       "io.github.xeonpowder.fabric.rpg.FabricRPG"
+    ],
+    "client": [
+      "io.github.xeonpowder.fabric.rpg.client.FabricRPGClient"
+    ],
+    "server": [
+      "io.github.xeonpowder.fabric.rpg.server.FabricRPGServer"
     ]
   },
   "mixins": [{

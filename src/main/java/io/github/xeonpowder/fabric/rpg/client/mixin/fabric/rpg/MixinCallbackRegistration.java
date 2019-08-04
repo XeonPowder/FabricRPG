@@ -42,6 +42,11 @@ public class MixinCallbackRegistration {
                     // text = new
                     // LiteralText(FormattingEngine.replaceColorCodeEnumInString(text.asString()));
                     // });
+
+                    // add durability if the Item can be damaged.
+                    if (stack.getMaxDamage() > 0) {
+                        components.addAll(FabricRPGItemTooltip.addDurabilityOfItemStackToTooltip(new ArrayList<Text>(), stack));
+                    }
                     CompoundTag stackTag = stack.hasTag() ? stack.getTag() : new CompoundTag();
                     if (isFabricRPGItem) {
                         components.addAll(FabricRPGItemTooltip.createTooltipWithStatsForFabricRPGItem("item",
@@ -50,7 +55,6 @@ public class MixinCallbackRegistration {
                                 FabricRPGItemStackStats.createStatsMapFromCompoundTag(stackTag)));
 
                     } else if (isFabricRPGBlockItem) {
-
                         components.addAll(FabricRPGItemTooltip.createTooltipWithStatsForFabricRPGItem("block",
                                 ((FabricRPGBlockItem) stack.getItem()).getTranslationKey(), new ArrayList<Text>(),
                                 FabricRPGItemTooltip.WRAP_WIDTH,

@@ -1,5 +1,7 @@
 package io.github.xeonpowder.fabric.rpg.block;
 
+import com.google.common.base.CaseFormat;
+
 import io.github.TUSK__3.panI18n.FormattingEngine;
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
@@ -49,6 +51,9 @@ public class FabricRPGBlockItem<T extends Block> extends BlockItem {
             return super.getName(itemStack);
         }
 
+    }
+    public static String getTranslationKey(Class<? extends FabricRPGPlantBlock> plantBlockExtended) {
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, plantBlockExtended.getClass().getSimpleName());
     }
 
 }

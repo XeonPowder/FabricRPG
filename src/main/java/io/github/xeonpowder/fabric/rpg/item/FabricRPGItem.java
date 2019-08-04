@@ -28,7 +28,7 @@ public class FabricRPGItem extends Item {
     private String itemName = "";
 
     public FabricRPGItem() {
-        super(new Item.Settings().group(ItemGroup.MISC));
+        super(new Item.Settings().group(FabricRPG.ITEM_GROUP));
     }
 
     protected void registerItem() {
@@ -40,9 +40,15 @@ public class FabricRPGItem extends Item {
     }
 
     public FabricRPGItem(String itemName) {
-        super(new Item.Settings().group(ItemGroup.MISC));
+        super(new Item.Settings().group(FabricRPG.ITEM_GROUP));
         this.setItemName(itemName);
-        this.registerItem();
+    }
+    public FabricRPGItem(int maxDamage) {
+        super(new Item.Settings().maxDamage(maxDamage).group(FabricRPG.ITEM_GROUP));
+    }
+    public FabricRPGItem(String itemName, int maxDamage) {
+        super(new Item.Settings().maxDamage(maxDamage).group(FabricRPG.ITEM_GROUP));
+        this.setItemName(itemName);
     }
 
     @Override

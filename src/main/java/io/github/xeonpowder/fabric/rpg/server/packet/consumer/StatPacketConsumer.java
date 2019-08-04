@@ -1,13 +1,14 @@
-package io.github.xeonpowder.fabric.rpg.server.packets;
+package io.github.xeonpowder.fabric.rpg.server.packet.consumer;
 
-import io.github.xeonpowder.fabric.rpg.server.FabricRPGServerPacketConsumer;
+import io.github.xeonpowder.fabric.rpg.server.packet.ServerPacketConsumer;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.minecraft.util.PacketByteBuf;
 
-public class StatPacketConsumer extends FabricRPGServerPacketConsumer {
+public class StatPacketConsumer extends ServerPacketConsumer {
 
     public StatPacketConsumer() {
         super("fabric_rpg_stat_packet");
+        this.registerConsumer();
     }
 
     @Override

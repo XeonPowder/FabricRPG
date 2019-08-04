@@ -24,10 +24,10 @@ repositories {
     // }
 
 	// CottonMC
-	// maven {
-	// 		name = "Cotton"
-	// 		url = "http://server.bbkr.space:8081/artifactory/libs-release"
-	// 	}
+	 maven {
+	 		name = "Cotton"
+	 		url = "http://server.bbkr.space:8081/artifactory/libs-release"
+	 	}
 	maven {
 		name = "Reflections"
 		url = "https://mvnrepository.com/artifact/org.reflections/reflections"
@@ -44,11 +44,13 @@ dependencies {
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 	
-
-
+	modApi "io.github.prospector:orderly:${project.orderly_version}"
+	modApi "io.github.cottonmc:LibGui:${project.libgui_version}"
+	modApi "io.github.prospector:modmenu:${project.modmenu_version}"
 	// CottonMC LibGui
 	// modImplementation "io.github.cottonmc:LibGui:${project.libgui_version}"
 	implementation "org.reflections:reflections:${project.reflections_version}"
+	implementation "org.jsoup:jsoup:${project.jsoup_version}"
 }
 
 processResources {
