@@ -46,29 +46,43 @@ public class PortalNetworkLightweightGuiDescription extends LightweightGuiDescri
         super();
         if (world.isClient) {
             PlayerPortalNetwork = new PortalNetwork<PlayerEntity>(player);
-            // CustomPayloadC2SPacket packet = new CustomPayloadC2SPacket(new Identifier(FabricRPG.MODID, ""), new PacketByteBuf(ByteBufUtil.encodeString(new ByteBuf, player.getUuid().toString(), charset)));
+            // CustomPayloadC2SPacket packet = new CustomPayloadC2SPacket(new
+            // Identifier(FabricRPG.MODID, ""), new
+            // PacketByteBuf(ByteBufUtil.encodeString(new ByteBuf,
+            // player.getUuid().toString(), charset)));
             CompoundTag request = new CompoundTag();
             request.putString("playerUuid", player.getUuid().toString());
-            ClientSidePacketRegistry.INSTANCE.sendToServer(new Identifier(FabricRPG.MODID, "playerportalnetwork"), new PacketByteBuf(Unpooled.buffer()).writeCompoundTag(request)); 
+            ClientSidePacketRegistry.INSTANCE.sendToServer(new Identifier(FabricRPG.MODID, "playerportalnetwork"),
+                    new PacketByteBuf(Unpooled.buffer()).writeCompoundTag(request));
             WPlainPanel rootPanel = new WPlainPanel();
             setRootPanel(rootPanel);
             Window window = MinecraftClient.getInstance().window;
-            rootPanel.setSize((int)(window.getScaledWidth()*.66), (int)(window.getScaledHeight() *.66));
-            rootPanel.setLocation((int)(window.getScaledWidth()*.17), (int)(window.getScaledHeight()*.17));
+            rootPanel.setSize((int) (window.getScaledWidth() * .66), (int) (window.getScaledHeight() * .66));
+            rootPanel.setLocation((int) (window.getScaledWidth() * .17), (int) (window.getScaledHeight() * .17));
             rootPanel.setBackgroundPainter(BackgroundPainter.VANILLA);
             rootPanel.paintBackground(0, rootPanel.getHeight());
             WPlainPanel locationsPanel = new WPlainPanel();
-            //lazy load past query of nodes in the teleport network
+            // lazy load past query of nodes in the teleport network
             List<PortalNetworkNode> playerNodeHistoryList = PlayerPortalNetwork.getNodeHistoryList();
-            playerNodeHistoryList.add(new PortalNetworkNode(player.getPos().getX(), player.getPos().getY(), player.getPos().getY(), "test"));
+            playerNodeHistoryList.add(new PortalNetworkNode(player.getPos().getX(), player.getPos().getY(),
+                    player.getPos().getY(), "test"));
             if (playerNodeHistoryList.size() != 0) {
                 playerNodeHistoryList.forEach(portalNetworkNode -> {
                     Position nodePosition = portalNetworkNode.getPosition();
-                    WPlainPanel locationPanel = new WPlainPanel(){
-                        Color targetColor = new Color(250, 0, 0);
-                        Color currentColor = new Color(0xFF2F2F2F);
-                        Color defaultColor = new Color(0xFF2F2F2F);
-                        boolean error, redReached, blueReached, greenReached = false;
+                    WPlainPanel locationPanel = new WPlainPanel() {
+                        private Color targetColor = getDefaultErrorColor();
+                        private Color currentColor = getDefaultColor();
+                        private Color defaultColor = getDefaultColor();
+                        private boolean error, redReached, blueReached, greenReached = false;
+
+                        private Color getDefaultErrorColor() {
+                            return new Color(255, 0, 0);
+                        }
+
+                        private Color getDefaultColor() {
+                            return new Color(0xFF2F2F2F);
+                        }
+
                         @Environment(EnvType.CLIENT)
                         @Override
                         public void paintBackground(int x, int y) {
@@ -80,9 +94,9 @@ public class PortalNetworkLightweightGuiDescription extends LightweightGuiDescri
                                 int currentBlue = currentColor.getBlue();
                                 int currentGreen = currentColor.getGreen();
                                 if (!redReached) {
-                                    if(targetRed > currentRed) {
+                                    if (targetRed > currentRed) {
                                         currentRed++;
-                                    } else if (targetRed < currentRed){
+                                    } else if (targetRed < currentRed) {
                                         currentRed--;
                                     } else {
                                         redReached = true;
@@ -91,7 +105,7 @@ public class PortalNetworkLightweightGuiDescription extends LightweightGuiDescri
                                 if (!blueReached) {
                                     if (targetBlue > currentBlue) {
                                         currentBlue++;
-                                    } else if(currentBlue > targetBlue){
+                                    } else if (currentBlue > targetBlue) {
                                         currentBlue--;
                                     } else {
                                         blueReached = true;
@@ -100,7 +114,7 @@ public class PortalNetworkLightweightGuiDescription extends LightweightGuiDescri
                                 if (!greenReached) {
                                     if (targetGreen > currentGreen) {
                                         currentGreen++;
-                                    } else if (currentGreen > targetGreen){
+                                    } else if (currentGreen > targetGreen) {
                                         currentGreen--;
                                     } else {
                                         greenReached = true;
@@ -108,23 +122,29 @@ public class PortalNetworkLightweightGuiDescription extends LightweightGuiDescri
                                 }
                                 if (redReached && blueReached && greenReached) {
                                     redReached = blueReached = greenReached = false;
-                                    if (targetColor.getRed() != defaultColor.getRed() && targetColor.getBlue() != defaultColor.getBlue() && targetColor.getGreen() != defaultColor.getGreen()) {
-                                        targetColor = defaultColor;
+                                    if (targetColor.getRed() != defaultColor.getRed()
+                                            && targetColor.getBlue() != defaultColor.getBlue()
+                                            && targetColor.getGreen() != defaultColor.getGreen()) {
+                                        targetColor = getDefaultColor();
                                     } else {
                                         error = false;
+                                        targetColor = getDefaultErrorColor();
                                         this.setBackgroundPainter((left, top, panel) -> {
-                                            ScreenDrawing.drawGuiPanel(left-8, top-8, panel.getWidth()+14, panel.getHeight()+14, this.defaultColor.getRGB());
+                                            ScreenDrawing.drawGuiPanel(left - 8, top - 8, panel.getWidth() + 14,
+                                                    panel.getHeight() + 14, this.defaultColor.getRGB());
                                         });
                                     }
                                 } else {
                                     this.currentColor = new Color(currentRed, currentBlue, currentGreen);
                                     this.setBackgroundPainter((left, top, panel) -> {
-                                        ScreenDrawing.drawGuiPanel(left-8, top-8, panel.getWidth()+14, panel.getHeight()+14, this.currentColor.getRGB());
+                                        ScreenDrawing.drawGuiPanel(left - 8, top - 8, panel.getWidth() + 14,
+                                                panel.getHeight() + 14, this.currentColor.getRGB());
                                     });
                                 }
                             }
                             super.paintBackground(x, y);
                         }
+
                         @Override
                         public void onClick(int x, int y, int button) {
                             int requiredCurrencyAmount = calculateRequiredCurrency(player.getPos(), nodePosition);
@@ -133,77 +153,93 @@ public class PortalNetworkLightweightGuiDescription extends LightweightGuiDescri
                                 player.teleport(nodePosition.getX(), nodePosition.getY(), nodePosition.getZ());
                             } else {
                                 this.error = true;
-                                
+
                             }
-                            
+
                         }
                     };
+                    // setup default painter
                     locationPanel.setBackgroundPainter((left, top, panel) -> {
-                        ScreenDrawing.drawGuiPanel(left-8, top-8, panel.getWidth()+14, panel.getHeight()+14, 0xFF2F2F2F);
+                        ScreenDrawing.drawGuiPanel(left - 8, top - 8, panel.getWidth() + 14, panel.getHeight() + 14,
+                                0xFF2F2F2F);
                     });
+                    // setup size of the locationPanel
+                    locationPanel.setSize(((int) (rootPanel.getWidth())), ((int) (rootPanel.getHeight() * .2)));
+                    // paint background for the first time after settings the size of the panel
                     locationPanel.paintBackground(0, locationPanel.getHeight());
+                    // add title of node
                     WLabel locationLabel = new WLabel(
-                        new LiteralText(
-                            FormattingEngine.replaceColorCodeEnumInString(
-                                portalNetworkNode.getTranslatedText().asString()
-                            )
-                        ),
-                        WLabel.DEFAULT_TEXT_COLOR
-                    );
+                            new LiteralText(FormattingEngine
+                                    .replaceColorCodeEnumInString(portalNetworkNode.getTranslatedText().asString())),
+                            WLabel.DEFAULT_DARKMODE_TEXT_COLOR);
+                    // add location of node
                     WLabel locationPosition = new WLabel(
-                        new LiteralText(
-                            FormattingEngine.replaceColorCodeEnumInString(
-                                portalNetworkNode.getPositionAsStringForPortalNetworkGui()
-                            )
-                        ),
-                        WLabel.DEFAULT_TEXT_COLOR
-                    );
-                    locationPanel.add(locationLabel, (int)(locationPanel.getWidth()*.1), (int)(locationPanel.getHeight()*.1));
-                    locationPanel.add(locationPosition, (int)(locationPanel.getWidth()*.1), (int)(locationPanel.getHeight()*.5));
-                    locationsPanel.add(locationPanel, (int)(locationsPanel.getWidth() * .1), playerNodeHistoryList.indexOf(portalNetworkNode) * locationPanel.getHeight());
+                            new LiteralText(FormattingEngine.replaceColorCodeEnumInString(
+                                    portalNetworkNode.getPositionAsStringForPortalNetworkGui())),
+                            WLabel.DEFAULT_DARKMODE_TEXT_COLOR);
+                    int teleportCost = calculateRequiredCurrency(player.getPos(), nodePosition);
+                    WLabel locationCost = new WLabel(new LiteralText(FormattingEngine.replaceColorCodeEnumInString(
+                            "Cost: " + ((teleportCost > 0) ? (teleportCost + " Portal Flower") : "Free")
+                                    + ((teleportCost > 1) ? "s." : "."))),
+                            WLabel.DEFAULT_DARKMODE_TEXT_COLOR);
+                    // add the locationLabel text
+                    locationPanel.add(locationLabel, (int) (locationPanel.getWidth() * .1),
+                            (int) (locationPanel.getHeight() * .1));
+                    // add the locationPosition text
+                    locationPanel.add(locationPosition, (int) (locationPanel.getWidth() * .1),
+                            (int) (locationPanel.getHeight() * .5));
+                    // add the locationCost text
+                    locationPanel.add(locationCost, (int) (locationPanel.getWidth() * .5),
+                            (int) (locationPanel.getHeight() * .1));
+                    // ad the locationPanel to the locationsPanel list
+                    locationsPanel.add(locationPanel, (int) (locationsPanel.getWidth() * .1),
+                            (playerNodeHistoryList.indexOf(portalNetworkNode) + 1) * locationPanel.getHeight());
                 });
             }
-            //query teleport network using hashCode of past query -- teleport network compares hashCode to see if new information needs to be queried.
+            // query teleport network using hashCode of past query -- teleport network
+            // compares hashCode to see if new information needs to be queried.
             WPlainPanel titlePanel = new WPlainPanel();
-            titlePanel.setSize(rootPanel.getWidth(), (int)(rootPanel.getHeight()*.15));
+            titlePanel.setSize(rootPanel.getWidth(), (int) (rootPanel.getHeight() * .15));
             titlePanel.setLocation(0, 0);
             // Title bar.
-            LiteralText titleLabelText = new LiteralText(FormattingEngine.replaceColorCodeEnumInString((new TranslatableText("gui.fabric_rpg.portal_network").asString())));
-            WLabel titleLabel = new WLabel(
-                titleLabelText, 
-                WLabel.DEFAULT_TEXT_COLOR
-            );
-            titlePanel.add(titleLabel, ((rootPanel.getWidth()/2) - MinecraftClient.getInstance().textRenderer.getStringWidth(titleLabelText.asString())/2), (int)(titlePanel.getHeight()*.5)); 
+            LiteralText titleLabelText = new LiteralText(FormattingEngine
+                    .replaceColorCodeEnumInString((new TranslatableText("gui.fabric_rpg.portal_network").asString())));
+            WLabel titleLabel = new WLabel(titleLabelText, WLabel.DEFAULT_TEXT_COLOR);
+            titlePanel.add(titleLabel,
+                    ((rootPanel.getWidth() / 2)
+                            - MinecraftClient.getInstance().textRenderer.getStringWidth(titleLabelText.asString()) / 2),
+                    (int) (titlePanel.getHeight() * .5));
             rootPanel.add(titlePanel, 0, 0);
-            rootPanel.add(locationsPanel, 0, (int)(titlePanel.getHeight() * 1.1));
+            rootPanel.add(locationsPanel, 0, (int) (titlePanel.getHeight() * 1.1));
             // rootPanel.add(title,
-            //     (-1 * (int)(Math.ceil(
-            //         ((double)MinecraftClient.getInstance().window.getWidth())/2
-            //     ))), 
-            //     (-1 * (int)(Math.ceil(
-            //         ((double)MinecraftClient.getInstance().window.getHeight())/2
-            //     ) - title.getHeight()))
+            // (-1 * (int)(Math.ceil(
+            // ((double)MinecraftClient.getInstance().window.getWidth())/2
+            // ))),
+            // (-1 * (int)(Math.ceil(
+            // ((double)MinecraftClient.getInstance().window.getHeight())/2
+            // ) - title.getHeight()))
             // );
             rootPanel.validate(this);
-        }   
+        }
     }
 
     protected int calculateRequiredCurrency(Vec3d pos, Position nodePosition) {
-        return ((int)(pos.distanceTo(new Vec3d(nodePosition.getX(), nodePosition.getY(), nodePosition.getZ()))/100));
+        return ((int) (pos.distanceTo(new Vec3d(nodePosition.getX(), nodePosition.getY(), nodePosition.getZ())) / 100));
     }
 
-	protected void removeCurrencyFromPlayerInventory(PlayerInventory inventory, int countToRemove) {
-        
+    protected void removeCurrencyFromPlayerInventory(PlayerInventory inventory, int countToRemove) {
+
         inventory.takeInvStack(inventory.main.indexOf(inventory.main.stream().filter(itemStack -> {
             return itemStack.getTranslationKey() == "";
         }).collect(Collectors.toList()).get(0)), countToRemove);
     }
 
     protected boolean hasEnoughCurrencyToTeleport(PlayerInventory inventory, int requiredCount) {
-        return inventory.countInInv(Registry.ITEM.get(new Identifier(FabricRPG.MODID, "portal_flower_block"))) >= requiredCount;
+        return inventory
+                .countInInv(Registry.ITEM.get(new Identifier(FabricRPG.MODID, "portal_flower_block"))) >= requiredCount;
     }
 
-	public void queryServerForPlayerPortalNetwork() {
+    public void queryServerForPlayerPortalNetwork() {
 
     }
 }

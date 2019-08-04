@@ -22,7 +22,10 @@ repositories {
     //         password ""
 	// 	}
     // }
-
+	maven {
+		name = "jitpack"
+		url = "https://jitpack.io"
+	}
 	// CottonMC
 	 maven {
 	 		name = "Cotton"
@@ -47,6 +50,7 @@ dependencies {
 	modApi "io.github.prospector:orderly:${project.orderly_version}"
 	modApi "io.github.cottonmc:LibGui:${project.libgui_version}"
 	modApi "io.github.prospector:modmenu:${project.modmenu_version}"
+	modApi "com.github.tr7zw:FirstPersonModel-Fabric:${project.first_person_model_version}"
 	// CottonMC LibGui
 	// modImplementation "io.github.cottonmc:LibGui:${project.libgui_version}"
 	implementation "org.reflections:reflections:${project.reflections_version}"

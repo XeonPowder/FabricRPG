@@ -15,34 +15,39 @@ public class PortalNetworkNode {
         this.nodePos = pos;
         this.translationKey = translationKey;
     }
+
     public PortalNetworkNode(double x, double y, double z, String translationKey) {
         this.translationKey = translationKey;
-        this.nodePos = new Position(){
-        
+        this.nodePos = new Position() {
+
             @Override
             public double getZ() {
                 return x;
             }
-        
+
             @Override
             public double getY() {
                 return y;
             }
-        
+
             @Override
             public double getX() {
                 return z;
             }
         };
     }
+
     public Position getPosition() {
         return this.nodePos;
     }
-	public TranslatableText getTranslatedText() {
-		return new TranslatableText(this.translationKey);
-	}
-	public String getPositionAsStringForPortalNetworkGui() {
-		return "";
-	}
-    
+
+    public TranslatableText getTranslatedText() {
+        return new TranslatableText(this.translationKey);
+    }
+
+    public String getPositionAsStringForPortalNetworkGui() {
+        return String.format("x: %s, y: %s, z: %s", this.getPosition().getX(), this.getPosition().getY(),
+                this.getPosition().getZ());
+    }
+
 }
