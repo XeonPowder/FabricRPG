@@ -12,7 +12,7 @@ public class ServerPacketConsumerRegistrator {
 
     public ServerPacketConsumerRegistrator(String packageName) {
         Reflections reflections = new Reflections(packageName);
-        Set<Class<? extends Object>> serverPacketConsumers = reflections.getSubTypesOf(Object.class);
+        Set<Class<? extends ServerPacketConsumer>> serverPacketConsumers = reflections.getSubTypesOf(ServerPacketConsumer.class);
         System.out.println(serverPacketConsumers.toString());
         serverPacketConsumers.forEach(serverPacketConsumer -> {
             try {
