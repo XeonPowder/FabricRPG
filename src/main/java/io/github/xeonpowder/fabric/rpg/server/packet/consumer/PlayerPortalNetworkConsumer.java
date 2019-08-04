@@ -12,7 +12,8 @@ import net.minecraft.util.PacketByteBuf;
 public class PlayerPortalNetworkConsumer extends ServerPacketConsumer{
 
 	public PlayerPortalNetworkConsumer(String id) {
-		super("playerportalnetwork");
+        super("playerportalnetwork");
+        this.registerConsumer();
     }
     @Override
     public void accept(PacketContext ctx, PacketByteBuf packetByteBuf) {
