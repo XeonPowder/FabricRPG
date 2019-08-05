@@ -15,12 +15,12 @@ import net.minecraft.util.registry.Registry;
  * FabricRPGPlantBlock
  */
 public class FabricRPGPlantBlock extends PlantBlock {
-    private boolean isTransparent;
-    private Identifier id;
+    protected boolean isTransparent;
+    protected Identifier id;
+
     public FabricRPGPlantBlock(Settings blockSettings, boolean isTransparent) {
         super(blockSettings);
         this.isTransparent = isTransparent;
-        this.id = new Identifier(FabricRPG.MODID, this.getTranslationKey());
     }
 
     public void registerBlock() {
@@ -37,9 +37,11 @@ public class FabricRPGPlantBlock extends PlantBlock {
     public String getTranslationKey() {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this.getClass().getSimpleName());
     }
+
     public static String getTranslationKey(Class<? extends FabricRPGPlantBlock> plantBlockExtended) {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, plantBlockExtended.getClass().getSimpleName());
     }
+
     public Identifier getIdentifier() {
         return this.id;
     }

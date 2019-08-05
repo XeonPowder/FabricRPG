@@ -22,10 +22,10 @@ repositories {
     //         password ""
 	// 	}
     // }
-	maven {
-		name = "jitpack"
-		url = "https://jitpack.io"
-	}
+	// maven {
+	// 	name = "jitpack"
+	// 	url = "https://jitpack.io"
+	// }
 	// CottonMC
 	 maven {
 	 		name = "Cotton"
@@ -35,6 +35,14 @@ repositories {
 		name = "Reflections"
 		url = "https://mvnrepository.com/artifact/org.reflections/reflections"
 	}
+	maven {
+        name = "NerdHubMC"
+        url = "https://maven.abusedmaster.xyz"
+    }
+	maven {
+        name = "JitPack"
+        url "https://jitpack.io"
+    }
 }
 dependencies {
 	//to change the versions see the gradle.properties file
@@ -53,8 +61,9 @@ dependencies {
 	modApi "com.github.tr7zw:FirstPersonModel-Fabric:${project.first_person_model_version}"
 	// CottonMC LibGui
 	// modImplementation "io.github.cottonmc:LibGui:${project.libgui_version}"
+	modApi "com.github.Pyrofab:Cardinal-Components-API:${project.cardinal_components_api_version}"
 	implementation "org.reflections:reflections:${project.reflections_version}"
-	implementation "org.jsoup:jsoup:${project.jsoup_version}"
+	// implementation "org.jsoup:jsoup:${project.jsoup_version}"
 }
 
 processResources {
