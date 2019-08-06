@@ -29,16 +29,7 @@
     ]
   },
   "mixins": [
-    "fabric_rpg.mixins.json",
-    {
-      "config": "fabric_rpg.client.mixins.json",
-      "environment": "client"
-    },
-    {
-      "config": "fabric_rpg.server.mixins.json",
-      "environment": "server"
-    }
-
+    "fabric_rpg.mixins.json"
   ],
 
   "depends": {
