@@ -1,4 +1,4 @@
-package io.github.xeonpowder.fabric.rpg.client.mixin.itemStack;
+package io.github.xeonpowder.fabric.rpg.mixin.itemStack;
 
 import java.util.List;
 

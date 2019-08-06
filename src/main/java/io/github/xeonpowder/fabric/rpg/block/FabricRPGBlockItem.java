@@ -2,7 +2,7 @@ package io.github.xeonpowder.fabric.rpg.block;
 
 import com.google.common.base.CaseFormat;
 
-import io.github.TUSK__3.panI18n.FormattingEngine;
+import io.github.xeonpowder.TUSK__3.panI18n.FormattingEngine;
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -27,10 +27,10 @@ public class FabricRPGBlockItem<T extends Block> extends BlockItem {
     public T getBlock() {
         return this.block;
     }
-    
+
     @Override
     public String getTranslationKey() {
-        return this.getBlock().getTranslationKey().substring(this.getBlock().getTranslationKey().lastIndexOf(".")+1);
+        return this.getBlock().getTranslationKey().substring(this.getBlock().getTranslationKey().lastIndexOf(".") + 1);
     }
 
     @Environment(EnvType.CLIENT)
@@ -51,6 +51,7 @@ public class FabricRPGBlockItem<T extends Block> extends BlockItem {
         }
 
     }
+
     public static String getTranslationKey(Class<? extends FabricRPGPlantBlock> plantBlockExtended) {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, plantBlockExtended.getClass().getSimpleName());
     }

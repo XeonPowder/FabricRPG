@@ -1,4 +1,4 @@
-package io.github.TUSK__3.panI18n;
+package io.github.xeonpowder.TUSK__3.panI18n;
 
 import java.text.BreakIterator;
 import java.util.ArrayList;

@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import io.github.TUSK__3.panI18n.FormattingEngine;
+import io.github.xeonpowder.TUSK__3.panI18n.FormattingEngine;
 import net.minecraft.text.TranslatableText;
 
 @Mixin(TranslatableText.class)

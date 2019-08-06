@@ -3,7 +3,7 @@
 * modified for FabricRPG.
 * 
 */
-package io.github.elytra.MagicArsenal;
+package io.github.xeonpowder.elytra.MagicArsenal;
 
 import net.minecraft.client.resource.language.I18n;
 

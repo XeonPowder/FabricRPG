@@ -3,7 +3,7 @@ package io.github.xeonpowder.fabric.rpg.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.TUSK__3.panI18n.FormattingEngine;
+import io.github.xeonpowder.TUSK__3.panI18n.FormattingEngine;
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -39,9 +39,11 @@ public class FabricRPGItem extends Item {
         super(new Item.Settings().group(FabricRPG.ITEM_GROUP));
         this.setItemName(itemName);
     }
+
     public FabricRPGItem(int maxDamage) {
         super(new Item.Settings().maxDamage(maxDamage).group(FabricRPG.ITEM_GROUP));
     }
+
     public FabricRPGItem(String itemName, int maxDamage) {
         super(new Item.Settings().maxDamage(maxDamage).group(FabricRPG.ITEM_GROUP));
         this.setItemName(itemName);

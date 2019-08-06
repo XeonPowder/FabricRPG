@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import io.github.TUSK__3.panI18n.FormattingEngine;
+import io.github.xeonpowder.TUSK__3.panI18n.FormattingEngine;
 import io.github.xeonpowder.fabric.rpg.stat.FabricRPGItemStackStatInterface;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.Item;
@@ -98,26 +98,24 @@ public class FabricRPGItemTooltip {
                                 itemType + ".fabric_rpg." + itemName + ".tooltip", client, tooltipTextList));
         }
 
-
         public static List<Text> addDurabilityOfItemStackToTooltip(List<Text> tooltipTextList, ItemStack itemStack) {
                 int durability = itemStack.getMaxDamage() - itemStack.getDamage();
                 int maxDurability = itemStack.getMaxDamage();
-                double percentage =  (((double)durability)/((double)maxDurability));
+                double percentage = (((double) durability) / ((double) maxDurability));
                 System.out.println(percentage);
                 String durabitlityColor = "GREEN";
                 if (percentage <= .75 && percentage > .50) {
                         durabitlityColor = "DARK_GREEN";
                 } else if (percentage > .25 && percentage <= .50) {
                         durabitlityColor = "YELLOW";
-                } else if (percentage < .25){
+                } else if (percentage < .25) {
                         durabitlityColor = "RED";
                 }
-                String durabitlityFormatted = "§{"+durabitlityColor+"}"+durability + "§{RESET}§{WHITE}/§{"+durabitlityColor+"}" + maxDurability + "§{RESET}";
-                tooltipTextList.add(new LiteralText(FormattingEngine.replaceColorCodeEnumInString(durabitlityFormatted)));
+                String durabitlityFormatted = "§{" + durabitlityColor + "}" + durability + "§{RESET}§{WHITE}/§{"
+                                + durabitlityColor + "}" + maxDurability + "§{RESET}";
+                tooltipTextList.add(
+                                new LiteralText(FormattingEngine.replaceColorCodeEnumInString(durabitlityFormatted)));
                 return tooltipTextList;
         }
-
-
-
 
 }

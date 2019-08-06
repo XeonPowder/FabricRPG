@@ -29,6 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 
@@ -54,17 +55,20 @@ public class FabricRPG implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+
 		FabricRPGItemTooltipCallback.EVENT.register((stack, player, tooltipContext, components) -> {
 			if (stack != null && tooltipContext != null && components != null) {
 				if (player.world.isAreaLoaded(player.getBlockPos(), player.getBlockPos())) {
 					boolean isFabricRPGItem = (stack.getItem() instanceof FabricRPGItem);
 					boolean isFabricRPGBlockItem = (stack.getItem() instanceof FabricRPGBlockItem);
 					if (stack.getMaxDamage() > 0) {
-						components.addAll(FabricRPGItemTooltip.addDurabilityOfItemStackToTooltip(new ArrayList<Text>(), stack));
+						components.addAll(
+								FabricRPGItemTooltip.addDurabilityOfItemStackToTooltip(new ArrayList<Text>(), stack));
 					}
 					CompoundTag stackTag = stack.hasTag() ? stack.getTag() : new CompoundTag();
 					if (isFabricRPGItem || isFabricRPGBlockItem) {
-						components.addAll(FabricRPGItemTooltip.createTooltipWithStatsForFabricRPGItem(isFabricRPGItem ? "item" : "block",
+						components.addAll(FabricRPGItemTooltip.createTooltipWithStatsForFabricRPGItem(
+								isFabricRPGItem ? "item" : "block",
 								((FabricRPGItem) stack.getItem()).getTranslationKey(), new ArrayList<Text>(),
 								FabricRPGItemTooltip.WRAP_WIDTH,
 								FabricRPGItemStackStats.createStatsMapFromCompoundTag(stackTag)));
