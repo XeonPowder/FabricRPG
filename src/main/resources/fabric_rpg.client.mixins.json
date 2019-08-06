@@ -6,14 +6,6 @@
 
   ],
   "client": [
-    "entity.passive.SheepEntityMixin",
-    "entity.mob.ZombieEntityMixin",
-    "entity.LivingEntityMixin",
-    "fabric.rpg.MixinCallbackRegistration",
-    "packet.PacketConsumerMixin",
-    "item.ItemMixin",
-    "itemStack.ItemStackMixin",
-    "entity.player.PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

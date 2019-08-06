@@ -1,14 +1,19 @@
 package io.github.xeonpowder.fabric.rpg;
 
+import io.github.xeonpowder.fabric.rpg.block.FabricRPGBlockItem;
 import io.github.xeonpowder.fabric.rpg.block.loader.PlantBlockLoader;
 import io.github.xeonpowder.fabric.rpg.command.FabricRPGBaseCommand;
 import io.github.xeonpowder.fabric.rpg.command.manager.CommandManager;
+import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
+import io.github.xeonpowder.fabric.rpg.item.FabricRPGItemTooltip;
+import io.github.xeonpowder.fabric.rpg.item.FabricRPGItemTooltipCallback;
 import io.github.xeonpowder.fabric.rpg.item.loader.ItemLoader;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.LevelPropertiesPortalNetwork;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.PlayerPortalNetwork;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.PortalNetworkComponent;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.WorldPortalNetwork;
 import io.github.xeonpowder.fabric.rpg.server.packet.ServerPacketConsumerRegistrator;
+import io.github.xeonpowder.fabric.rpg.stat.FabricRPGItemStackStats;
 import io.github.xeonpowder.fabric.rpg.stat.loader.StatLoader;
 import nerdhub.cardinal.components.api.ComponentRegistry;
 import nerdhub.cardinal.components.api.ComponentType;
@@ -21,7 +26,11 @@ import net.fabricmc.fabric.api.registry.CommandRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+
+import java.util.ArrayList;
 
 // import java.util.ArrayList;
 
@@ -45,6 +54,31 @@ public class FabricRPG implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		FabricRPGItemTooltipCallback.EVENT.register((stack, player, tooltipContext, components) -> {
+			if (stack != null && tooltipContext != null && components != null) {
+				if (player.world.isAreaLoaded(player.getBlockPos(), player.getBlockPos())) {
+					boolean isFabricRPGItem = (stack.getItem() instanceof FabricRPGItem);
+					boolean isFabricRPGBlockItem = (stack.getItem() instanceof FabricRPGBlockItem);
+					if (stack.getMaxDamage() > 0) {
+						components.addAll(FabricRPGItemTooltip.addDurabilityOfItemStackToTooltip(new ArrayList<Text>(), stack));
+					}
+					CompoundTag stackTag = stack.hasTag() ? stack.getTag() : new CompoundTag();
+					if (isFabricRPGItem || isFabricRPGBlockItem) {
+						components.addAll(FabricRPGItemTooltip.createTooltipWithStatsForFabricRPGItem(isFabricRPGItem ? "item" : "block",
+								((FabricRPGItem) stack.getItem()).getTranslationKey(), new ArrayList<Text>(),
+								FabricRPGItemTooltip.WRAP_WIDTH,
+								FabricRPGItemStackStats.createStatsMapFromCompoundTag(stackTag)));
+
+					} else {
+						components.addAll(FabricRPGItemTooltip.createStatsTooltipForNonFabricRPGItem(
+								new ArrayList<Text>(), FabricRPGItemTooltip.WRAP_WIDTH,
+								FabricRPGItemStackStats.createStatsMapFromCompoundTag(stackTag)));
+					}
+				}
+
+			}
+
+		});
 		CommandRegistry.INSTANCE.register(false, dispatcher -> FabricRPGBaseCommand.register(dispatcher));
 
 		System.out.println("Fabric-RPG initializing!");
