@@ -4,6 +4,7 @@ import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.block.FabricRPGPlantBlock;
 import io.github.xeonpowder.fabric.rpg.gui.PortalNetworkClientScreen;
 import io.github.xeonpowder.fabric.rpg.gui.screen.PortalNetworkLightweightGuiDescription;
+import io.github.xeonpowder.fabric.rpg.portalnetwork.node.PortalNetworkNode;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
@@ -14,13 +15,13 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 /**
  * PortalPlantBlock
  */
 public class PortalPlantBlock extends FabricRPGPlantBlock {
-
     public PortalPlantBlock() {
         // Block.Settings, isTransparent
         super(FabricBlockSettings.of(Material.PLANT).collidable(false).build(), true);

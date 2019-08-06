@@ -11,9 +11,7 @@ import net.minecraft.util.Identifier;
 /**
  * PlayerPortalNetwork
  */
-public class PlayerPortalNetwork extends PortalNetwork<PlayerEntity> implements EntitySyncedComponent {
-    public static final ComponentType<PlayerPortalNetwork> PLAYER_ENTITY_PORTAL_NETWORK = ComponentRegistry.INSTANCE
-            .registerIfAbsent(new Identifier(FabricRPG.MODID, "player_portal_network"), PlayerPortalNetwork.class);
+public class PlayerPortalNetwork extends PortalNetwork implements EntitySyncedComponent {
 
     public PlayerPortalNetwork(PlayerEntity player) {
         super(player);
@@ -21,7 +19,7 @@ public class PlayerPortalNetwork extends PortalNetwork<PlayerEntity> implements 
 
     @Override
     public ComponentType<?> getComponentType() {
-        return PLAYER_ENTITY_PORTAL_NETWORK;
+        return FabricRPG.PortalNetworkComponent;
     }
 
     @Override

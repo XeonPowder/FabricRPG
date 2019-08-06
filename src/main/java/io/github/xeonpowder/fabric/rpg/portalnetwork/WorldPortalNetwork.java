@@ -10,10 +10,7 @@ import net.minecraft.world.World;
 /**
  * WorldPortalNetwork
  */
-public class WorldPortalNetwork extends PortalNetwork<World> implements WorldSyncedComponent {
-
-    public static final ComponentType<WorldPortalNetwork> WORLD_PORTAL_NETWORK = ComponentRegistry.INSTANCE
-            .registerIfAbsent(new Identifier(FabricRPG.MODID, "world_portal_network"), WorldPortalNetwork.class);
+public class WorldPortalNetwork extends PortalNetwork implements WorldSyncedComponent {
 
     public WorldPortalNetwork(World world) {
         super(world);
@@ -21,7 +18,7 @@ public class WorldPortalNetwork extends PortalNetwork<World> implements WorldSyn
 
     @Override
     public ComponentType<?> getComponentType() {
-        return WORLD_PORTAL_NETWORK;
+        return FabricRPG.PortalNetworkComponent;
     }
 
 }

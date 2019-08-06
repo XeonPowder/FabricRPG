@@ -1,24 +1,32 @@
 package io.github.xeonpowder.fabric.rpg.gui.screen;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.github.TUSK__3.panI18n.FormattingEngine;
 import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
+import io.github.cottonmc.cotton.gui.widget.WButton;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
+import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.gui.panel.LocationPanel;
 import io.github.xeonpowder.fabric.rpg.gui.panel.LocationsPanel;
+import io.github.xeonpowder.fabric.rpg.gui.panel.PortalNetworkLocationsPanel;
+import io.github.xeonpowder.fabric.rpg.gui.panel.PortalNetworkPanel;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.LevelPropertiesPortalNetwork;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.PlayerPortalNetwork;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.PortalNetwork;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.WorldPortalNetwork;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.node.PortalNetworkNode;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.Window;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Position;
@@ -29,18 +37,17 @@ import net.minecraft.world.level.LevelProperties;
  * PortalNetworkScreen
  */
 public class PortalNetworkLightweightGuiDescription extends LightweightGuiDescription {
-        public static PortalNetwork<PlayerEntity> playerPortalNetwork;
-        public static PortalNetwork<World> worldPortalNetwork;
-        public static PortalNetwork<LevelProperties> levelPortalNetwork;
+        public static PortalNetwork playerPortalNetwork;
+        public static PortalNetwork worldPortalNetwork;
+        public static PortalNetwork levelPortalNetwork;
 
         public PortalNetworkLightweightGuiDescription(World world, PlayerEntity player) {
                 super();
                 if (world.isClient) {
-                        playerPortalNetwork = PlayerPortalNetwork.PLAYER_ENTITY_PORTAL_NETWORK.get(player)
+                        playerPortalNetwork = FabricRPG.PortalNetworkComponent.get(player).getPortalNetwork();
+                        worldPortalNetwork = FabricRPG.PortalNetworkComponent.get(world).getPortalNetwork();
+                        levelPortalNetwork = FabricRPG.PortalNetworkComponent.get(world.getLevelProperties())
                                         .getPortalNetwork();
-                        worldPortalNetwork = WorldPortalNetwork.WORLD_PORTAL_NETWORK.get(world).getPortalNetwork();
-                        levelPortalNetwork = LevelPropertiesPortalNetwork.LEVEL_PROPERTIES_PORTAL_NETWORK
-                                        .get(world.getLevelProperties()).getPortalNetwork();
 
                         WPlainPanel rootPanel = new WPlainPanel();
                         setRootPanel(rootPanel);
@@ -57,74 +64,118 @@ public class PortalNetworkLightweightGuiDescription extends LightweightGuiDescri
                         // paint the background from top left to bottom right of root panel
                         rootPanel.paintBackground(0, rootPanel.getHeight());
 
-                        // setup locationsPanel -- will contain a list of PlainPanels
-                        LocationsPanel locationsPanel = new LocationsPanel();
-                        // WPlainPanel locationsPanel = new WPlainPanel();
-                        // setup default locationsPanel painter
-                        locationsPanel.setSize(((int) (rootPanel.getWidth() * .8)),
+                        // setup locationsPanel -- will contain a list of LocationPanels
+                        List<PortalNetworkLocationsPanel> locationsPanelsList = new ArrayList<>();
+                        // setup portal network switcher
+                        PortalNetworkPanel portalNetworkTypeSwitcher = new PortalNetworkPanel();
+                        portalNetworkTypeSwitcher.setSize(((int) (rootPanel.getWidth() * .8)),
                                         ((int) (rootPanel.getHeight() * .8)));
+                        // setup each individual locationsPanel
+                        PortalNetworkLocationsPanel playerLocationsPanel = new PortalNetworkLocationsPanel(
+                                        portalNetworkTypeSwitcher, "portal_network_type_selector_player",
+                                        playerPortalNetwork.getNodes());
+                        PortalNetworkLocationsPanel worldLocationsPanel = new PortalNetworkLocationsPanel(
+                                        portalNetworkTypeSwitcher, "portal_network_type_selector_world",
+                                        worldPortalNetwork.getNodes());
+                        PortalNetworkLocationsPanel levelLocationsPanel = new PortalNetworkLocationsPanel(
+                                        portalNetworkTypeSwitcher, "portal_network_type_selector_global",
+                                        levelPortalNetwork.getNodes());
+                        // setup default locationsPanel size
+                        playerLocationsPanel.setSize(((int) (portalNetworkTypeSwitcher.getWidth() * .8)),
+                                        ((int) (portalNetworkTypeSwitcher.getHeight() * .8)));
+                        worldLocationsPanel.setSize(((int) (portalNetworkTypeSwitcher.getWidth() * .8)),
+                                        ((int) (portalNetworkTypeSwitcher.getHeight() * .8)));
+                        levelLocationsPanel.setSize(((int) (portalNetworkTypeSwitcher.getWidth() * .8)),
+                                        ((int) (portalNetworkTypeSwitcher.getHeight() * .8)));
 
-                        List<PortalNetworkNode> playerNodeHistoryList = playerPortalNetwork.getNodes();
-                        List<PortalNetworkNode> worldNodeHistoryList = worldPortalNetwork.getNodes();
-                        List<PortalNetworkNode> levelPortalNetworkNodes = levelPortalNetwork.getNodes();
+                        locationsPanelsList.add(playerLocationsPanel);
+                        locationsPanelsList.add(worldLocationsPanel);
+                        locationsPanelsList.add(levelLocationsPanel);
 
-                        worldNodeHistoryList.addAll(playerNodeHistoryList);
-                        if (worldNodeHistoryList.size() != 0) {
-                                worldNodeHistoryList.forEach(portalNetworkNode -> {
-                                        Position nodePosition = portalNetworkNode.getPosition();
-                                        LocationPanel locationPanel = new LocationPanel() {
-                                                @Override
-                                                public void onClick(int x, int y, int button) {
-                                                        onClick(player, nodePosition);
-                                                }
-                                        };
-                                        // setup default painter
-                                        locationPanel.setBackgroundPainter((left, top, panel) -> {
-                                                ScreenDrawing.drawGuiPanel(left - 8, top - 8, panel.getWidth() + 14,
-                                                                panel.getHeight() + 14, 0xFF2F2F2F);
+                        locationsPanelsList.forEach(locationsPanel -> {
+                                if (locationsPanel.getNodes().size() > 0) {
+                                        locationsPanel.getNodes().forEach(portalNetworkNode -> {
+                                                Position nodePosition = portalNetworkNode.getPosition();
+                                                LocationPanel locationPanel = new LocationPanel() {
+                                                        @Override
+                                                        public void onClick(int x, int y, int button) {
+                                                                onClick(player, nodePosition);
+                                                        }
+                                                };
+                                                // setup default painter
+                                                locationPanel.setBackgroundPainter((left, top, panel) -> {
+                                                        ScreenDrawing.drawGuiPanel(left - 8, top - 8,
+                                                                        panel.getWidth() + 14, panel.getHeight() + 14,
+                                                                        0xFF2F2F2F);
+                                                });
+                                                // add title of node
+                                                WLabel locationLabel = new WLabel(new LiteralText(FormattingEngine
+                                                                .replaceColorCodeEnumInString(portalNetworkNode
+                                                                                .getTranslatedText().asString())),
+                                                                WLabel.DEFAULT_DARKMODE_TEXT_COLOR);
+                                                // add location of node
+                                                WLabel locationPosition = new WLabel(new LiteralText(FormattingEngine
+                                                                .replaceColorCodeEnumInString(portalNetworkNode
+                                                                                .getPositionAsStringForPortalNetworkGui())),
+                                                                WLabel.DEFAULT_DARKMODE_TEXT_COLOR);
+                                                // add cost of teleportation to the node
+                                                int teleportCost = locationPanel.calculateRequiredCurrency(
+                                                                player.getPos(), nodePosition);
+                                                WLabel locationCost = new WLabel(new LiteralText(
+                                                                FormattingEngine.replaceColorCodeEnumInString("Cost: "
+                                                                                + ((teleportCost > 0) ? (teleportCost
+                                                                                                + " Portal Flower")
+                                                                                                : "Free")
+                                                                                + ((teleportCost > 1) ? "s." : "."))),
+                                                                WLabel.DEFAULT_DARKMODE_TEXT_COLOR);
+                                                // add the locationLabel text
+                                                locationPanel.add(locationLabel,
+                                                                ((int) (locationsPanel.getWidth() * .025)),
+                                                                ((int) (locationPanel.getHeight() * .1)));
+                                                // add the locationPosition text
+                                                locationPanel.add(locationPosition,
+                                                                ((int) (locationsPanel.getWidth() * .025)),
+                                                                ((int) (locationPanel.getHeight() * .5)));
+                                                // add the locationCost text
+                                                locationPanel.add(locationCost,
+                                                                ((int) (locationsPanel.getWidth() * .025)),
+                                                                ((int) (locationPanel.getHeight() * 1.1)));
+                                                // add the locationPanel to the locationsPanel list
+                                                // setup x,y location of locationPanel relative to locationsPanel
+                                                // setup size of the locationPanel
+                                                locationsPanel.add(locationPanel,
+                                                                (int) (locationsPanel.getWidth() * .1),
+                                                                (locationsPanel.getNodes().indexOf(portalNetworkNode)
+                                                                                + 1) * locationPanel.getHeight(),
+                                                                ((int) (locationsPanel.getWidth() * .8)),
+                                                                ((int) (rootPanel.getHeight() * .2)));
+
+                                                // paint background for the first time after settings the size of the
+                                                // panel
+                                                locationPanel.paintBackground(0, locationPanel.getHeight());
                                         });
-                                        // add title of node
-                                        WLabel locationLabel = new WLabel(
-                                                        new LiteralText(FormattingEngine.replaceColorCodeEnumInString(
-                                                                        portalNetworkNode.getTranslatedText()
-                                                                                        .asString())),
-                                                        WLabel.DEFAULT_DARKMODE_TEXT_COLOR);
-                                        // add location of node
-                                        WLabel locationPosition = new WLabel(new LiteralText(
-                                                        FormattingEngine.replaceColorCodeEnumInString(portalNetworkNode
-                                                                        .getPositionAsStringForPortalNetworkGui())),
-                                                        WLabel.DEFAULT_DARKMODE_TEXT_COLOR);
-                                        // add cost of teleportation to the node
-                                        int teleportCost = locationPanel.calculateRequiredCurrency(player.getPos(),
-                                                        nodePosition);
-                                        WLabel locationCost = new WLabel(new LiteralText(
-                                                        FormattingEngine.replaceColorCodeEnumInString("Cost: "
-                                                                        + ((teleportCost > 0) ? (teleportCost
-                                                                                        + " Portal Flower") : "Free")
-                                                                        + ((teleportCost > 1) ? "s." : "."))),
-                                                        WLabel.DEFAULT_DARKMODE_TEXT_COLOR);
-                                        // add the locationLabel text
-                                        locationPanel.add(locationLabel, ((int) (locationsPanel.getWidth() * .025)),
-                                                        ((int) (locationPanel.getHeight() * .1)));
-                                        // add the locationPosition text
-                                        locationPanel.add(locationPosition, ((int) (locationsPanel.getWidth() * .025)),
-                                                        ((int) (locationPanel.getHeight() * .5)));
-                                        // add the locationCost text
-                                        locationPanel.add(locationCost, ((int) (locationsPanel.getWidth() * .025)),
-                                                        ((int) (locationPanel.getHeight() * 1.1)));
-                                        // add the locationPanel to the locationsPanel list
-                                        // setup x,y location of locationPanel relative to locationsPanel
-                                        // setup size of the locationPanel
-                                        locationsPanel.add(locationPanel, (int) (locationsPanel.getWidth() * .1),
-                                                        (worldNodeHistoryList.indexOf(portalNetworkNode) + 1)
-                                                                        * locationPanel.getHeight(),
-                                                        ((int) (locationsPanel.getWidth() * .8)),
-                                                        ((int) (rootPanel.getHeight() * .2)));
-
-                                        // paint background for the first time after settings the size of the panel
-                                        locationPanel.paintBackground(0, locationPanel.getHeight());
-                                });
-                        }
+                                }
+                                WButton portalNetworkTypeButton = new WButton(new LiteralText(
+                                                FormattingEngine.replaceColorCodeEnumInString(new TranslatableText(
+                                                                locationsPanel.getIdentifier().toString())
+                                                                                .asString()))) {
+                                        @Override
+                                        public void onClick(int x, int y, int button) {
+                                                portalNetworkTypeSwitcher.setActivePanel(locationsPanel);
+                                                if (this.isEnabled()) {
+                                                        MinecraftClient.getInstance().getSoundManager()
+                                                                        .play(PositionedSoundInstance.master(
+                                                                                        SoundEvents.UI_BUTTON_CLICK,
+                                                                                        1.0F));
+                                                }
+                                        }
+                                };
+                                portalNetworkTypeSwitcher.add(portalNetworkTypeButton,
+                                                0 + ((int) (locationsPanelsList.indexOf(locationsPanel)
+                                                                * (portalNetworkTypeSwitcher.getWidth() * .33))),
+                                                0);
+                        });
+                        portalNetworkTypeSwitcher.setActivePanel(playerLocationsPanel);
                         // query teleport network using hashCode of past query -- teleport network
                         // compares hashCode to see if new information needs to be queried.
                         WPlainPanel titlePanel = new WPlainPanel();
@@ -139,8 +190,12 @@ public class PortalNetworkLightweightGuiDescription extends LightweightGuiDescri
                                                         .getStringWidth(titleLabelText.asString()) / 2),
                                         (int) (titlePanel.getHeight() * .5));
                         rootPanel.add(titlePanel, 0, 0, rootPanel.getWidth(), (int) (rootPanel.getHeight() * .15));
-                        rootPanel.add(locationsPanel, ((int) (rootPanel.getWidth() * .1)), // offset left 10% of
-                                                                                           // rootPanel width
+
+                        rootPanel.add(portalNetworkTypeSwitcher.getActivePanel(), ((int) (rootPanel.getWidth() * .1)), // offset
+                                                                                                                       // left
+                                                                                                                       // 10%
+                                                                                                                       // of
+                                        // rootPanel width
                                         ((int) (titlePanel.getHeight() * 1.1)) + ((int) (titlePanel.getHeight() * .5)), // offset
                                                                                                                         // top
                                                                                                                         // based
@@ -152,7 +207,8 @@ public class PortalNetworkLightweightGuiDescription extends LightweightGuiDescri
                                                                              // right and left to equal 10%
                                         ((int) (rootPanel.getHeight() * .8)) // height will be 80% of root Panel height
                         );
-                        locationsPanel.paintBackground(0, locationsPanel.getHeight());
+                        portalNetworkTypeSwitcher.getActivePanel().paintBackground(0,
+                                        portalNetworkTypeSwitcher.getActivePanel().getHeight());
                         rootPanel.validate(this);
                 }
         }

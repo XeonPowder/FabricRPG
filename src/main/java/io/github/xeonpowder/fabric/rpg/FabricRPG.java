@@ -6,9 +6,12 @@ import io.github.xeonpowder.fabric.rpg.command.manager.CommandManager;
 import io.github.xeonpowder.fabric.rpg.item.loader.ItemLoader;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.LevelPropertiesPortalNetwork;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.PlayerPortalNetwork;
+import io.github.xeonpowder.fabric.rpg.portalnetwork.PortalNetworkComponent;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.WorldPortalNetwork;
 import io.github.xeonpowder.fabric.rpg.server.packet.ServerPacketConsumerRegistrator;
 import io.github.xeonpowder.fabric.rpg.stat.loader.StatLoader;
+import nerdhub.cardinal.components.api.ComponentRegistry;
+import nerdhub.cardinal.components.api.ComponentType;
 import nerdhub.cardinal.components.api.event.EntityComponentCallback;
 import nerdhub.cardinal.components.api.event.LevelComponentCallback;
 import nerdhub.cardinal.components.api.event.WorldComponentCallback;
@@ -34,7 +37,9 @@ public class FabricRPG implements ModInitializer {
 	private static final StatLoader STAT_LOADER = new StatLoader("io.github.xeonpowder.fabric.rpg.stat.stats");
 	private static final ServerPacketConsumerRegistrator SERVER_PACKET_REGISTRATOR = new ServerPacketConsumerRegistrator(
 			"io.github.xeonpowder.fabric.rpg.server.packet.consumer");
-
+	public static final ComponentType<PortalNetworkComponent> PortalNetworkComponent = ComponentRegistry.INSTANCE
+			.registerIfAbsent(new Identifier(FabricRPG.MODID, "portal_network_component"),
+					PortalNetworkComponent.class);
 	public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(new Identifier(MODID, "items"))
 			.icon(() -> new ItemStack(ITEM_LOADER.getItems().get(0))).build();
 
@@ -43,14 +48,15 @@ public class FabricRPG implements ModInitializer {
 		CommandRegistry.INSTANCE.register(false, dispatcher -> FabricRPGBaseCommand.register(dispatcher));
 
 		System.out.println("Fabric-RPG initializing!");
-		EntityComponentCallback.event(PlayerEntity.class).register((player, components) -> components
-				.put(PlayerPortalNetwork.PLAYER_ENTITY_PORTAL_NETWORK, new PlayerPortalNetwork(player)));
+		EntityComponentCallback.event(PlayerEntity.class).register(
+				(player, components) -> components.put(PortalNetworkComponent, new PlayerPortalNetwork(player)));
 
-		WorldComponentCallback.EVENT.register((world, components) -> components
-				.put(WorldPortalNetwork.WORLD_PORTAL_NETWORK, new WorldPortalNetwork(world)));
+		WorldComponentCallback.EVENT.register((world, components) -> {
+			components.put(PortalNetworkComponent, new WorldPortalNetwork(world));
+		});
 
-		LevelComponentCallback.EVENT.register((level, components) -> components.put(
-				LevelPropertiesPortalNetwork.LEVEL_PROPERTIES_PORTAL_NETWORK, new LevelPropertiesPortalNetwork(level)));
+		LevelComponentCallback.EVENT.register(
+				(level, components) -> components.put(PortalNetworkComponent, new LevelPropertiesPortalNetwork(level)));
 		System.out.println("Registered Fabric RPG Portal Networks!");
 		System.out.println("Fabric-RPG initialized!");
 

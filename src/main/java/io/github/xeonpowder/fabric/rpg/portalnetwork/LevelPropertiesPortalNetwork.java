@@ -10,10 +10,7 @@ import net.minecraft.world.level.LevelProperties;
 /**
  * LevelPropertiesPortalNetwork
  */
-public class LevelPropertiesPortalNetwork extends PortalNetwork<LevelProperties> implements LevelSyncedComponent {
-    public static final ComponentType<LevelPropertiesPortalNetwork> LEVEL_PROPERTIES_PORTAL_NETWORK = ComponentRegistry.INSTANCE
-            .registerIfAbsent(new Identifier(FabricRPG.MODID, "level_properties_portal_network"),
-                    LevelPropertiesPortalNetwork.class);
+public class LevelPropertiesPortalNetwork extends PortalNetwork implements LevelSyncedComponent {
 
     public LevelPropertiesPortalNetwork(LevelProperties levelProperties) {
         super(levelProperties);
@@ -21,7 +18,7 @@ public class LevelPropertiesPortalNetwork extends PortalNetwork<LevelProperties>
 
     @Override
     public ComponentType<?> getComponentType() {
-        return LEVEL_PROPERTIES_PORTAL_NETWORK;
+        return FabricRPG.PortalNetworkComponent;
     }
 
 }

@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.level.LevelProperties;
 
-public class PortalNetwork<T> implements PortalNetworkComponent<T> {
+public class PortalNetwork implements PortalNetworkComponent {
 
     private static final int COMPOUND_TAG_TYPE = new CompoundTag().getType();
     private PlayerEntity player;
@@ -101,7 +101,7 @@ public class PortalNetwork<T> implements PortalNetworkComponent<T> {
     }
 
     @Override
-    public PortalNetwork<T> getPortalNetwork() {
+    public PortalNetwork getPortalNetwork() {
         return this;
     }
 
