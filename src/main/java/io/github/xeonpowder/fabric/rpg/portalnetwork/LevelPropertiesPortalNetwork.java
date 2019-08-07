@@ -1,10 +1,8 @@
 package io.github.xeonpowder.fabric.rpg.portalnetwork;
 
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
-import nerdhub.cardinal.components.api.ComponentRegistry;
 import nerdhub.cardinal.components.api.ComponentType;
 import nerdhub.cardinal.components.api.util.sync.LevelSyncedComponent;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.level.LevelProperties;
 
 /**

@@ -18,4 +18,6 @@ public interface FabricRPGItemStackStatInterface {
 
     public float calculateNewValueForOnPlayerAttack(float oldValue);
 
+    public void registerStatInStatTypeHashMap();
+
 }

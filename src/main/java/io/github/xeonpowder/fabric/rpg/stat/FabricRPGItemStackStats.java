@@ -53,22 +53,28 @@ public class FabricRPGItemStackStats {
     public static HashMap<String, FabricRPGItemStackStatInterface> createStatsMapFromCompoundTag(CompoundTag tag) {
         HashMap<String, FabricRPGItemStackStatInterface> statsMap = new HashMap<>();
         tag.getKeys().forEach(string -> {
-            if (string.contains("fabric_rpg.stat")) {
-                String statName = string.substring(string.lastIndexOf(".") + 1);
-                FabricRPGItemStackStatInterface newStatClassInstance = null;
-                try {
-                    newStatClassInstance = FabricRPGStatTypes.fabricRPGStatTypesToClassMap.get(statName)
-                            .getConstructor().newInstance();
-                } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                        | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                    e.printStackTrace();
-                }
-                if (newStatClassInstance != null) {
-                    newStatClassInstance.setStatValue(tag.getFloat(string));
-                    statsMap.put(statName, newStatClassInstance);
-                }
+            if (string != null) {
+                if (string.contains("fabric_rpg.stat")) {
+                    String statName = string.substring(string.lastIndexOf(".") + 1);
+                    if (statName != null) {
+                        FabricRPGItemStackStatInterface newStatClassInstance = null;
+                        try {
+                            newStatClassInstance = FabricRPGStatTypes.fabricRPGStatTypesToClassMap.get(statName)
+                                    .getDeclaredConstructor().newInstance();
+                        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                                | InvocationTargetException | NoSuchMethodException | SecurityException
+                                | NullPointerException e) {
+                            e.printStackTrace();
+                        }
+                        if (newStatClassInstance != null) {
+                            newStatClassInstance.setStatValue(tag.getFloat(string));
+                            statsMap.put(statName, newStatClassInstance);
+                        }
+                    }
 
+                }
             }
+
         });
         return statsMap;
     }
@@ -83,7 +89,7 @@ public class FabricRPGItemStackStats {
                 Float newValue = Float.valueOf(oldValue);
                 FabricRPGItemStackStatInterface statInstance = null;
                 try {
-                    statInstance = FabricRPGStatTypes.fabricRPGStatTypesToClassMap.get(key).getConstructor()
+                    statInstance = FabricRPGStatTypes.fabricRPGStatTypesToClassMap.get(key).getDeclaredConstructor()
                             .newInstance();
                 } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                         | InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -110,7 +116,7 @@ public class FabricRPGItemStackStats {
                 Float newValue = Float.valueOf(oldValue);
                 FabricRPGItemStackStatInterface statInstance = null;
                 try {
-                    statInstance = FabricRPGStatTypes.fabricRPGStatTypesToClassMap.get(key).getConstructor()
+                    statInstance = FabricRPGStatTypes.fabricRPGStatTypesToClassMap.get(key).getDeclaredConstructor()
                             .newInstance();
                 } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                         | InvocationTargetException | NoSuchMethodException | SecurityException e) {

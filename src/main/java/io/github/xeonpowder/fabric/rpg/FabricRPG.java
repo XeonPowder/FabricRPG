@@ -1,20 +1,30 @@
 package io.github.xeonpowder.fabric.rpg;
 
-import io.github.xeonpowder.fabric.rpg.block.FabricRPGBlockItem;
-import io.github.xeonpowder.fabric.rpg.block.loader.PlantBlockLoader;
+import io.github.xeonpowder.fabric.rpg.block.blocks.plant.PortalPlantBlock;
 import io.github.xeonpowder.fabric.rpg.command.FabricRPGBaseCommand;
 import io.github.xeonpowder.fabric.rpg.command.manager.CommandManager;
-import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
-import io.github.xeonpowder.fabric.rpg.item.FabricRPGItemTooltip;
-import io.github.xeonpowder.fabric.rpg.item.FabricRPGItemTooltipCallback;
-import io.github.xeonpowder.fabric.rpg.item.loader.ItemLoader;
+import io.github.xeonpowder.fabric.rpg.item.items.Blood;
+import io.github.xeonpowder.fabric.rpg.item.items.BloodPotion;
+import io.github.xeonpowder.fabric.rpg.item.items.DnaPotion;
+import io.github.xeonpowder.fabric.rpg.item.items.Lightning;
+import io.github.xeonpowder.fabric.rpg.item.items.LightningSword;
+import io.github.xeonpowder.fabric.rpg.item.items.Plasma;
+import io.github.xeonpowder.fabric.rpg.item.items.PlasmaPotion;
+import io.github.xeonpowder.fabric.rpg.item.items.PortalPotion;
+import io.github.xeonpowder.fabric.rpg.item.items.Soul;
+import io.github.xeonpowder.fabric.rpg.item.items.SoulRune;
+import io.github.xeonpowder.fabric.rpg.item.items.SoulStone;
+import io.github.xeonpowder.fabric.rpg.item.items.StopStick;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.LevelPropertiesPortalNetwork;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.PlayerPortalNetwork;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.PortalNetworkComponent;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.WorldPortalNetwork;
-import io.github.xeonpowder.fabric.rpg.server.packet.ServerPacketConsumerRegistrator;
-import io.github.xeonpowder.fabric.rpg.stat.FabricRPGItemStackStats;
-import io.github.xeonpowder.fabric.rpg.stat.loader.StatLoader;
+import io.github.xeonpowder.fabric.rpg.server.packet.consumer.PlayerPortalNetworkConsumer;
+import io.github.xeonpowder.fabric.rpg.server.packet.consumer.StatPacketConsumer;
+import io.github.xeonpowder.fabric.rpg.stat.stats.FabricRPGAttackSpeedStat;
+import io.github.xeonpowder.fabric.rpg.stat.stats.FabricRPGBloodStat;
+import io.github.xeonpowder.fabric.rpg.stat.stats.FabricRPGLifeStealStat;
+import io.github.xeonpowder.fabric.rpg.stat.stats.FabricRPGSoulStat;
 import nerdhub.cardinal.components.api.ComponentRegistry;
 import nerdhub.cardinal.components.api.ComponentType;
 import nerdhub.cardinal.components.api.event.EntityComponentCallback;
@@ -26,12 +36,8 @@ import net.fabricmc.fabric.api.registry.CommandRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-
-import java.util.ArrayList;
 
 // import java.util.ArrayList;
 
@@ -41,48 +47,15 @@ public class FabricRPG implements ModInitializer {
 	public static final String SERVER_TAG = "[Server] ";
 	public static final String[] COMMAND_NAMES = new String[] { "frpg", "f" };
 	public static final CommandManager COMMAND_MANAGER = new CommandManager();
-	private static final ItemLoader ITEM_LOADER = new ItemLoader("io.github.xeonpowder.fabric.rpg.item.items");
-	private static final PlantBlockLoader PLANT_BLOCK_LOADER = new PlantBlockLoader(
-			"io.github.xeonpowder.fabric.rpg.block.blocks.plant");
-	private static final StatLoader STAT_LOADER = new StatLoader("io.github.xeonpowder.fabric.rpg.stat.stats");
-	private static final ServerPacketConsumerRegistrator SERVER_PACKET_REGISTRATOR = new ServerPacketConsumerRegistrator(
-			"io.github.xeonpowder.fabric.rpg.server.packet.consumer");
 	public static final ComponentType<PortalNetworkComponent> PortalNetworkComponent = ComponentRegistry.INSTANCE
 			.registerIfAbsent(new Identifier(FabricRPG.MODID, "portal_network_component"),
 					PortalNetworkComponent.class);
 	public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(new Identifier(MODID, "items"))
-			.icon(() -> new ItemStack(ITEM_LOADER.getItems().get(0))).build();
+			.icon(() -> new ItemStack(Registry.ITEM.get(new Identifier(MODID, "lightning")))).build();
 
 	@Override
 	public void onInitialize() {
 
-		FabricRPGItemTooltipCallback.EVENT.register((stack, player, tooltipContext, components) -> {
-			if (stack != null && tooltipContext != null && components != null) {
-				if (player.world.isAreaLoaded(player.getBlockPos(), player.getBlockPos())) {
-					boolean isFabricRPGItem = (stack.getItem() instanceof FabricRPGItem);
-					boolean isFabricRPGBlockItem = (stack.getItem() instanceof FabricRPGBlockItem);
-					if (stack.getMaxDamage() > 0) {
-						components.addAll(
-								FabricRPGItemTooltip.addDurabilityOfItemStackToTooltip(new ArrayList<Text>(), stack));
-					}
-					CompoundTag stackTag = stack.hasTag() ? stack.getTag() : new CompoundTag();
-					if (isFabricRPGItem || isFabricRPGBlockItem) {
-						components.addAll(FabricRPGItemTooltip.createTooltipWithStatsForFabricRPGItem(
-								isFabricRPGItem ? "item" : "block",
-								((FabricRPGItem) stack.getItem()).getTranslationKey(), new ArrayList<Text>(),
-								FabricRPGItemTooltip.WRAP_WIDTH,
-								FabricRPGItemStackStats.createStatsMapFromCompoundTag(stackTag)));
-
-					} else {
-						components.addAll(FabricRPGItemTooltip.createStatsTooltipForNonFabricRPGItem(
-								new ArrayList<Text>(), FabricRPGItemTooltip.WRAP_WIDTH,
-								FabricRPGItemStackStats.createStatsMapFromCompoundTag(stackTag)));
-					}
-				}
-
-			}
-
-		});
 		CommandRegistry.INSTANCE.register(false, dispatcher -> FabricRPGBaseCommand.register(dispatcher));
 
 		System.out.println("Fabric-RPG initializing!");
@@ -93,10 +66,49 @@ public class FabricRPG implements ModInitializer {
 			components.put(PortalNetworkComponent, new WorldPortalNetwork(world));
 		});
 
+		this.registerAll();
 		LevelComponentCallback.EVENT.register(
 				(level, components) -> components.put(PortalNetworkComponent, new LevelPropertiesPortalNetwork(level)));
 		System.out.println("Registered Fabric RPG Portal Networks!");
 		System.out.println("Fabric-RPG initialized!");
 
+	}
+
+	public void registerAll() {
+		this.registerItems();
+		this.registerBlocks();
+		this.registerPackets();
+		this.registerStats();
+	}
+
+	public void registerItems() {
+		new Blood();
+		new BloodPotion();
+		new DnaPotion();
+		new Lightning();
+		new LightningSword();
+		new Plasma();
+		new PlasmaPotion();
+		new PortalPotion();
+		new Soul();
+		new SoulRune();
+		new SoulStone();
+		new StopStick();
+	}
+
+	public void registerBlocks() {
+		new PortalPlantBlock();
+	}
+
+	public void registerPackets() {
+		new PlayerPortalNetworkConsumer();
+		new StatPacketConsumer();
+	}
+
+	public void registerStats() {
+		new FabricRPGAttackSpeedStat().registerStatInStatTypeHashMap();
+		new FabricRPGBloodStat().registerStatInStatTypeHashMap();
+		new FabricRPGLifeStealStat().registerStatInStatTypeHashMap();
+		new FabricRPGSoulStat().registerStatInStatTypeHashMap();
 	}
 }

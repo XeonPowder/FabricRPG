@@ -2,9 +2,9 @@
   "required": true,
   "package": "io.github.xeonpowder.fabric.rpg.server.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-  ],
+  "mixins": [],
   "client": [],
+  "server": [],
   "injectors": {
     "defaultRequire": 1
   }

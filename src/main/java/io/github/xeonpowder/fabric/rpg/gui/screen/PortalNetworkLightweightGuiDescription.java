@@ -1,8 +1,6 @@
 package io.github.xeonpowder.fabric.rpg.gui.screen;
 
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
@@ -14,14 +12,9 @@ import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
 import io.github.xeonpowder.TUSK__3.panI18n.FormattingEngine;
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.gui.panel.LocationPanel;
-import io.github.xeonpowder.fabric.rpg.gui.panel.LocationsPanel;
 import io.github.xeonpowder.fabric.rpg.gui.panel.PortalNetworkLocationsPanel;
 import io.github.xeonpowder.fabric.rpg.gui.panel.PortalNetworkPanel;
-import io.github.xeonpowder.fabric.rpg.portalnetwork.LevelPropertiesPortalNetwork;
-import io.github.xeonpowder.fabric.rpg.portalnetwork.PlayerPortalNetwork;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.PortalNetwork;
-import io.github.xeonpowder.fabric.rpg.portalnetwork.WorldPortalNetwork;
-import io.github.xeonpowder.fabric.rpg.portalnetwork.node.PortalNetworkNode;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.Window;
@@ -31,7 +24,6 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Position;
 import net.minecraft.world.World;
-import net.minecraft.world.level.LevelProperties;
 
 /**
  * PortalNetworkScreen

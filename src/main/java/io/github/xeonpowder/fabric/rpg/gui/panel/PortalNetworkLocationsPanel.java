@@ -2,7 +2,6 @@ package io.github.xeonpowder.fabric.rpg.gui.panel;
 
 import java.util.List;
 
-import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.node.PortalNetworkNode;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

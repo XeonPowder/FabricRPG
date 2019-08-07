@@ -1,5 +1,6 @@
 package io.github.xeonpowder.fabric.rpg.item;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,15 @@ public class FabricRPGItem extends Item {
 
     protected void registerItem() {
         Registry.register(Registry.ITEM, new Identifier(FabricRPG.MODID, this.getTranslationKey()), this);
+    }
+
+    protected static void registerItem(Class<? extends FabricRPGItem> item) {
+        try {
+            item.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void setItemName(String itemName) {

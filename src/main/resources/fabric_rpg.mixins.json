@@ -3,7 +3,6 @@
   "package": "io.github.xeonpowder.fabric.rpg.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "block.minecraft.LogMixin",
     "entity.LivingEntityMixin",
     "itemStack.ItemStackMixin"
   ],

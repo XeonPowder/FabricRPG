@@ -8,7 +8,6 @@ import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.portalnetwork.node.PortalNetworkNode;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.dimension.Dimension;
 
 /**
  * LocationsPanel

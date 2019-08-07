@@ -1,6 +1,7 @@
 package io.github.xeonpowder.fabric.rpg.stat.stats;
 
 import io.github.xeonpowder.fabric.rpg.stat.FabricRPGItemStackStatInterface;
+import io.github.xeonpowder.fabric.rpg.stat.FabricRPGStatTypes;
 import net.minecraft.text.TranslatableText;
 
 public class FabricRPGBloodStat implements FabricRPGItemStackStatInterface {
@@ -53,6 +54,11 @@ public class FabricRPGBloodStat implements FabricRPGItemStackStatInterface {
     public float calculateNewValueForOnPlayerAttack(float oldValue) {
         float newValue = (float) (oldValue + 0.1);
         return newValue;
+    }
+
+    @Override
+    public void registerStatInStatTypeHashMap() {
+        FabricRPGStatTypes.fabricRPGStatTypesToClassMap.put(this.getStatName(), this.getClass());
     }
 
 }
