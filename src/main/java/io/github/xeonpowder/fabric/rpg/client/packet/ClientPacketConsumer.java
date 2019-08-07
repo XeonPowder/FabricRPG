@@ -12,10 +12,11 @@ public class ClientPacketConsumer implements PacketConsumer {
 
     public ClientPacketConsumer(String id) {
         this.id = new Identifier(FabricRPG.MODID, id);
-        
+
     }
+
     public void registerConsumer() {
-        System.out.println(this.id.toString());
+        // System.out.println(this.id.toString());
         ClientSidePacketRegistry.INSTANCE.register(this.id, this);
     }
 

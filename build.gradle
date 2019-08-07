@@ -54,12 +54,12 @@ dependencies {
 	// include "org.reflections:reflections:${project.reflections_version}"
 	// include files("libs/reflections-0.9.11.jar")
 	// development
-	modImplementation "io.github.prospector:orderly:${project.orderly_version}"
-	include "io.github.prospector:orderly:${project.orderly_version}"
+	//modImplementation "io.github.prospector:orderly:${project.orderly_version}"
+	//include "io.github.prospector:orderly:${project.orderly_version}"
 	modImplementation "io.github.cottonmc:LibGui:${project.libgui_version}"
 	include "io.github.cottonmc:LibGui:${project.libgui_version}"
-	modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
-	include "io.github.prospector:modmenu:${project.modmenu_version}"
+	//modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
+	//include "io.github.prospector:modmenu:${project.modmenu_version}"
 //	modApi "com.github.tr7zw:FirstPersonModel-Fabric:${project.first_person_model_version}"
     modImplementation "com.github.Pyrofab:Cardinal-Components-API:${project.cardinal_components_api_version}"
 	include "com.github.Pyrofab:Cardinal-Components-API:${project.cardinal_components_api_version}"

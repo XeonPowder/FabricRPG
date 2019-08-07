@@ -4,7 +4,9 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "entity.LivingEntityMixin",
-    "itemStack.ItemStackMixin"
+    "itemStack.ItemStackMixin",
+    "block.minecraft.LogMixin",
+    "item.AxeItemMixin"
   ],
   "client": [],
   "injectors": {

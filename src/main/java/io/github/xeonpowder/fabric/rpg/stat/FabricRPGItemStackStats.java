@@ -82,7 +82,7 @@ public class FabricRPGItemStackStats {
     public static CompoundTag calculateNewValueForOnPlayerAttack(CompoundTag playerItemStackCompoundTag) {
         CompoundTag newCompoundTag = new CompoundTag().copyFrom(playerItemStackCompoundTag);
         newCompoundTag.getKeys().forEach(string -> {
-            System.out.println(string);
+            // System.out.println(string);
             if (string.contains("fabric_rpg.stat")) {
                 String key = string.substring(string.lastIndexOf(".") + 1);
                 Float oldValue = newCompoundTag.getFloat(string);
@@ -98,7 +98,7 @@ public class FabricRPGItemStackStats {
                 if (statInstance != null) {
                     newValue = statInstance.calculateNewValueForOnPlayerAttack(oldValue);
                     newCompoundTag.putFloat(string, newValue);
-                    System.out.printf("attack---old: %.2f new: %.2f\n", oldValue, newValue);
+                    // System.out.printf("attack---old: %.2f new: %.2f\n", oldValue, newValue);
 
                 }
             }
@@ -125,7 +125,7 @@ public class FabricRPGItemStackStats {
                 if (statInstance != null) {
                     newValue = statInstance.calculateNewValueForOnLivingEntityDeath(oldValue);
                     newCompoundTag.putFloat(string, newValue);
-                    System.out.printf("death---old: %.2f new: %.2f\n", oldValue, newValue);
+                    // System.out.printf("death---old: %.2f new: %.2f\n", oldValue, newValue);
                 }
             }
         });

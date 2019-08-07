@@ -16,10 +16,10 @@ public class ServerPacketConsumer implements PacketConsumer {
     }
 
     public void registerConsumer() {
-        System.out.println(this.id.toString());
+        // System.out.println(this.id.toString());
         ServerSidePacketRegistry.INSTANCE.register(this.id, this);
     }
-    
+
     @Override
     public void accept(PacketContext context, PacketByteBuf buffer) {
 

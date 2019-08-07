@@ -11,18 +11,18 @@ import net.minecraft.util.PacketByteBuf;
  */
 public class PlayerPortalNetworkConsumer extends ServerPacketConsumer {
 
-	public PlayerPortalNetworkConsumer() {
+    public PlayerPortalNetworkConsumer() {
         super("playerportalnetwork");
         this.registerConsumer();
     }
 
     @Override
     public void accept(PacketContext ctx, PacketByteBuf packetByteBuf) {
-        System.out.println("packet recieved");
+        // System.out.println("packet recieved");
         CompoundTag playerUuid = packetByteBuf.readCompoundTag();
         playerUuid.putString("portalnetwork", "test");
         packetByteBuf.writeCompoundTag(playerUuid);
         ServerSidePacketRegistry.INSTANCE.sendToPlayer(ctx.getPlayer(), this.id, packetByteBuf);
-        System.out.println("sending packet to player");
+        // System.out.println("sending packet to player");
     }
 }

@@ -1,4 +1,4 @@
-package io.github.xeonpowder.fabric.rpg.client.mixin.item;
+package io.github.xeonpowder.fabric.rpg.mixin.item;
 
 import org.spongepowered.asm.mixin.Mixin;
 

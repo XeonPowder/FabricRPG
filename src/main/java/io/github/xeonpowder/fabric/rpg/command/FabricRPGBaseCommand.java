@@ -23,7 +23,7 @@ public class FabricRPGBaseCommand {
             // Class<? extends EmptyCommand<?>> commandClass =
             // FabricRPG.CommandClasses.get(command).getDeclaredConstructor().newInstance();
             // Class<? extends EmptyCommand<?>> commandInstance = commandClass;
-            System.out.println(command);
+            // System.out.println(command);
             FabricRPG.COMMAND_MANAGER.getCommandMap().get(command).accept(dispatcher, command);
         });
     }

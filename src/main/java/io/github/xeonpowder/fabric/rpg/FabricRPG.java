@@ -25,6 +25,8 @@ import io.github.xeonpowder.fabric.rpg.stat.stats.FabricRPGAttackSpeedStat;
 import io.github.xeonpowder.fabric.rpg.stat.stats.FabricRPGBloodStat;
 import io.github.xeonpowder.fabric.rpg.stat.stats.FabricRPGLifeStealStat;
 import io.github.xeonpowder.fabric.rpg.stat.stats.FabricRPGSoulStat;
+import io.github.xeonpowder.fabric.rpg.timber.PlayerTimber;
+import io.github.xeonpowder.fabric.rpg.timber.TimberComponent;
 import nerdhub.cardinal.components.api.ComponentRegistry;
 import nerdhub.cardinal.components.api.ComponentType;
 import nerdhub.cardinal.components.api.event.EntityComponentCallback;
@@ -50,6 +52,10 @@ public class FabricRPG implements ModInitializer {
 	public static final ComponentType<PortalNetworkComponent> PortalNetworkComponent = ComponentRegistry.INSTANCE
 			.registerIfAbsent(new Identifier(FabricRPG.MODID, "portal_network_component"),
 					PortalNetworkComponent.class);
+
+	public static final ComponentType<TimberComponent> TIMBER = ComponentRegistry.INSTANCE
+			.registerIfAbsent(new Identifier(FabricRPG.MODID, "timber"), TimberComponent.class);
+
 	public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(new Identifier(MODID, "items"))
 			.icon(() -> new ItemStack(Registry.ITEM.get(new Identifier(MODID, "lightning")))).build();
 
@@ -59,8 +65,10 @@ public class FabricRPG implements ModInitializer {
 		CommandRegistry.INSTANCE.register(false, dispatcher -> FabricRPGBaseCommand.register(dispatcher));
 
 		System.out.println("Fabric-RPG initializing!");
-		EntityComponentCallback.event(PlayerEntity.class).register(
-				(player, components) -> components.put(PortalNetworkComponent, new PlayerPortalNetwork(player)));
+		EntityComponentCallback.event(PlayerEntity.class).register((player, components) -> {
+			components.put(TIMBER, new PlayerTimber(player));
+			components.put(PortalNetworkComponent, new PlayerPortalNetwork(player));
+		});
 
 		WorldComponentCallback.EVENT.register((world, components) -> {
 			components.put(PortalNetworkComponent, new WorldPortalNetwork(world));

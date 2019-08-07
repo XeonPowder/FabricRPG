@@ -3,7 +3,7 @@
   "package": "io.github.xeonpowder.fabric.rpg.client.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [],
-  "client": ["itemStack.ClientItemStackMixin", "block.minecraft.LogMixin"],
+  "client": ["itemStack.ClientItemStackMixin"],
   "injectors": {
     "defaultRequire": 1
   }

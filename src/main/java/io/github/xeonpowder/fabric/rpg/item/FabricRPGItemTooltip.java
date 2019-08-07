@@ -102,7 +102,7 @@ public class FabricRPGItemTooltip {
                 int durability = itemStack.getMaxDamage() - itemStack.getDamage();
                 int maxDurability = itemStack.getMaxDamage();
                 double percentage = (((double) durability) / ((double) maxDurability));
-                System.out.println(percentage);
+                // System.out.println(percentage);
                 String durabitlityColor = "GREEN";
                 if (percentage <= .75 && percentage > .50) {
                         durabitlityColor = "DARK_GREEN";

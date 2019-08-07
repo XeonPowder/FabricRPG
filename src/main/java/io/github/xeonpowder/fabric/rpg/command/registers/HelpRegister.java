@@ -11,8 +11,9 @@ import net.minecraft.server.command.ServerCommandSource;
 public class HelpRegister implements EmptyRegister {
 
     @Override
-    public LiteralCommandNode<ServerCommandSource> regsiterMain(CommandDispatcher<ServerCommandSource> dispatcher, String commandName) {
-        System.out.println("help register registerMain");
+    public LiteralCommandNode<ServerCommandSource> regsiterMain(CommandDispatcher<ServerCommandSource> dispatcher,
+            String commandName) {
+        // System.out.println("help register registerMain");
         return dispatcher.register(CommandManager.literal(commandName)
                 .then(CommandManager.literal(this.getRegisterName()).executes(ctx -> SendMessageToPlayer
                         .fromServerCommandSource(ctx.getSource(), this.getTranslationKey()))));

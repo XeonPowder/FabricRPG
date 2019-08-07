@@ -39,7 +39,7 @@ public class LivingEntityMixin {
         @Inject(at = @At(value = "RETURN"), method = "onDeath")
         public void onLivingEntityDeathReturn(DamageSource damageSource, CallbackInfo ci) {
                 if (damageSource.getAttacker() != null && damageSource.getAttacker() instanceof PlayerEntity) {
-                        System.out.println("attacker is instance of player entity");
+                        // System.out.println("attacker is instance of player entity");
                         ItemStack lastPlayerAttackingWithWhichItemStack = ((PlayerEntity) damageSource.getAttacker())
                                         .getMainHandStack();
                         PlayerEntity lastPlayerAttacking = ((PlayerEntity) damageSource.getAttacker());

@@ -37,13 +37,16 @@
 
   "item.fabric_rpg.portal_potion": "§{LIGHT_PURPLE}Portal Potion§{RESET}",
   "item.fabric_rpg.portal_potion.tooltip": "§{GRAY}Teleport to a random location.§{RESET}",
-  
+
   "gui.fabric_rpg.portal_network": "§{LIGHT_PURPLE}Portal Network§{RESET}",
 
   "custom_stat.fabric_rpg.blood.tooltip": "§{DARK_RED}Blood§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
   "custom_stat.fabric_rpg.soul.tooltip": "§{DARK_PURPLE}Souls Collected§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
   "custom_stat.fabric_rpg.life_steal.tooltip": "§{GREEN}Life Steal§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
   "custom_stat.fabric_rpg.attack_speed.tooltip": "§{DARK_AQUA}Attack Speed§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
+
+  "timber.toggled.true": "§{GREEN}Timber activated.§{RESET}",
+  "timber.toggled.false": "§{RED}Timber deactivated.§{RESET}",
 
   "command.fabric_rpg.main": "Welcome to Fabric RPG!",
   "command.fabric_rpg.help": "Fabric RPG Help",

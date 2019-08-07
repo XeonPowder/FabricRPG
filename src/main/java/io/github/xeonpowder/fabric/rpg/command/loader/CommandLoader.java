@@ -19,15 +19,16 @@ public class CommandLoader<T extends EmptyRegister, S extends EmptyCommand<T>> {
 
     public CommandLoader(Class<T> registererClass, Class<S> commandClass,
             io.github.xeonpowder.fabric.rpg.command.manager.CommandManager cm) {
-        System.out.println("command loader...");
+        // System.out.println("command loader...");
         try {
             this.registerInstance = registererClass.getDeclaredConstructor().newInstance();
             this.commandInstance = commandClass.getDeclaredConstructor(registererClass).newInstance(registerInstance);
             this.commandName = this.getInstance().getCommandName();
             cm.getCommandMap().put(this.commandName, (dispatcher, command) -> {
-                System.out.println(this.commandName + " was registered!");
+                // System.out.println(this.commandName + " was registered!");
                 Arrays.asList(FabricRPG.COMMAND_NAMES).forEach(frpgCommandName -> {
-                    LiteralCommandNode<ServerCommandSource> node = this.registerInstance.regsiterMain(dispatcher, frpgCommandName);
+                    LiteralCommandNode<ServerCommandSource> node = this.registerInstance.regsiterMain(dispatcher,
+                            frpgCommandName);
                     dispatcher.register(CommandManager.literal(frpgCommandName)
                             .then(CommandManager.literal(command).redirect(node)));
                 });

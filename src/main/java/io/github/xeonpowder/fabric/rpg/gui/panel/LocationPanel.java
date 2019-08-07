@@ -127,7 +127,7 @@ public class LocationPanel extends WPlainPanel {
         for (ItemStack itemStack : portalPlantBlockItemStacks) {
             if (countRemoved < countToRemove) {
                 int countInItemStack = itemStack.getCount();
-                System.out.println(countInItemStack);
+                // System.out.println(countInItemStack);
                 if (countInItemStack >= (countToRemove - countRemoved)) {
                     inventory.takeInvStack(inventory.getSlotWithStack(itemStack), countToRemove);
                     countRemoved = countToRemove;
@@ -142,7 +142,7 @@ public class LocationPanel extends WPlainPanel {
     public boolean hasEnoughCurrencyToTeleport(PlayerInventory inventory, int requiredCount) {
         Item x = Registry.ITEM.get(new Identifier(FabricRPG.MODID, "portal_plant_block"));
         int numberOfPortalFlowers = inventory.countInInv(x);
-        System.out.println(numberOfPortalFlowers);
+        // System.out.println(numberOfPortalFlowers);
         return numberOfPortalFlowers >= requiredCount;
     }
 }

@@ -15,7 +15,7 @@ public class CommandManager {
 
     public CommandManager() {
         this.CommandMap = new HashMap<>();
-        System.out.println("command manager initialized");
+        // System.out.println("command manager initialized");
         genCommandLoaders();
     }
 
@@ -24,7 +24,7 @@ public class CommandManager {
     }
 
     private void genCommandLoaders() {
-        System.out.println("generating command loaders");
+        // System.out.println("generating command loaders");
         new CommandLoader<HelpRegister, HelpCommand>(HelpRegister.class, HelpCommand.class, this);
     }
 }

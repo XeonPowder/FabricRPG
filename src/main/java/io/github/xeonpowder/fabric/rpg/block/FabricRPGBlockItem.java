@@ -36,7 +36,7 @@ public class FabricRPGBlockItem<T extends Block> extends BlockItem {
     @Environment(EnvType.CLIENT)
     @Override
     public Text getName() {
-        System.out.println("--- never called");
+        // System.out.println("--- never called");
         return new LiteralText(FormattingEngine.replaceColorCodeEnumInString(
                 new TranslatableText("block." + FabricRPG.MODID + "." + this.getTranslationKey()).asString()));
     }
