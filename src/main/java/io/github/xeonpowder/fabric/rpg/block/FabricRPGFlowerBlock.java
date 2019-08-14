@@ -15,8 +15,9 @@ import net.minecraft.util.registry.Registry;
 
 public class FabricRPGFlowerBlock extends FlowerBlock {
 
-    private boolean isTransparent;
-    private Identifier id;
+    protected boolean isTransparent;
+    protected Identifier id;
+
     public FabricRPGFlowerBlock(StatusEffect statusEffect, int int_1, Block.Settings blockSettings,
             boolean isTransparent) {
         super(statusEffect, int_1, blockSettings);
@@ -52,9 +53,11 @@ public class FabricRPGFlowerBlock extends FlowerBlock {
     public String getTranslationKey() {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this.getClass().getSimpleName());
     }
+
     public static String getTranslationKey(Class<? extends FabricRPGPlantBlock> plantBlockExtended) {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, plantBlockExtended.getClass().getSimpleName());
     }
+
     public Identifier getIdentifier() {
         return this.id;
     }

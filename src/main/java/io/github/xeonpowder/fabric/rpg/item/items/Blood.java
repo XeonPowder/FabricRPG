@@ -1,8 +1,10 @@
 package io.github.xeonpowder.fabric.rpg.item.items;
 
-import com.google.common.base.CaseFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.base.CaseFormat;
+
 import io.github.xeonpowder.fabric.rpg.item.FabricRPGItem;
 
 public class Blood extends FabricRPGItem {
@@ -17,4 +19,5 @@ public class Blood extends FabricRPGItem {
         List<String> allowedStats = new ArrayList<String>();
         return allowedStats;
     }
+
 }

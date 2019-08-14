@@ -38,6 +38,9 @@
   "item.fabric_rpg.portal_potion": "§{LIGHT_PURPLE}Portal Potion§{RESET}",
   "item.fabric_rpg.portal_potion.tooltip": "§{GRAY}Teleport to a random location.§{RESET}",
 
+  "block.fabric_rpg.portal_halo": "§{LIGHT_PURPLE}Portal Halo§{RESET}",
+  "block.fabric_rpg.portal_halo.tooltip": "§{GRAY}Teleport without the need of Portal Flowers at the cost of durability.§{RESET}",
+
   "gui.fabric_rpg.portal_network": "§{LIGHT_PURPLE}Portal Network§{RESET}",
 
   "custom_stat.fabric_rpg.blood.tooltip": "§{DARK_RED}Blood§{RESET}§{GOLD}:§{RESET} §{GRAY}%.2f§{RESET}",
@@ -50,10 +53,18 @@
 
   "command.fabric_rpg.main": "Welcome to Fabric RPG!",
   "command.fabric_rpg.help": "Fabric RPG Help",
-  "command.fabric_rpg.class": "Fabric RPG Help",
-  "command.fabric_rpg.class.list": "Fabric RPG Help",
-  "command.fabric_rpg.stats": "Fabric RPG Help",
-  "command.fabric_rpg.stats.list": "Fabric RPG Help",
-  "command.fabric_rpg.talents": "Fabric RPG Help",
-  "command.fabric_rpg.talents.class": "Fabric RPG Help"
+  "command.fabric_rpg.teleport": "/frpg teleport|tp <player>",
+  "command.fabric_rpg.notEnoughPortalPlantsToTeleport": "§{RED}You don't have enough Portal Plants to do that.§{RESET}",
+  "command.fabric_rpg.teleporting": "§{GREEN}Teleporting.§{RESET}",
+
+
+  "professions.mining.action": "§{UNDERLINE}§{AQUA} %s §{RESET} §{GOLD}:§{RESET} %s §{RESET}",
+  "professions.mining.action.rapidstrike": "§{UNDERLINE}§{AQUA}Rapid Strike§{RESET} §{GOLD}:§{RESET} %s §{RESET}",
+  "professions.mining.action.deconstruction": "§{UNDERLINE}§{AQUA}Deconstruction§{RESET} §{GOLD}:§{RESET} %s §{RESET}",
+  "professions.mining.action.dualweild": "§{UNDERLINE}§{AQUA}Dual Weild§{RESET} §{GOLD}:§{RESET} %s §{RESET}",
+  "professions.mining.action.bloodscent": "§{UNDERLINE}§{AQUA}Blood Scent§{RESET} §{GOLD}:§{RESET} %s §{RESET}",
+
+  "professions.mining.action.toggled.true": "§{BLACK}[§{WHITE}Mining§{BLACK}]§{RESET} %s §{GREEN}activated!§{RESET}",
+  "professions.mining.action.toggled.false": "§{BLACK}[§{WHITE}Mining§{BLACK}]§{RESET} %s §{RED}deactivated!§{RESET}",
+  "professions.playerhasno.mining": "§{BLACK}[§{WHITE}Mining§{BLACK}]§{RESET}§{RED} You aren't a Miner!§{RESET}"
 }

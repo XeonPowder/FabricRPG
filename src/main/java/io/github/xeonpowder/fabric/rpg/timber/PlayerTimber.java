@@ -17,7 +17,7 @@ public class PlayerTimber extends Timber implements EntitySyncedComponent {
 
     @Override
     public ComponentType<?> getComponentType() {
-        return FabricRPG.TIMBER;
+        return FabricRPG.PlayerTimberComponent;
     }
 
     @Override

@@ -19,12 +19,13 @@ import net.minecraft.world.World;
  */
 @Mixin(Item.class)
 public class AxeItemMixin {
-
     @Inject(at = @At(value = "RETURN"), method = "use")
-    public void rightClickWithAxe(World world_1, PlayerEntity playerEntity_1, Hand hand_1,
+    public void rightClickWithAxe(World world, PlayerEntity playerEntity, Hand hand,
             CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
-        if (playerEntity_1.getMainHandStack().getItem() instanceof AxeItem) {
-            FabricRPG.TIMBER.get(playerEntity_1).getTimber().toggle();
+        if (world.isClient) {
+            if (playerEntity.getMainHandStack().getItem() instanceof AxeItem) {
+                FabricRPG.PlayerTimberComponent.get(playerEntity).getTimber().toggle();
+            }
         }
     }
 }

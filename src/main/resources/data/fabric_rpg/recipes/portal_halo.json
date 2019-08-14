@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "iii",
+        "AAA",
+        "iii"
+    ],
+    "key": {
+        "i": {
+            "item": "minecraft:iron_ingot"
+        },
+        "A": {
+            "item": "fabric_rpg:portal_plant_block",
+            "count": 64
+        }
+    },
+    "result": {
+        "item": "fabric_rpg:portal_halo",
+        "count": 1
+    }
+}

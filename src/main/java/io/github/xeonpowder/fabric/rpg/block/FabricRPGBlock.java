@@ -12,8 +12,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class FabricRPGBlock extends Block {
-    private boolean isTransparent;
-    private Identifier id;
+    protected boolean isTransparent;
+    protected Identifier id;
+
     public FabricRPGBlock(Settings blockSettings, boolean isTransparent) {
         super(blockSettings);
         this.isTransparent = isTransparent;
@@ -35,9 +36,12 @@ public class FabricRPGBlock extends Block {
     public String getTranslationKey() {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this.getClass().getSimpleName());
     }
+
     public static String getTranslationKey(Class<? extends FabricRPGPlantBlock> plantBlockExtended) {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, plantBlockExtended.getClass().getSimpleName());
-    }public Identifier getIdentifier() {
+    }
+
+    public Identifier getIdentifier() {
         return this.id;
     }
 }

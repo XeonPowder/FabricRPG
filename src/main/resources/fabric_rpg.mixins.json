@@ -6,7 +6,9 @@
     "entity.LivingEntityMixin",
     "itemStack.ItemStackMixin",
     "block.minecraft.LogMixin",
-    "item.AxeItemMixin"
+    "item.AxeItemMixin",
+    "entity.MobEntityMixin",
+    "item.PickaxeItemMixin"
   ],
   "client": [],
   "injectors": {

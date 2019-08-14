@@ -6,8 +6,10 @@ import java.util.function.BiConsumer;
 import com.mojang.brigadier.CommandDispatcher;
 
 import io.github.xeonpowder.fabric.rpg.command.commands.HelpCommand;
+import io.github.xeonpowder.fabric.rpg.command.commands.TeleportCommand;
 import io.github.xeonpowder.fabric.rpg.command.loader.CommandLoader;
 import io.github.xeonpowder.fabric.rpg.command.registers.HelpRegister;
+import io.github.xeonpowder.fabric.rpg.command.registers.TeleportRegister;
 import net.minecraft.server.command.ServerCommandSource;
 
 public class CommandManager {
@@ -26,5 +28,6 @@ public class CommandManager {
     private void genCommandLoaders() {
         // System.out.println("generating command loaders");
         new CommandLoader<HelpRegister, HelpCommand>(HelpRegister.class, HelpCommand.class, this);
+        new CommandLoader<TeleportRegister, TeleportCommand>(TeleportRegister.class, TeleportCommand.class, this);
     }
 }
