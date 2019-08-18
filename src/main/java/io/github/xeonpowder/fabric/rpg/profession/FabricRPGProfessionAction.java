@@ -35,8 +35,7 @@ public class FabricRPGProfessionAction implements FabricRPGProfessionComponent {
     }
 
     public FabricRPGProfessionAction(FabricRPGProfession profession) {
-        this.actionRank = new FabricRPGProfessionActionRank(profession);
-        this.profession = profession;
+        this.setProfession(profession);
     }
 
     public FabricRPGProfessionAction(Profession.ID professionID, String actionKey, String actionNameKey,
@@ -52,6 +51,7 @@ public class FabricRPGProfessionAction implements FabricRPGProfessionComponent {
 
     public void setProfession(FabricRPGProfession profession) {
         this.profession = profession;
+        this.actionRank = new FabricRPGProfessionActionRank(this.profession);
     }
 
     public void setTogglable(boolean togglable) {
@@ -86,12 +86,7 @@ public class FabricRPGProfessionAction implements FabricRPGProfessionComponent {
     }
 
     public String getActionName() {
-        String actionRank = this.getActionRank().getRank().name();
-        String actionNameKey = this.getActionNameKey();
-        System.out.println(actionRank + " " + actionNameKey);
-        String translatedText = (new TranslatableText(actionNameKey, actionRank).asString());
-        System.out.println("action: " + translatedText);
-        return FormattingEngine.replaceColorCodeEnumInString(translatedText);
+        return "";
     }
 
     public FabricRPGProfessionActionRank getActionRank() {

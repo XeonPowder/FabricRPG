@@ -1,7 +1,6 @@
 package io.github.xeonpowder.fabric.rpg.profession.professions.mining;
 
 import java.util.HashMap;
-
 import io.github.xeonpowder.TUSK__3.panI18n.FormattingEngine;
 import io.github.xeonpowder.fabric.rpg.profession.FabricRPGProfession;
 import io.github.xeonpowder.fabric.rpg.profession.FabricRPGProfessionAction;
@@ -44,7 +43,8 @@ public class Mining extends FabricRPGProfession {
 
         public MiningAction(String actionKey, String actionNameKey, String actionTitleKey,
                 String actionDescriptionKey) {
-            super(Mining.ProfessionID, actionKey, actionNameKey, actionTitleKey, actionDescriptionKey);
+            super(Mining.ProfessionID, actionKey, actionNameKey, actionTitleKey,
+                    actionDescriptionKey);
         }
 
         @Override
@@ -52,8 +52,12 @@ public class Mining extends FabricRPGProfession {
             return this.actionKey;
         };
 
+        @Override
         public String getActionName() {
-            return FormattingEngine.replaceColorCodeEnumInString(new TranslatableText(this.actionKey).asString());
+            String actionRank = this.getActionRank().getRank().name();
+            String actionKey = this.getActionKey();
+            String translatedText = (new TranslatableText(actionKey, actionRank).asString());
+            return FormattingEngine.replaceColorCodeEnumInString(translatedText);
         }
 
         @Override
@@ -90,11 +94,13 @@ public class Mining extends FabricRPGProfession {
 
         public RapidStrike() {
             super("professions.mining.action.rapidstrike", "professions.mining.apprentice.action",
-                    "professions.mining.apprentice.action.title", "professions.mining.apprentice.action.description");
+                    "professions.mining.apprentice.action.title",
+                    "professions.mining.apprentice.action.description");
         }
 
         @Override
         public void consume(World world, PlayerEntity player) {
+            System.out.println("rapid strike consumed!");
             super.consume(world, player);
         }
     }
@@ -103,7 +109,8 @@ public class Mining extends FabricRPGProfession {
 
         public DualWeild() {
             super("professions.mining.action.dualweild", "professions.mining.novice.action",
-                    "professions.mining.novice.action.title", "professions.mining.novice.action.description");
+                    "professions.mining.novice.action.title",
+                    "professions.mining.novice.action.description");
         }
 
         @Override
@@ -115,8 +122,10 @@ public class Mining extends FabricRPGProfession {
     public static class Deconstruction extends MiningAction {
 
         public Deconstruction() {
-            super("professions.mining.action.deconstruction", "professions.mining.exscavator.action",
-                    "professions.mining.exscavator.action.title", "professions.mining.exscavator.action.description");
+            super("professions.mining.action.deconstruction",
+                    "professions.mining.exscavator.action",
+                    "professions.mining.exscavator.action.title",
+                    "professions.mining.exscavator.action.description");
         }
 
         @Override
@@ -126,9 +135,11 @@ public class Mining extends FabricRPGProfession {
 
     }
 
-    public Mining(String name, String title, FabricRPGProfessionAction fabricRPGProfessionAction) {
-        super(new FabricRPGProfessionName(name), new FabricRPGProfessionTitle(title), new FabricRPGProfessionLevel(),
-                fabricRPGProfessionAction, FabricRPGProfession.Profession.ID.MINING);
+    public Mining(String name, String title, FabricRPGProfessionAction fabricRPGProfessionAction,
+            FabricRPGProfession nextProfession) {
+        super(new FabricRPGProfessionName(name), new FabricRPGProfessionTitle(title),
+                new FabricRPGProfessionLevel(), fabricRPGProfessionAction,
+                FabricRPGProfession.Profession.ID.MINING, nextProfession);
         super.updateProfessionLink(this);
     }
 

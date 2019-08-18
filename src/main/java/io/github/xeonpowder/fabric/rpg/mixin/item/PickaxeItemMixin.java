@@ -10,6 +10,7 @@ import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.profession.FabricRPGProfession;
 import io.github.xeonpowder.fabric.rpg.profession.FabricRPGProfession.Profession;
 import io.github.xeonpowder.fabric.rpg.profession.professions.mining.Mining;
+import net.minecraft.block.BedBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -44,11 +45,11 @@ public class PickaxeItemMixin {
                     String translatedText = (new TranslatableText(
                             "professions.mining.action.toggled." + profession.isToggled(), actionName).asString());
                     String formattedTranslatedText = FormattingEngine.replaceColorCodeEnumInString(translatedText);
-                    playerEntity.sendMessage(new LiteralText(formattedTranslatedText));
+                    playerEntity.addChatMessage(new LiteralText(formattedTranslatedText), true);
                 } else {
                     String translatedText = new TranslatableText("professions.playerhasno.mining").asString();
                     String formattedTranslatedText = FormattingEngine.replaceColorCodeEnumInString(translatedText);
-                    playerEntity.sendMessage(new LiteralText(formattedTranslatedText));
+                    playerEntity.addChatMessage(new LiteralText(formattedTranslatedText), true);
                 }
             }
         }

@@ -58,11 +58,16 @@
   "command.fabric_rpg.teleporting": "§{GREEN}Teleporting.§{RESET}",
 
 
-  "professions.mining.action": "§{UNDERLINE}§{AQUA} %s §{RESET} §{GOLD}:§{RESET} %s §{RESET}",
-  "professions.mining.action.rapidstrike": "§{UNDERLINE}§{AQUA}Rapid Strike§{RESET} §{GOLD}:§{RESET} %s §{RESET}",
-  "professions.mining.action.deconstruction": "§{UNDERLINE}§{AQUA}Deconstruction§{RESET} §{GOLD}:§{RESET} %s §{RESET}",
-  "professions.mining.action.dualweild": "§{UNDERLINE}§{AQUA}Dual Weild§{RESET} §{GOLD}:§{RESET} %s §{RESET}",
-  "professions.mining.action.bloodscent": "§{UNDERLINE}§{AQUA}Blood Scent§{RESET} §{GOLD}:§{RESET} %s §{RESET}",
+  "professions.mining.apprentice": "§{AQUA}Apprentice Mining§{RESET}",
+  "professions.mining.novice": "§{AQUA}Novice Mining§{RESET}",
+  "professions.mining.excavator": "§{AQUA}Excavator Mining§{RESET}",
+  "professions.mining.diamond_hound": "§{AQUA}Diamond Hound Mining§{RESET}",
+
+  "professions.mining.action": "§{UNDERLINE}§{AQUA} %s §{RESET} §{GOLD}:§{RESET} %s§{RESET}",
+  "professions.mining.action.rapidstrike": "§{UNDERLINE}§{AQUA}Rapid Strike§{RESET} §{GOLD}:§{RESET} %s§{RESET}",
+  "professions.mining.action.deconstruction": "§{UNDERLINE}§{AQUA}Deconstruction§{RESET} §{GOLD}:§{RESET} %s§{RESET}",
+  "professions.mining.action.dualweild": "§{UNDERLINE}§{AQUA}Dual Weild§{RESET} §{GOLD}:§{RESET} %s§{RESET}",
+  "professions.mining.action.bloodscent": "§{UNDERLINE}§{AQUA}Blood Scent§{RESET} §{GOLD}:§{RESET} %s§{RESET}",
 
   "professions.mining.action.toggled.true": "§{BLACK}[§{WHITE}Mining§{BLACK}]§{RESET} %s §{GREEN}activated!§{RESET}",
   "professions.mining.action.toggled.false": "§{BLACK}[§{WHITE}Mining§{BLACK}]§{RESET} %s §{RED}deactivated!§{RESET}",

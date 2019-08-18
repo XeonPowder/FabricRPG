@@ -29,8 +29,9 @@ public class Timber implements TimberComponent {
     public boolean toggle() {
         this.setActive(!this.active);
         if (this.player.world.isClient) {
-            this.player.sendMessage(new LiteralText(FormattingEngine
-                    .replaceColorCodeEnumInString(new TranslatableText("timber.toggled." + this.active).asString())));
+            this.player.addChatMessage(new LiteralText(FormattingEngine
+                    .replaceColorCodeEnumInString(new TranslatableText("timber.toggled." + this.active).asString())),
+                    true);
         }
         return this.isActive();
     }

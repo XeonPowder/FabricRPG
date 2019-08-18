@@ -1,5 +1,6 @@
 package io.github.xeonpowder.fabric.rpg.profession;
 
+import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.profession.professions.mining.Mining;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -16,23 +17,27 @@ public class FabricRPGProfession implements FabricRPGProfessionComponent {
     protected FabricRPGProfessionTitle professionTitle;
     protected FabricRPGProfessionLevel professionLevel;
     protected FabricRPGProfessionAction professionAction;
+    protected FabricRPGProfession nextProfession;
 
     public FabricRPGProfession() {
         professionName = new FabricRPGProfessionName(this);
         professionTitle = new FabricRPGProfessionTitle(this);
         professionLevel = new FabricRPGProfessionLevel(this);
         professionAction = new FabricRPGProfessionAction(this);
+        nextProfession = null;
         professionID = Profession.ID.EMPTY;
     }
 
-    public FabricRPGProfession(FabricRPGProfessionName professionName, FabricRPGProfessionTitle professionTitle,
-            FabricRPGProfessionLevel professionLevel, FabricRPGProfessionAction professionAction,
-            Profession.ID professionID) {
+    public FabricRPGProfession(FabricRPGProfessionName professionName,
+            FabricRPGProfessionTitle professionTitle, FabricRPGProfessionLevel professionLevel,
+            FabricRPGProfessionAction professionAction, Profession.ID professionID,
+            FabricRPGProfession nextProfession) {
         this.professionName = professionName;
         this.professionTitle = professionTitle;
         this.professionLevel = professionLevel;
         this.professionAction = professionAction;
         this.professionID = professionID;
+        this.nextProfession = nextProfession;
     }
 
     public static FabricRPGProfession FabricRPGProfessionFromTag(CompoundTag tag) {
@@ -78,9 +83,6 @@ public class FabricRPGProfession implements FabricRPGProfessionComponent {
     }
 
     public String getActionName() {
-        System.out.println("get action name");
-        System.out.println(this.professionAction.getActionName());
-        System.out.println(this.professionAction.getActionNameKey());
         return this.professionAction.getActionName();
     }
 
@@ -102,19 +104,19 @@ public class FabricRPGProfession implements FabricRPGProfessionComponent {
         tag.getList("data", COMPOUND_TAG_TYPE).forEach(dataObject -> {
             if (dataObject instanceof CompoundTag) {
                 switch (((CompoundTag) dataObject).getString("professionComponentName")) {
-                case "level":
-                    this.professionLevel.fromTag(((CompoundTag) dataObject));
-                    break;
-                case "name":
-                    this.professionName.fromTag(((CompoundTag) dataObject));
-                    break;
-                case "title":
-                    this.professionTitle.fromTag(((CompoundTag) dataObject));
-                    break;
-                case "action":
-                    this.professionAction.fromTag(((CompoundTag) dataObject));
-                default:
-                    break;
+                    case "level":
+                        this.professionLevel.fromTag(((CompoundTag) dataObject));
+                        break;
+                    case "name":
+                        this.professionName.fromTag(((CompoundTag) dataObject));
+                        break;
+                    case "title":
+                        this.professionTitle.fromTag(((CompoundTag) dataObject));
+                        break;
+                    case "action":
+                        this.professionAction.fromTag(((CompoundTag) dataObject));
+                    default:
+                        break;
                 }
             }
         });
@@ -144,6 +146,14 @@ public class FabricRPGProfession implements FabricRPGProfessionComponent {
         this.professionName.setProfession(profession);
         this.professionTitle.setProfession(profession);
         this.professionLevel.setProfession(profession);
+    }
+
+    public boolean hasNextProfession() {
+        return this.nextProfession != null;
+    }
+
+    public FabricRPGProfession getNextProfession() {
+        return this.nextProfession;
     }
 
 }

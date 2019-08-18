@@ -2,8 +2,6 @@ package io.github.xeonpowder.fabric.rpg;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
 import io.github.xeonpowder.fabric.rpg.block.blocks.head.PortalHalo;
 import io.github.xeonpowder.fabric.rpg.block.blocks.head.PortalHaloBlockEntity;
 import io.github.xeonpowder.fabric.rpg.block.blocks.head.PortalHaloBlockEntityRenderer;
@@ -12,6 +10,8 @@ import io.github.xeonpowder.fabric.rpg.block.blocks.plant.PortalPlantBlockEntity
 import io.github.xeonpowder.fabric.rpg.block.blocks.plant.PortalPlantBlockEntityRenderer;
 import io.github.xeonpowder.fabric.rpg.command.FabricRPGBaseCommand;
 import io.github.xeonpowder.fabric.rpg.command.manager.CommandManager;
+import io.github.xeonpowder.fabric.rpg.currency.FabricRPGPlayerCurrency;
+import io.github.xeonpowder.fabric.rpg.currency.FabricRPGPlayerCurrencyComponent;
 import io.github.xeonpowder.fabric.rpg.entity.banana.Banana;
 import io.github.xeonpowder.fabric.rpg.entity.banana.BigBanana;
 import io.github.xeonpowder.fabric.rpg.entity.portalguardian.FabricRPGPortalGuardian;
@@ -64,7 +64,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.resource.ResourceReloadListener;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
@@ -84,20 +83,29 @@ public class FabricRPG implements ModInitializer {
 	public static final String MODID = "fabric_rpg";
 	public static final String CLIENT_TAG = "[Client] ";
 	public static final String SERVER_TAG = "[Server] ";
-	public static final String[] COMMAND_NAMES = new String[] { "frpg", "f" };
+	public static final String[] COMMAND_NAMES = new String[] {"frpg", "f"};
 	public static final CommandManager COMMAND_MANAGER = new CommandManager();
 
-	public static final ComponentType<PortalNetworkComponent> PortalNetworkComponent = ComponentRegistry.INSTANCE
-			.registerIfAbsent(new Identifier(FabricRPG.MODID, "portal_network_component"),
+	public static final ComponentType<PortalNetworkComponent> PortalNetworkComponent =
+			ComponentRegistry.INSTANCE.registerIfAbsent(
+					new Identifier(FabricRPG.MODID, "portal_network_component"),
 					PortalNetworkComponent.class);
-	public static final ComponentType<TimberComponent> PlayerTimberComponent = ComponentRegistry.INSTANCE
-			.registerIfAbsent(new Identifier(FabricRPG.MODID, "timber_component"), TimberComponent.class);
-	public static final ComponentType<FabricRPGPlayerProfessionsComponent> PlayerProfessionsComponent = ComponentRegistry.INSTANCE
-			.registerIfAbsent(new Identifier(FabricRPG.MODID, "player_professions_component"),
+	public static final ComponentType<TimberComponent> PlayerTimberComponent =
+			ComponentRegistry.INSTANCE.registerIfAbsent(
+					new Identifier(FabricRPG.MODID, "timber_component"), TimberComponent.class);
+	public static final ComponentType<FabricRPGPlayerProfessionsComponent> PlayerProfessionsComponent =
+			ComponentRegistry.INSTANCE.registerIfAbsent(
+					new Identifier(FabricRPG.MODID, "player_professions_component"),
 					FabricRPGPlayerProfessionsComponent.class);
+	public static final ComponentType<FabricRPGPlayerCurrencyComponent> PlayerCurrencyComponent =
+			ComponentRegistry.INSTANCE.registerIfAbsent(
+					new Identifier(FabricRPG.MODID, "player_currency_component"),
+					FabricRPGPlayerCurrencyComponent.class);
 
-	public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(new Identifier(MODID, "items"))
-			.icon(() -> new ItemStack(Registry.ITEM.get(new Identifier(MODID, "lightning")))).build();
+	public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder
+			.create(new Identifier(MODID, "items"))
+			.icon(() -> new ItemStack(Registry.ITEM.get(new Identifier(MODID, "lightning"))))
+			.build();
 
 	public static BlockEntityType<PortalHaloBlockEntity> PORTAL_HALO_BLOCK_ENTITY;
 	public static HashMap<String, BlockEntityType<?>> BLOCK_ENTITIES;
@@ -117,20 +125,22 @@ public class FabricRPG implements ModInitializer {
 	@Override
 	public void onInitialize() {
 
-		CommandRegistry.INSTANCE.register(false, dispatcher -> FabricRPGBaseCommand.register(dispatcher));
+		CommandRegistry.INSTANCE.register(false,
+				dispatcher -> FabricRPGBaseCommand.register(dispatcher));
 
 		System.out.println("Fabric-RPG initializing!");
 		EntityComponentCallback.event(PlayerEntity.class).register((player, components) -> {
 			components.put(PlayerTimberComponent, new PlayerTimber(player));
 			components.put(PortalNetworkComponent, new PlayerPortalNetwork(player));
 			components.put(PlayerProfessionsComponent, new FabricRPGPlayerProfessions(player));
+			components.put(PlayerCurrencyComponent, new FabricRPGPlayerCurrency(player));
 		});
 
 		WorldComponentCallback.EVENT.register((world, components) -> {
 			components.put(PortalNetworkComponent, new WorldPortalNetwork(world));
 		});
-		LevelComponentCallback.EVENT.register(
-				(level, components) -> components.put(PortalNetworkComponent, new LevelPropertiesPortalNetwork(level)));
+		LevelComponentCallback.EVENT.register((level, components) -> components
+				.put(PortalNetworkComponent, new LevelPropertiesPortalNetwork(level)));
 		this.registerAll();
 		System.out.println("Registered Fabric RPG Portal Networks!");
 		System.out.println("Fabric-RPG initialized!");
@@ -140,9 +150,10 @@ public class FabricRPG implements ModInitializer {
 		Registry.BIOME.forEach(biome -> {
 			biome.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Biome.configureFeature(
 					Feature.RANDOM_RANDOM_SELECTOR,
-					new RandomRandomFeatureConfig(new Feature[] { PortalPlantFeature },
-							new FeatureConfig[] { new GrassFeatureConfig(Registry.BLOCK
-									.get(new Identifier(FabricRPG.MODID, "portal_plant_block")).getDefaultState()) },
+					new RandomRandomFeatureConfig(new Feature[] {PortalPlantFeature},
+							new FeatureConfig[] {new GrassFeatureConfig(Registry.BLOCK
+									.get(new Identifier(FabricRPG.MODID, "portal_plant_block"))
+									.getDefaultState())},
 							0),
 					Decorator.COUNT_HEIGHTMAP_32, new CountDecoratorConfig(1)));
 		});
@@ -165,34 +176,48 @@ public class FabricRPG implements ModInitializer {
 	public void registerEntities() {
 		System.out.println("Registering Fabric RPG --- Entities");
 		ENTITIES.put("portal_guardian",
-				Registry.register(Registry.ENTITY_TYPE, new Identifier(FabricRPG.MODID, "portal_guardian"),
-						FabricEntityTypeBuilder.create(EntityCategory.AMBIENT, FabricRPGPortalGuardian::new)
+				Registry.register(Registry.ENTITY_TYPE,
+						new Identifier(FabricRPG.MODID, "portal_guardian"),
+						FabricEntityTypeBuilder
+								.create(EntityCategory.AMBIENT, FabricRPGPortalGuardian::new)
 								.size(EntityDimensions.fixed(1, 2)).build()));
 		ENTITIES.put("banana",
 				Registry.register(Registry.ENTITY_TYPE, new Identifier(FabricRPG.MODID, "banana"),
 						FabricEntityTypeBuilder.create(EntityCategory.AMBIENT, Banana::new)
 								.size(EntityDimensions.fixed(1, 2)).build()));
 		ENTITIES.put("big_banana",
-				Registry.register(Registry.ENTITY_TYPE, new Identifier(FabricRPG.MODID, "big_banana"),
+				Registry.register(Registry.ENTITY_TYPE,
+						new Identifier(FabricRPG.MODID, "big_banana"),
 						FabricEntityTypeBuilder.create(EntityCategory.AMBIENT, BigBanana::new)
 								.size(EntityDimensions.fixed(1, 2)).build()));
 		System.out.println("COMPLETED --- Registering Fabric RPG --- Entities");
 	}
 
 	public void registerProfessions() {
-		System.out.println("Registering Fabric RPG --- Professions");
+		System.out.println("Registering Fabric RPG --- Professions");;
 		FabricRPGPlayerProfessions.registerDefaultProfessionGlobally(Profession.ID.MINING,
 				new Mining("professions.mining.apprentice", "professions.mining.apprentice.title",
-						MiningAction.MiningActionMap.get("professions.mining.action.rapidstrike")));
-		FabricRPGPlayerProfessions.registerProfessionGlobally(Profession.ID.MINING,
-				new Mining("professions.mining.novice", "professions.mining.novice.title",
-						MiningAction.MiningActionMap.get("professions.mining.action.dualweild")));
-		FabricRPGPlayerProfessions.registerProfessionGlobally(Profession.ID.MINING,
-				new Mining("professions.mining.excavator", "professions.mining.excavator.title",
-						MiningAction.MiningActionMap.get("professions.mining.action.deconstruction")));
-		FabricRPGPlayerProfessions.registerProfessionGlobally(Profession.ID.MINING,
-				new Mining("professions.mining.diamond_hound", "professions.mining.diamond_hound.title",
-						MiningAction.MiningActionMap.get("professions.mining.action.bloodscent")));
+						MiningAction.MiningActionMap.get("professions.mining.action.rapidstrike"),
+						FabricRPGPlayerProfessions.registerProfessionGlobally(Profession.ID.MINING,
+								new Mining("professions.mining.novice",
+										"professions.mining.novice.title",
+										MiningAction.MiningActionMap
+												.get("professions.mining.action.dualweild"),
+										FabricRPGPlayerProfessions.registerProfessionGlobally(
+												Profession.ID.MINING,
+												new Mining("professions.mining.excavator",
+														"professions.mining.excavator.title",
+														MiningAction.MiningActionMap.get(
+																"professions.mining.action.deconstruction"),
+														FabricRPGPlayerProfessions
+																.registerProfessionGlobally(
+																		Profession.ID.MINING,
+																		new Mining(
+																				"professions.mining.diamond_hound",
+																				"professions.mining.diamond_hound.title",
+																				MiningAction.MiningActionMap
+																						.get("professions.mining.action.bloodscent"),
+																				null))))))));
 		System.out.println("COMPLETED --- Registering Fabric RPG --- Professions");
 	}
 
@@ -225,26 +250,27 @@ public class FabricRPG implements ModInitializer {
 	public void registerBlockEntities() {
 		System.out.println("Registering Fabric RPG --- Block Entities");
 		BLOCK_ENTITIES.put("portal_halo_block_entity",
-				Registry.register(Registry.BLOCK_ENTITY, new Identifier(FabricRPG.MODID, "portal_halo_block_entity"),
+				Registry.register(Registry.BLOCK_ENTITY,
+						new Identifier(FabricRPG.MODID, "portal_halo_block_entity"),
 						BlockEntityType.Builder
 								.create(PortalHaloBlockEntity::new,
-										Registry.BLOCK.get(new Identifier(FabricRPG.MODID, "portal_halo")))
+										Registry.BLOCK.get(
+												new Identifier(FabricRPG.MODID, "portal_halo")))
 								.build(null)));
-		BLOCK_ENTITIES
-				.put("portal_plant_block_entity",
-						Registry.register(Registry.BLOCK_ENTITY,
-								new Identifier(FabricRPG.MODID, "portal_plant_block_entity"),
-								BlockEntityType.Builder
-										.create(PortalPlantBlockEntity::new,
-												Registry.BLOCK
-														.get(new Identifier(FabricRPG.MODID, "portal_plant_block")))
-										.build(null)));
+		BLOCK_ENTITIES.put("portal_plant_block_entity", Registry.register(Registry.BLOCK_ENTITY,
+				new Identifier(FabricRPG.MODID, "portal_plant_block_entity"),
+				BlockEntityType.Builder
+						.create(PortalPlantBlockEntity::new,
+								Registry.BLOCK
+										.get(new Identifier(FabricRPG.MODID, "portal_plant_block")))
+						.build(null)));
 		System.out.println("COMPLETED --- Registering Fabric RPG --- Block Entities");
 	}
 
 	public void registerBlockEntityRenderers() {
 		System.out.println("Registering Fabric RPG --- Block Entity Renderers");
-		BlockEntityRendererRegistry.INSTANCE.register(PortalHaloBlockEntity.class, new PortalHaloBlockEntityRenderer());
+		BlockEntityRendererRegistry.INSTANCE.register(PortalHaloBlockEntity.class,
+				new PortalHaloBlockEntityRenderer());
 		BlockEntityRendererRegistry.INSTANCE.register(PortalPlantBlockEntity.class,
 				new PortalPlantBlockEntityRenderer());
 		System.out.println("COMPLETED --- Registering Fabric RPG --- Block Entity Renderers");

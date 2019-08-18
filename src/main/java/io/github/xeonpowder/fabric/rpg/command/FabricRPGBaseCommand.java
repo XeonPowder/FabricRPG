@@ -15,7 +15,8 @@ import net.minecraft.text.TranslatableText;
 
 public class FabricRPGBaseCommand {
     public static final List<ArrayList<String>> Commands = new ArrayList<ArrayList<String>>(Arrays.asList(
-            new ArrayList<String>(Arrays.asList("help")), new ArrayList<String>(Arrays.asList("teleport", "tp"))));
+            new ArrayList<String>(Arrays.asList("help")), new ArrayList<String>(Arrays.asList("teleport", "tp")),
+            new ArrayList<String>(Arrays.asList("currency"))));
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         Arrays.asList(FabricRPG.COMMAND_NAMES).forEach(frpgCommandName -> {

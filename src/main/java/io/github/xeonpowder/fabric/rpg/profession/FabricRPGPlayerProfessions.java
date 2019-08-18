@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
 import io.github.xeonpowder.fabric.rpg.FabricRPG;
 import io.github.xeonpowder.fabric.rpg.profession.FabricRPGProfession.Profession;
 import nerdhub.cardinal.components.api.ComponentType;
@@ -18,7 +17,8 @@ import net.minecraft.nbt.ListTag;
 /**
  * FabricRPGPlayerProfessions
  */
-public class FabricRPGPlayerProfessions implements FabricRPGPlayerProfessionsComponent, EntitySyncedComponent {
+public class FabricRPGPlayerProfessions
+        implements FabricRPGPlayerProfessionsComponent, EntitySyncedComponent {
     private static final int COMPOUND_TAG_TYPE = new CompoundTag().getType();
     PlayerEntity player;
     HashMap<Profession.ID, FabricRPGProfession> professions;
@@ -28,13 +28,17 @@ public class FabricRPGPlayerProfessions implements FabricRPGPlayerProfessionsCom
         this.professions = new HashMap<>();
     }
 
-    public static void registerDefaultProfessionGlobally(Profession.ID id, FabricRPGProfession profession) {
+    public static FabricRPGProfession registerDefaultProfessionGlobally(Profession.ID id,
+            FabricRPGProfession profession) {
         FabricRPG.DEFAULT_PROFESSION_LIST.put(id, profession);
         FabricRPG.PROFESSION_LIST.get(id).put(profession.getNameKey(), profession);
+        return profession;
     }
 
-    public static void registerProfessionGlobally(Profession.ID id, FabricRPGProfession profession) {
+    public static FabricRPGProfession registerProfessionGlobally(Profession.ID id,
+            FabricRPGProfession profession) {
         FabricRPG.PROFESSION_LIST.get(id).put(profession.getNameKey(), profession);
+        return profession;
     }
 
     public void addProfession(FabricRPGProfession profession) {
@@ -68,7 +72,19 @@ public class FabricRPGPlayerProfessions implements FabricRPGPlayerProfessionsCom
     }
 
     public HashMap<Profession.ID, FabricRPGProfession> getAvailableProfessions() {
-        return FabricRPG.DEFAULT_PROFESSION_LIST;
+        HashMap<Profession.ID, FabricRPGProfession> availableProfessions = new HashMap<>();
+        availableProfessions.putAll(FabricRPG.DEFAULT_PROFESSION_LIST);
+        if (professions.size() > 0) {
+            professions.forEach((professionID, profession) -> {
+                if (availableProfessions.get(professionID).getName().equals(profession.getName())) {
+                    availableProfessions.remove(professionID);
+                    if (profession.hasNextProfession()) {
+                        availableProfessions.put(professionID, profession.getNextProfession());
+                    }
+                }
+            });
+        }
+        return availableProfessions;
     }
 
     @Override
@@ -78,7 +94,8 @@ public class FabricRPGPlayerProfessions implements FabricRPGPlayerProfessionsCom
             if (tag.containsKey("professions")) {
                 tag.getList("professions", COMPOUND_TAG_TYPE).forEach(professionTag -> {
                     if (professionTag instanceof CompoundTag) {
-                        FabricRPGProfession profession = FabricRPGProfession.FabricRPGProfessionFromTag(tag);
+                        FabricRPGProfession profession =
+                                FabricRPGProfession.FabricRPGProfessionFromTag(tag);
                         this.professions.put(profession.professionID, profession);
                     }
                 });
