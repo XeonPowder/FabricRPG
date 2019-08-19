@@ -39,6 +39,7 @@ import io.github.xeonpowder.fabric.rpg.profession.FabricRPGProfession;
 import io.github.xeonpowder.fabric.rpg.profession.FabricRPGProfession.Profession;
 import io.github.xeonpowder.fabric.rpg.profession.professions.mining.Mining;
 import io.github.xeonpowder.fabric.rpg.profession.professions.mining.Mining.MiningAction;
+import io.github.xeonpowder.fabric.rpg.resource.FabricRPGPlayerResourceComponent;
 import io.github.xeonpowder.fabric.rpg.server.packet.consumer.PlayerPortalNetworkConsumer;
 import io.github.xeonpowder.fabric.rpg.server.packet.consumer.StatPacketConsumer;
 import io.github.xeonpowder.fabric.rpg.stat.stats.FabricRPGAttackSpeedStat;
@@ -106,6 +107,10 @@ public class FabricRPG implements ModInitializer {
 			.create(new Identifier(MODID, "items"))
 			.icon(() -> new ItemStack(Registry.ITEM.get(new Identifier(MODID, "lightning"))))
 			.build();
+	public static final ComponentType<FabricRPGPlayerResourceComponent> PlayerResourceComponent =
+			ComponentRegistry.INSTANCE.registerIfAbsent(
+					new Identifier(FabricRPG.MODID, "player_resource_component"),
+					FabricRPGPlayerResourceComponent.class);
 
 	public static BlockEntityType<PortalHaloBlockEntity> PORTAL_HALO_BLOCK_ENTITY;
 	public static HashMap<String, BlockEntityType<?>> BLOCK_ENTITIES;
